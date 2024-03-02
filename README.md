@@ -1,18 +1,14 @@
 # Lotus Games
-[i]Lotus Games logo[i]
 
-## Vampire Killer - 悪魔城ドラキュラ
-Game developed by [@JulaChan](https://github.com/JulaChan) and [@AbyssWatcher64](https://github.com/AbyssWatcher64).
-We're a couple of students from [CITM](https://www.citm.upc.edu/), located in Barcelona, Spain, who were tasked to recreate the MSX title Vampire Killer (悪魔城ドラキュラ or Akumajō Dracula in Japanese).
+_Lotus Games logo_
+
+## Vampire Killer - 悪魔城ドラキュラ - MSX Game Tribute
+
+Vampire Killer is a platform game in which the player takes the role of Simon Belmont, a descendant of the Belmont clan, a family of vampire hunters. He ventures into Dracula's castle armed with a mystical whip inherited from his father, in order to slay the evil count.
 
 This game has been done from scratch in C++ using the [Raylib library](https://www.raylib.com/) and ripping the sprites and music from the original game.
 
 ![image](https://github.com/AbyssWatcher64/Project1Test/assets/130568155/7d2bcba6-1be1-4060-902d-7fc24f93935a)
-
-## Team members / Contact
-[@JulaChan](https://github.com/JulaChan) - Judit Parras (juladraw22@gmail.com)
-
-[@AbyssWatcher64](https://github.com/AbyssWatcher64) - Pol Sierra (polsierrasabadell@gmail.com)
 
 ## Wiki
 [1. Home](https://github.com/AbyssWatcher64/Vampire-Killer-Tribute/wiki/1.-Home)
@@ -28,3 +24,13 @@ This game has been done from scratch in C++ using the [Raylib library](https://w
 [6. Art](https://github.com/AbyssWatcher64/Vampire-Killer-Tribute/wiki/6.-Art)
 
 [7. Sources](https://github.com/AbyssWatcher64/Vampire-Killer-Tribute/wiki/7.-Sources)
+
+## About us:
+We're a [@JulaChan](https://github.com/JulaChan) and [@AbyssWatcher64](https://github.com/AbyssWatcher64), a couple of students from [CITM](https://www.citm.upc.edu/), located in Barcelona, Spain, who were tasked to recreate the MSX title Vampire Killer (悪魔城ドラキュラ or Akumajō Dracula in Japanese).
+
+In January 2024, we took part in a GameJam and developed [Mend](https://www.youtube.com/watch?v=dQw4w9WgXcQ) alongside other 3 collegues. Mend is a top-down RPG that takes place inside of the protagonist's dreams. If that sounds interesting, please do check it out over [here](https://youtu.be/dQw4w9WgXcQ?si=jJVcTwbEOfZ_qXtw)!
+
+### Team members / Contact
+[@JulaChan](https://github.com/JulaChan) - Judit Parras (juladraw22@gmail.com)
+
+[@AbyssWatcher64](https://github.com/AbyssWatcher64) - Pol Sierra (polsierrasabadell@gmail.com)
