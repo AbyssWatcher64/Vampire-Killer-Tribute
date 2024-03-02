@@ -1,7 +1,7 @@
 # Lotus Games
+[i]Lotus Games logo[i]
 
-
-# Vampire Killer - 悪魔城ドラキュラ
+## Vampire Killer - 悪魔城ドラキュラ
 Game developed by [@JulaChan](https://github.com/JulaChan) and [@AbyssWatcher64](https://github.com/AbyssWatcher64).
 We're a couple of students from [CITM](https://www.citm.upc.edu/), located in Barcelona, Spain, who were tasked to recreate the MSX title Vampire Killer (悪魔城ドラキュラ or Akumajō Dracula in Japanese).
 
