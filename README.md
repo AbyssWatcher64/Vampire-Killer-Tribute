@@ -2,7 +2,7 @@
 
 _Lotus Games logo_
 
-## Vampire Killer - 悪魔城ドラキュラ - MSX Game Tribute
+## Vampire Killer - 悪魔城ドラキュラ - MSX2 Game Tribute
 
 Vampire Killer is a platform game in which the player takes the role of Simon Belmont, a descendant of the Belmont clan, a family of vampire hunters. He ventures into Dracula's castle armed with a mystical whip inherited from his father, in order to slay the evil count.
 
