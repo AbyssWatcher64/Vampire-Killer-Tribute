@@ -8,8 +8,8 @@ Vampire Killer is a platform game in which the player takes the role of Simon Be
 
 This game has been done from scratch in C++ using the [Raylib library](https://www.raylib.com/) and ripping the sprites and music from the original game.
 
-![image](https://static.wikia.nocookie.net/castlevania/images/5/5f/Vampire_Killer_-_%28JP%29_-_01.jpg/revision/latest?cb=20171011193959)
 ![image](https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/4e66d3e6-07f2-48a1-823b-1638c69ce59f/d3669qb-9a6bd779-7b99-49b0-a56b-c8dc9fbb1c68.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzRlNjZkM2U2LTA3ZjItNDhhMS04MjNiLTE2MzhjNjljZTU5ZlwvZDM2NjlxYi05YTZiZDc3OS03Yjk5LTQ5YjAtYTU2Yi1jOGRjOWZiYjFjNjgucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.GTN1CBsHgtKiJGV0zuxaKwpkPUrlns_N7OXfwbGF1IY)
+Credit for this image to @kontxouso on DeviantArt
 
 ## Wiki
 [1. Home](https://github.com/AbyssWatcher64/Vampire-Killer-Tribute/wiki/1.-Home)
