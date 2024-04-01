@@ -30,40 +30,74 @@ TileMap::~TileMap()
 void TileMap::InitTileDictionary()
 {
 	const int n = TILE_SIZE;
+	//TODO: Add the rest of the blocks
+	dict_rect[(int)Tile::BLOCK_GROUND_GRASS] = { 0,  0, n, n };
+	dict_rect[(int)Tile::BLOCK_GATE] = { n,  0, n, n };
+	dict_rect[(int)Tile::BLOCK_GATE_TREE_1] = { 2 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_GATE_TREE_2] = { 3 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_1] = { 4 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_2] = { 5 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_3] = { 6 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_4] = { 7 * n, 0, n, n };	
+	dict_rect[(int)Tile::BLOCK_TREE_5] = { 8 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_6] = { 9 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_7] = { 10 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_8] = { 11 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_9] = { 12 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_10] = { 13 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_11] = { 14 * n, 0, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_12] = { 15 * n, 0, n, n };
 
-	dict_rect[(int)Tile::BLOCK_SQUARE1_TL] = { 0,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE1_TR] = { n,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE1_BL] = { 0, n, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE1_BR] = { n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE2_TL] = { 2 * n,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE2_TR] = { 3 * n,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE2_BL] = { 2 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE2_BR] = { 3 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_VERT2_T] = { 4 * n,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_VERT2_B] = { 4 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ2_L] = { 5 * n, 0, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ2_R] = { 6 * n, 0, n, n };
-	dict_rect[(int)Tile::BLOCK_BLUE] = { 7 * n, 0, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ3_L] = { 5 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ3_M] = { 6 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ3_R] = { 7 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_BEAM_L] = { 0, 2 * n, n, n };
-	dict_rect[(int)Tile::BLOCK_BEAM_R] = { n, 2 * n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_13] = { 0,  n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_14] = { n,  n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_15] = { 2 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_16] = { 3 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_17] = { 4 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_18] = { 5 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_19] = { 6 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_20] = { 7 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_21] = { 8 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_22] = { 9 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_23] = { 10 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_24] = { 11 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_25] = { 12 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_26] = { 13 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_27] = { 14 * n, n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_28] = { 15 * n, n, n, n };
 
-	dict_rect[(int)Tile::LADDER_L] = { 2 * n, 2 * n, n, n };
-	dict_rect[(int)Tile::LADDER_R] = { 3 * n, 2 * n, n, n };
-	dict_rect[(int)Tile::LADDER_TOP_L] = { 4 * n, 2 * n, n, n };
-	dict_rect[(int)Tile::LADDER_TOP_R] = { 5 * n, 2 * n, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_29] = { 0,  n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_30] = { n,  n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_31] = { 2 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_32] = { 3 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_TREE_WALL] = { 4 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_1] = { 5 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_2] = { 6 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_3] = { 7 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_4] = { 8 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_5] = { 9 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_6] = { 10 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_7] = { 11 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_1] = { 12 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_2] = { 13 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_3] = { 14 * n, n * 2, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_4] = { 15 * n, n * 2, n, n };
 
-	dict_rect[(int)Tile::LOCK_RED] = { 6 * n, 2 * n, n, n };
-	dict_rect[(int)Tile::LOCK_YELLOW] = { 7 * n, 2 * n, n, n };
-
-	dict_rect[(int)Tile::LASER_L] = { 0, 6 * n, n, n };
-	dict_rect[(int)Tile::LASER_R] = { 4 * n, 6 * n, n, n };
-	
-	dict_rect[(int)Tile::LASER_FRAME0] = { 1 * n, 6 * n, n, n };
-	dict_rect[(int)Tile::LASER_FRAME1] = { 2 * n, 6 * n, n, n };
-	dict_rect[(int)Tile::LASER_FRAME2] = { 3 * n, 6 * n, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_5] = { 0,  n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_6] = { n,  n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_7] = { 2 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_8] = { 3 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_9] = { 4 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_10] = { 5 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_11] = { 6 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_WINDOW_12] = { 7 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_INSIDE_1] = { 8 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_INSIDE_2] = { 9 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_INSIDE_WINDOW_1] = { 10 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_INSIDE_WINDOW_2] = { 11 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_WALL_INSIDE_3] = { 12 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_COLUMN_STATUE_1] = { 13 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_COLUMN_STATUE_2] = { 14 * n, n * 3, n, n };
+	dict_rect[(int)Tile::BLOCK_COLUMN_STATUE_3] = { 15 * n, n * 3, n, n };
 
 }
 AppStatus TileMap::Initialise()
