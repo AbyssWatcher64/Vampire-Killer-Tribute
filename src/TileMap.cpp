@@ -99,6 +99,23 @@ void TileMap::InitTileDictionary()
 	dict_rect[(int)Tile::BLOCK_COLUMN_STATUE_2] = { 14 * n, n * 3, n, n };
 	dict_rect[(int)Tile::BLOCK_COLUMN_STATUE_3] = { 15 * n, n * 3, n, n };
 
+	dict_rect[(int)Tile::BLOCK_COLUMN_STATUE_4] = { 0,  n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_COLUMN_STATUE_5] = { n,  n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_COLUMN_STATUE_6] = { 2 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_COLUMN_STATUE_7] = { 3 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_PLATFORM_1] = { 4 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_PLATFORM_2] = { 5 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_PLATFORM_3] = { 6 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL] = { 7 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_1] = { 8 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_2] = { 9 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_3] = { 10 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_4] = { 11 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_5] = { 12 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_6] = { 13 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_7] = { 14 * n, n * 4, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_8] = { 15 * n, n * 4, n, n };
+
 }
 AppStatus TileMap::Initialise()
 {
