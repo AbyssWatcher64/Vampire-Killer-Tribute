@@ -27,6 +27,6 @@ void log(const char file[], int line, const char* text, ...);
 #define ANIM_DELAY		8
 
 #define PLAYER_FRAME_SIZE		16	//representation model
-#define PLAYER_PHYSICAL_WIDTH	12	//logical model
-#define PLAYER_PHYSICAL_HEIGHT	28
+#define PLAYER_PHYSICAL_WIDTH	16	//logical model
+#define PLAYER_PHYSICAL_HEIGHT	32
 #define PLAYER_SPEED			2

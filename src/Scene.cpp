@@ -130,14 +130,18 @@ void Scene::HandleInputPlayer()
 	switch(player->GetState())
 	{
 		case State::IDLE:
-			if (IsKeyDown(KEY_LEFT))		player->StartWalkingLeft();
+			if (IsKeyPressed(KEY_SPACE))	player->Attack();
+			else if (IsKeyDown(KEY_LEFT))		player->StartWalkingLeft();
 			else if (IsKeyDown(KEY_RIGHT))	player->StartWalkingRight();
+			//else if (IsKeyPressed(KEY_L))	player->Death();
 			break;
 
 		case State::WALKING:
 			if (player->IsLookingRight())
 			{
-				if (IsKeyDown(KEY_RIGHT))
+				if (IsKeyPressed(KEY_SPACE))
+					player->Attack();
+				else if (IsKeyDown(KEY_RIGHT))
 				{
 					//continue walking right
 					moving = true;
@@ -150,7 +154,9 @@ void Scene::HandleInputPlayer()
 			}
 			else
 			{
-				if (IsKeyDown(KEY_LEFT))
+				if (IsKeyPressed(KEY_SPACE))
+					player->Attack();
+				else if (IsKeyDown(KEY_LEFT))
 				{
 					//continue walking left
 					moving = true;
@@ -162,6 +168,14 @@ void Scene::HandleInputPlayer()
 				}
 			}
 			if(!moving)	player->Stop();
+			break;
+		
+		case State::ATTACKING:
+			moving = false;
+			if (player->IsLookingRight())
+			{
+
+			}
 			break;
 	}
 }

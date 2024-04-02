@@ -3,7 +3,7 @@
 #include "TileMap.h"
 
 //Logic states
-enum class State { IDLE, WALKING, JUMPING, FALLING, CLIMBING, DEAD };
+enum class State { IDLE, WALKING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD };
 enum class Look { RIGHT, LEFT };
 
 //Rendering states
@@ -62,6 +62,8 @@ public:
 	void Stop();
 	void StartWalkingLeft();
 	void StartWalkingRight();
+	void Attack();
+	void Death();
 
 	void DrawDebug(const Color& col) const;
 

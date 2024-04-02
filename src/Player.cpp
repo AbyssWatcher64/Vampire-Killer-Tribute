@@ -40,19 +40,47 @@ AppStatus Player::Initialise()
 	sprite->SetAnimationDelay((int)PlayerAnim::IDLE_LEFT, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::IDLE_LEFT, { 0, 0, -n, n*2 });
 
+	// The reason this uses a for and a hard-coded line is because otherwise the animation
+	// will start as Simon walking
 	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_RIGHT, ANIM_DELAY);
-	for (i = 0; i < 3; ++i)
+	for (i = 1; i < 3; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::WALKING_RIGHT, { (float)i*n, 0, n, n*2 });
+		sprite->AddKeyFrame((int)PlayerAnim::WALKING_RIGHT, { (float)0*n, 0, n, n*2 });
 		//sprite->AddKeyFrame((int)PlayerAnim::WALKING_RIGHT, { (float)i*n, 3*n, n/2, n });
 
 	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_LEFT, ANIM_DELAY);
-	for (i = 0; i < 3; ++i)
+	for (i = 1; i < 3; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)i*n, 0, -n, n*2 });
+		sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)0*n, 0, -n, n*2 });
 		//sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)i*n, 3*n, -n/2, n });
-		
+	
+	// Death animation
+	sprite->SetAnimationDelay((int)PlayerAnim::DYING, ANIM_DELAY);
+	for (i = 0; i < 2; ++i)
+	{
+		sprite->AddKeyFrame((int)PlayerAnim::DYING, { (float)i * n + 5, 0, n, n * 2 });
+	}
+	sprite->AddKeyFrame((int)PlayerAnim::DYING, { (float)i * n + 5, 0, n * 2, n * 2 });
+
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT_WHIP, ANIM_DELAY);
+	//for (i = 0; i < 3; ++i)
+	//	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)i * n, n*6, n * 2 , n * 2 });
+	//TOASK: How can we do a pivot point through the PlayerAnim
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)0 * n, n * 6, n * 2 , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)2 * n, n * 6, n * 2 , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)4 * n, n * 6, n * 4 , n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_LEFT_WHIP, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)0 * n, n * 6, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)2 * n, n * 6, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)4 * n, n * 6, -(n * 4) , n * 2 });
+	//for (i = 0; i < 3; ++i)
+	//	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)i * n, n * 6, -(n * 2) , n * 2 });
+
 	sprite->SetAnimation((int)PlayerAnim::IDLE_RIGHT);
 
-	return AppStatus::OK;
+	return AppStatus::OK;	
 }
 void Player::SetState(State s)
 {
@@ -96,6 +124,33 @@ void Player::StartWalkingRight()
 	look = Look::RIGHT;
 	SetAnimation((int)PlayerAnim::WALKING_RIGHT);
 }
+void Player::Attack()
+{
+	state = State::ATTACKING;
+	if (look == Look::RIGHT)
+	{
+		SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
+	}
+	else if (look == Look::LEFT)
+	{
+		SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
+	}
+	state = State::IDLE;
+}
+//TODO: Create death animation
+void Player::Death()
+{
+	state = State::DEAD;
+	//if (look == Look::RIGHT)
+	//{
+	//	SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
+	//}
+	//else if (look == Look::LEFT)
+	//{
+	//	SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
+	//}
+	//state = State::IDLE;
+}
 void Player::Update()
 {
 	Entity::Update();
@@ -106,8 +161,10 @@ void Player::Update()
 void Player::DrawDebug(const Color& col) const
 {	
 	int x, y;
-	x = pos.x + PLAYER_FRAME_SIZE/2 - PLAYER_PHYSICAL_WIDTH/2;
-	y = pos.y + PLAYER_FRAME_SIZE - PLAYER_PHYSICAL_HEIGHT;
+	x = pos.x + PLAYER_FRAME_SIZE - PLAYER_PHYSICAL_WIDTH;
+	//x = pos.x + PLAYER_FRAME_SIZE/2 - PLAYER_PHYSICAL_WIDTH/2;
+	//y = pos.y + PLAYER_FRAME_SIZE - PLAYER_PHYSICAL_HEIGHT;
+	y = pos.y;
 
 	Entity::DrawDebug(x, y, width, height, col);
 }
