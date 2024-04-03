@@ -24,9 +24,15 @@ void log(const char file[], int line, const char* text, ...);
 #define LEVEL_WIDTH		16
 #define LEVEL_HEIGHT	11
 
-#define ANIM_DELAY		8
+//#define ANIM_DELAY		8
+#define ANIM_DELAY		20
 
 #define PLAYER_FRAME_SIZE		16	//representation model
 #define PLAYER_PHYSICAL_WIDTH	16	//logical model
 #define PLAYER_PHYSICAL_HEIGHT	32
 #define PLAYER_SPEED			2
+
+#define ZOMBIE_FRAME_SIZE		16
+#define ZOMBIE_PHYSICAL_WIDTH	16
+#define ZOMBIE_PHYSICAL_HEIGHT	16
+#define ZOMBIE_SPEED			2

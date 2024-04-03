@@ -116,6 +116,9 @@ void TileMap::InitTileDictionary()
 	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_7] = { 14 * n, n * 4, n, n };
 	dict_rect[(int)Tile::BLOCK_WHITE_WALL_DIRT_8] = { 15 * n, n * 4, n, n };
 
+	dict_rect[(int)Tile::FIRE_FRAME0] = { n * 0, 4 * n, 2 * n, n };
+	dict_rect[(int)Tile::FIRE_FRAME1] = { n * 2, 4 * n, 2 * n, n };
+
 }
 AppStatus TileMap::Initialise()
 {
@@ -126,6 +129,24 @@ AppStatus TileMap::Initialise()
 		return AppStatus::ERROR;
 	}
 	img_tiles = data.GetTexture(Resource::IMG_TILES);
+
+	if (data.LoadTexture(Resource::IMG_ITEMS, "img/items.png") != AppStatus::OK)
+	{
+		return AppStatus::ERROR;
+	}
+	img_items = data.GetTexture(Resource::IMG_ITEMS);
+
+	fire = new Sprite(img_items);
+	if (fire == nullptr)
+	{
+		LOG("Failed to allocate memory for fire sprite");
+		return AppStatus::ERROR;
+	}
+	fire->SetNumberAnimations(1);
+	fire->SetAnimationDelay(0, ANIM_DELAY);
+	fire->AddKeyFrame(0, dict_rect[(int)Tile::FIRE_FRAME0]);
+	fire->AddKeyFrame(0, dict_rect[(int)Tile::FIRE_FRAME1]);
+	fire->SetAnimation(0);
 
 	laser = new Sprite(img_tiles);
 	if (laser == nullptr)
@@ -163,6 +184,7 @@ AppStatus TileMap::Load(int data[], int w, int h)
 }
 void TileMap::Update()
 {
+	fire->Update();
 	laser->Update();
 }
 void TileMap::Render()
@@ -190,6 +212,15 @@ void TileMap::Render()
 				{
 					laser->Draw((int)pos.x, (int)pos.y);
 				}
+				if (tile != Tile::FIRE)
+				{
+					rc = dict_rect[(int)tile];
+					DrawTextureRec(*img_tiles, rc, pos, WHITE);
+				}
+				else
+				{
+					fire->Draw((int)pos.x, (int)pos.y);
+				}
 			}
 		}
 	}
@@ -200,6 +231,7 @@ void TileMap::Release()
 	data.ReleaseTexture(Resource::IMG_TILES);
 
 	laser->Release();
+	fire->Release();
 
 	dict_rect.clear();
 }

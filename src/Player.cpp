@@ -55,12 +55,20 @@ AppStatus Player::Initialise()
 		//sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)i*n, 3*n, -n/2, n });
 	
 	// Death animation
-	sprite->SetAnimationDelay((int)PlayerAnim::DYING, ANIM_DELAY);
+	sprite->SetAnimationDelay((int)PlayerAnim::DYING_RIGHT, ANIM_DELAY);
 	for (i = 0; i < 2; ++i)
 	{
-		sprite->AddKeyFrame((int)PlayerAnim::DYING, { (float)i * n + 5, 0, n, n * 2 });
+		sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)i + 6) * n, 0, n, n * 2 });
 	}
-	sprite->AddKeyFrame((int)PlayerAnim::DYING, { (float)i * n + 5, 0, n * 2, n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)i + 6) * n, 0, n * 2, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::DYING_LEFT, ANIM_DELAY);
+	for (i = 0; i < 2; ++i)
+	{
+		sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)i + 6)* n, 0, -n, n * 2 });
+	}
+	// TOASK: Same problem here, animation goes rightway
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)i + 6)* n, 0, -n * 2 , n * 2 });
 
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT_WHIP, ANIM_DELAY);
@@ -141,15 +149,14 @@ void Player::Attack()
 void Player::Death()
 {
 	state = State::DEAD;
-	//if (look == Look::RIGHT)
-	//{
-	//	SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
-	//}
-	//else if (look == Look::LEFT)
-	//{
-	//	SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
-	//}
-	//state = State::IDLE;
+	if (look == Look::RIGHT)
+	{
+		SetAnimation((int)PlayerAnim::DYING_RIGHT);
+	}
+	else if (look == Look::LEFT)
+	{
+		SetAnimation((int)PlayerAnim::DYING_LEFT);
+	}
 }
 void Player::Update()
 {

@@ -73,6 +73,7 @@ AppStatus Scene::LoadLevel(int stage)
 	int x, y, i;
 	Tile tile;
 	Point pos;
+	// Trying zombie
 	
 	if(stage == 1)
 	{
@@ -86,7 +87,7 @@ AppStatus Scene::LoadLevel(int stage)
 				17,   18,   19,   20,   17,   18,   19,   20,   17,   18,   19,   20,  17,   18,   19,   20,
 				13,   14,   10,   9,   12,   14,   15,   16,   13,   14,   15,   16,   0,   0,   0,  0,
 				5,   6,  67,  68,   8,   7,   5,   7,   5,   7,  5,   7,   0,   0,   0,  0,
-				3,   100, 65,  66,   0,   0,   4,   0,   4,   0,   4,   0,   0,   0,   3, 0,
+				3,   100, 65,  66,  800,   0,   4,   0,   4,   0,   4,   0,   800,   0,   3, 0,
 				2,  2,  62,  63,  64,  2,  2,  2,   2,  2,  2,  2,  64,  2,  2,  2,
 				1,   1,   1,   1,   1,  1,  1,  1,  1,  1,  1,   1,   1,   1,   1,  1,
 				0,   0,   0,   0,   0,  0,  0,  0,  0,  0,  0,   0,   0,	0,	0,	0
@@ -104,6 +105,14 @@ AppStatus Scene::LoadLevel(int stage)
 					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE - TILE_SIZE);
 					player->SetPos(pos);
 				}
+				//trying zombie out - It's not working
+
+				/*else if (tile == Tile::ZOMBIE)
+				{
+					pos.x = x * TILE_SIZE;
+					pos.y = y * TILE_SIZE - (ZOMBIE_FRAME_SIZE - TILE_SIZE);
+					zombie->SetPos(pos);
+				}*/
 				++i;
 			}
 		}
@@ -133,7 +142,7 @@ void Scene::HandleInputPlayer()
 			if (IsKeyPressed(KEY_SPACE))	player->Attack();
 			else if (IsKeyDown(KEY_LEFT))		player->StartWalkingLeft();
 			else if (IsKeyDown(KEY_RIGHT))	player->StartWalkingRight();
-			//else if (IsKeyPressed(KEY_L))	player->Death();
+			else if (IsKeyPressed(KEY_L))	player->Death();
 			break;
 
 		case State::WALKING:
