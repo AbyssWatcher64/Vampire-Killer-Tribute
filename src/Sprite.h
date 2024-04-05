@@ -5,6 +5,7 @@
 
 struct Animation
 {
+    int offset;
     int delay;
     std::vector<Rectangle> frames;
 };
@@ -17,6 +18,7 @@ public:
 
     void SetNumberAnimations(int num);
     void SetAnimationDelay(int id, int delay);
+    // void SetAnimationOffset(int offset);  //add offset   
     void AddKeyFrame(int id, const Rectangle& rect);
     void SetAnimation(int id);
     
@@ -36,3 +38,15 @@ private:
     std::vector<Animation> animations;
 };
 
+
+//
+//f(int a, int b, int x = 0)
+//{
+//    ...
+//}
+//
+//f();
+//f(100);
+//
+//f(1, 2);
+//f(1, 2, 100);

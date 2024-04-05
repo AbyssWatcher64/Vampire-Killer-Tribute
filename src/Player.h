@@ -60,8 +60,8 @@ public:
 	void SetLook(Look view);
 	bool IsLookingRight() const;
 
-	//TOASK
-	//bool IsHoldingShield() const;
+	
+	
 
 	void Stop();
 	void StartWalkingLeft();
@@ -75,7 +75,9 @@ public:
 
 private:
 	void SetAnimation(int id);
-
+	//TOASK
+	//bool IsHoldingShield() const;
+	bool IsHoldingShield; // logic and representation to program
 	State state;
 	Look look;
 };

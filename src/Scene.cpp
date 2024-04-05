@@ -74,7 +74,9 @@ AppStatus Scene::LoadLevel(int stage)
 	Tile tile;
 	Point pos;
 	// Trying zombie
-	
+	//int* map;
+
+	//map = new int[4] {, , , , };
 	if(stage == 1)
 	{
 		//TODO: Fill stage with the adequate tiles
