@@ -34,27 +34,63 @@ AppStatus Player::Initialise()
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->SetNumberAnimations((int)PlayerAnim::NUM_ANIMATIONS);
 	
-	sprite->SetAnimationDelay((int)PlayerAnim::IDLE_RIGHT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::IDLE_RIGHT, { 0, 0, n, n*2 });
-	
+	// Idle animations
 	sprite->SetAnimationDelay((int)PlayerAnim::IDLE_LEFT, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::IDLE_LEFT, { 0, 0, -n, n*2 });
 
+	sprite->SetAnimationDelay((int)PlayerAnim::IDLE_RIGHT, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::IDLE_RIGHT, { 0, 0, n, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::IDLE_LEFT_SHIELD, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::IDLE_LEFT_SHIELD, { n * 3, 0, -n, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::IDLE_RIGHT_SHIELD, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::IDLE_RIGHT_SHIELD, { n * 3, 0, n, n * 2 });
+
+
 	// The reason this uses a for and a hard-coded line is because otherwise the animation
 	// will start as Simon walking
+	// Walking animations
+	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_LEFT, ANIM_DELAY);
+	for (i = 1; i < 3; ++i)
+		sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)i * n, 0, -n, n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)0 * n, 0, -n, n * 2 });
+
 	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_RIGHT, ANIM_DELAY);
 	for (i = 1; i < 3; ++i)
 		sprite->AddKeyFrame((int)PlayerAnim::WALKING_RIGHT, { (float)i*n, 0, n, n*2 });
 		sprite->AddKeyFrame((int)PlayerAnim::WALKING_RIGHT, { (float)0*n, 0, n, n*2 });
-		//sprite->AddKeyFrame((int)PlayerAnim::WALKING_RIGHT, { (float)i*n, 3*n, n/2, n });
-
-	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_LEFT, ANIM_DELAY);
-	for (i = 1; i < 3; ++i)
-		sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)i*n, 0, -n, n*2 });
-		sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)0*n, 0, -n, n*2 });
-		//sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT, { (float)i*n, 3*n, -n/2, n });
 	
-	// Death animation
+	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_LEFT_SHIELD, ANIM_DELAY);
+	for (i = 1; i < 3; ++i)
+		sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT_SHIELD, { (float)i * n, n*2, -n, n * 2 });
+		sprite->AddKeyFrame((int)PlayerAnim::WALKING_LEFT_SHIELD, { (float)0 * n, n * 2, -n, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_RIGHT_SHIELD, ANIM_DELAY);
+	for (i = 1; i < 3; ++i)
+		sprite->AddKeyFrame((int)PlayerAnim::WALKING_RIGHT_SHIELD, { (float)i * n, n * 2, n, n * 2 });
+		sprite->AddKeyFrame((int)PlayerAnim::WALKING_RIGHT_SHIELD, { (float)0 * n, n * 2, n, n * 2 });
+
+	// Crouching animations
+	sprite->SetAnimationDelay((int)PlayerAnim::CROUCHING_LEFT, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::CROUCHING_LEFT, { 3 * n, 0, -n, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::CROUCHING_RIGHT, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::CROUCHING_RIGHT, { 3 * n, 0, n, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::CROUCHING_LEFT_SHIELD, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::CROUCHING_LEFT_SHIELD, { 3 * n, 2 * n, -n, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::CROUCHING_RIGHT_SHIELD, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::CROUCHING_RIGHT_SHIELD, { 3 * n, 2*n, n, n * 2 });
+
+	// Walking Stairs animations
+
+
+	// Jumping animations
+
+	
+	// Death animations
 	sprite->SetAnimationDelay((int)PlayerAnim::DYING_RIGHT, ANIM_DELAY);
 	for (i = 0; i < 2; ++i)
 	{
@@ -70,7 +106,12 @@ AppStatus Player::Initialise()
 	// TOASK: Same problem here, animation goes rightway
 	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)i + 6)* n, 0, -n * 2 , n * 2 });
 
+	// Walking into animation
+	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_INTO, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_INTO, { 10 * n, 0, n, n * 2 });
 
+
+	// Attacking animations
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT_WHIP, ANIM_DELAY);
 	//for (i = 0; i < 3; ++i)
 	//	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)i * n, n*6, n * 2 , n * 2 });
@@ -106,6 +147,10 @@ bool Player::IsLookingRight() const
 {
 	return look == Look::RIGHT;
 }
+//bool Player::IsHoldingShield()
+//{
+//	return 
+//}
 void Player::SetAnimation(int id)
 {
 	Sprite* sprite = dynamic_cast<Sprite*>(render);

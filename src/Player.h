@@ -5,6 +5,7 @@
 //Logic states
 enum class State { IDLE, WALKING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD };
 enum class Look { RIGHT, LEFT };
+enum class Weapon { WHIP, MORNINGSTAR, KNIFE };
 
 //Rendering states
 enum class PlayerAnim {
@@ -58,6 +59,9 @@ public:
 
 	void SetLook(Look view);
 	bool IsLookingRight() const;
+
+	//TOASK
+	//bool IsHoldingShield() const;
 
 	void Stop();
 	void StartWalkingLeft();
