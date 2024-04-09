@@ -85,6 +85,21 @@ AppStatus Player::Initialise()
 	sprite->AddKeyFrame((int)PlayerAnim::CROUCHING_RIGHT_SHIELD, { 3 * n, 2*n, n, n * 2 });
 
 	// Walking Stairs animations
+	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_STAIRS_LEFT, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_STAIRS_LEFT, { 1 * n, 0, -n, n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_STAIRS_LEFT, { 4 * n, 0, -n, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_STAIRS_RIGHT, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_STAIRS_RIGHT, { 1 * n, 0, n, n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_STAIRS_RIGHT, { 4 * n, 0, n, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_STAIRS_LEFT_SHIELD, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_STAIRS_LEFT_SHIELD, { 1 * n, 2 * n, -n, n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_STAIRS_LEFT_SHIELD, { 4 * n, 2 * n, -n, n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_STAIRS_RIGHT_SHIELD, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_STAIRS_RIGHT_SHIELD, { 1 * n, 2 * n, n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::WALKING_STAIRS_RIGHT_SHIELD, { 4 * n, 2 * n, n, n * 2 });
 
 
 	// Jumping animations
