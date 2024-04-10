@@ -210,6 +210,24 @@ bool Player::GetIsHoldingShield() const
 {
 	return Player::IsHoldingShield;
 }
+
+void Player::SetWeapon(Weapon w)
+{
+	weapon = w;
+}
+Weapon Player::EquipWhip()
+{
+	return weapon = Weapon::WHIP;
+}
+Weapon Player::EquipMorningStar()
+{
+	return weapon = Weapon::MORNINGSTAR;
+}
+Weapon Player::EquipKnife()
+{
+	return weapon = Weapon::WHIP;
+}
+
 void Player::SetAnimation(int id)
 {
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
@@ -276,10 +294,12 @@ void Player::Death()
 	if (look == Look::RIGHT)
 	{
 		SetAnimation((int)PlayerAnim::DYING_RIGHT);
+		WaitTime(2);
 	}
 	else if (look == Look::LEFT)
 	{
 		SetAnimation((int)PlayerAnim::DYING_LEFT);
+		WaitTime(2);
 	}
 }
 void Player::Update()

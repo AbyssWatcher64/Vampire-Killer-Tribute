@@ -62,6 +62,11 @@ public:
 	bool IsLookingRight() const;
 	bool GetIsHoldingShield() const;
 
+	void SetWeapon(Weapon w);
+	Weapon EquipWhip();
+	Weapon EquipMorningStar();
+	Weapon EquipKnife();
+
 	void Stop();
 	void StartWalkingLeft();
 	void StartWalkingRight();
@@ -78,5 +83,6 @@ private:
 	bool IsHoldingShield; // logic and representation to program
 	State state;
 	Look look;
+	Weapon weapon;
 };
 
