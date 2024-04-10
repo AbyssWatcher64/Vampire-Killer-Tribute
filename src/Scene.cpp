@@ -151,14 +151,7 @@ AppStatus Scene::LoadLevel(int stage)
 					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE - TILE_SIZE);
 					player->SetPos(pos);
 				}
-				//trying zombie out - It's not working
-
-				/*else if (tile == Tile::ZOMBIE)
-				{
-					pos.x = x * TILE_SIZE;
-					pos.y = y * TILE_SIZE - (ZOMBIE_FRAME_SIZE - TILE_SIZE);
-					zombie->SetPos(pos);
-				}*/
+				
 				++i;
 			}
 		}
@@ -167,7 +160,39 @@ AppStatus Scene::LoadLevel(int stage)
 	}
 	else if (stage == 3) 
 	{
+		size = LEVEL_WIDTH * LEVEL_HEIGHT;
+		int map[] = {
+				33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		37,		38,		39,		38,		39,		38,
+				29,		30,		31,		32,		29,		30,		31,		32,		29,		30,		40,		41,		42,		42,		43,		44,
+				25,		26,		27,		28,		25,		26,		27,		28,		25,		26,		45,		46,		47,		48,		43,		49,
+				21,		22,		23,		24,		21,		22,		23,		24,		21,		22,		40,		50,		51,		113,	52,		84,
+				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		45,		53,		54,		113,	55,		56,
+				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		40,		50,		51,		113,	52,		84,
+				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		45,		53,		54,		113,	55,		56,
+				3,		100,	65,		66,		800,	81,		4,		81,		4,		81,		57,		58,		59,		113,	60,		61,
+				2,		2,		62,		63,		64,		2,		2,		2,		2,		2,		57,		85,		59,		113,	60,		86,
+				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
+		};
+		//Entities
+		i = 0;
+		for (y = 0; y < LEVEL_HEIGHT; ++y)
+		{
+			for (x = 0; x < LEVEL_WIDTH; ++x)
+			{
+				tile = (Tile)map[i];
+				if (tile == Tile::PLAYER)
+				{
+					pos.x = x * TILE_SIZE;
+					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE - TILE_SIZE);
+					player->SetPos(pos);
+				}
 
+				++i;
+			}
+		}
+		//Tile map
+		level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
 	}
 	else
 	{
