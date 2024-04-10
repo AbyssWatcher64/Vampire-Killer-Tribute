@@ -38,9 +38,10 @@ enum class PlayerAnim {
 	ATTACKING_DOWNSTAIRS_LEFT_MORNING_STAR, ATTACKING_DOWNSTAIRS_RIGHT_MORNING_STAR,
 
 	ATTACKING_LEFT_RANGED, ATTACKING_RIGHT_RANGED,
-	ATTACKING_CROUCHING_LEFT_RANGED, ATTACKING_CROUCHING_RIGHT_RANGED,
+	// DO THESE EXIST?
+	/*ATTACKING_CROUCHING_LEFT_RANGED, ATTACKING_CROUCHING_RIGHT_RANGED,
 	ATTACKING_UPSTAIRS_LEFT_RANGED, ATTACKING_UPSTAIRS_RIGHT_RANGED,
-	ATTACKING_DOWNSTAIRS_LEFT_RANGED, ATTACKING_DOWNSTAIRS_RIGHT_RANGED,
+	ATTACKING_DOWNSTAIRS_LEFT_RANGED, ATTACKING_DOWNSTAIRS_RIGHT_RANGED,*/
 
 	NUM_ANIMATIONS
 };
@@ -59,9 +60,7 @@ public:
 
 	void SetLook(Look view);
 	bool IsLookingRight() const;
-
-	
-	
+	bool GetIsHoldingShield() const;
 
 	void Stop();
 	void StartWalkingLeft();
@@ -76,7 +75,6 @@ public:
 private:
 	void SetAnimation(int id);
 	//TOASK
-	//bool IsHoldingShield() const;
 	bool IsHoldingShield; // logic and representation to program
 	State state;
 	Look look;

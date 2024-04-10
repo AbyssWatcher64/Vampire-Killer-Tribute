@@ -130,7 +130,7 @@ void Game::Render()
             //DrawTexture(*img_menu, 0, 0, WHITE);
             // This draws the Vampire killer logo in the middle.
             // TODO: Change the numbers of the second curly braces to have divisions so that if you make the screen smaller, it will get smaller as well (not hard-coded)
-            DrawTexturePro(*img_menu, { 0, 8, 256,104 }, { 10,30,WINDOW_WIDTH - 20,WINDOW_HEIGHT-150 }, { 0,0 }, 0, WHITE);
+            DrawTexturePro(*img_menu, { 0, 8, 256,104 }, { 10,30,WINDOW_WIDTH-WINDOW_WIDTH/10,WINDOW_HEIGHT-WINDOW_HEIGHT/4 }, { 0,0 }, 0, WHITE);
 
             // This draws the Konami text
             DrawTexturePro(*img_menu, { 256, 16, 104,8 }, { WINDOW_WIDTH/3,WINDOW_HEIGHT - (WINDOW_HEIGHT / 3),104,8 }, { 0,0 }, 0, WHITE);

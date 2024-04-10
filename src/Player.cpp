@@ -121,24 +121,64 @@ AppStatus Player::Initialise()
 	// TOASK: Same problem here, animation goes rightway
 	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)i + 6)* n, 0, -n * 2 , n * 2 });
 
-	// Walking into animation
+	// Walking towards front animation
 	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_INTO, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::WALKING_INTO, { 10 * n, 0, n, n * 2 });
 
 
-	// Attacking animations
-	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT_WHIP, ANIM_DELAY);
-	//for (i = 0; i < 3; ++i)
-	//	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)i * n, n*6, n * 2 , n * 2 });
-	//TOASK: How can we do a pivot point through the PlayerAnim
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)0 * n, n * 6, n * 2 , n * 2 });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)2 * n, n * 6, n * 2 , n * 2 });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)4 * n, n * 6, n * 4 , n * 2 });
-
+	// WHIP Attacking animations
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_LEFT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)0 * n, n * 6, -(n * 2) , n * 2 });
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)2 * n, n * 6, -(n * 2) , n * 2 });
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)4 * n, n * 6, -(n * 4) , n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)0 * n, n * 8, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)2 * n, n * 8, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)4 * n, n * 8, -(n * 4) , n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, { (float)0 * n, n * 10, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, { (float)2 * n, n * 10, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, { (float)4 * n, n * 10, -(n * 4) , n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_DOWNSTAIRS_LEFT_WHIP, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_DOWNSTAIRS_LEFT_WHIP, { (float)0 * n, n * 12, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_DOWNSTAIRS_LEFT_WHIP, { (float)2 * n, n * 12, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_DOWNSTAIRS_LEFT_WHIP, { (float)4 * n, n * 12, -(n * 4) , n * 2 });
+
+
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT_WHIP, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)0 * n, n * 6, n * 2 , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)2 * n, n * 6, n * 2 , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)4 * n, n * 6, n * 4 , n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)0 * n, n * 8, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)2 * n, n * 8, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)4 * n, n * 8, -(n * 4) , n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, { (float)0 * n, n * 10, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, { (float)2 * n, n * 10, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, { (float)4 * n, n * 10, -(n * 4) , n * 2 });
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_DOWNSTAIRS_RIGHT_WHIP, ANIM_DELAY);
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_DOWNSTAIRS_RIGHT_WHIP, { (float)0 * n, n * 12, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_DOWNSTAIRS_RIGHT_WHIP, { (float)2 * n, n * 12, -(n * 2) , n * 2 });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_DOWNSTAIRS_RIGHT_WHIP, { (float)4 * n, n * 12, -(n * 4) , n * 2 });
+
+
+	//TODO: Add ranged attacks
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_LEFT_RANGED, ANIM_DELAY);
+
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT_RANGED, ANIM_DELAY);
+
+
+	// MORNING STAR Attacking animations
+
 	//for (i = 0; i < 3; ++i)
 	//	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)i * n, n * 6, -(n * 2) , n * 2 });
 
@@ -166,6 +206,10 @@ bool Player::IsLookingRight() const
 //{
 //	return 
 //}
+bool Player::GetIsHoldingShield() const
+{
+	return Player::IsHoldingShield;
+}
 void Player::SetAnimation(int id)
 {
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
@@ -175,8 +219,28 @@ void Player::Stop()
 {
 	SetDirection({ 0,0 });
 	state = State::IDLE;
-	if (IsLookingRight())	SetAnimation((int)PlayerAnim::IDLE_RIGHT);
-	else					SetAnimation((int)PlayerAnim::IDLE_LEFT);
+	if (IsLookingRight())
+	{
+		if (GetIsHoldingShield() != true)
+		{
+			SetAnimation((int)PlayerAnim::IDLE_RIGHT);
+		}
+		else
+		{
+			SetAnimation((int)PlayerAnim::IDLE_RIGHT_SHIELD);
+		}
+	}
+	else
+	{
+		if (GetIsHoldingShield() != true)
+		{
+			SetAnimation((int)PlayerAnim::IDLE_LEFT);
+		}
+		else
+		{
+			SetAnimation((int)PlayerAnim::IDLE_LEFT_SHIELD);
+		}
+	}
 }
 void Player::StartWalkingLeft()
 {
