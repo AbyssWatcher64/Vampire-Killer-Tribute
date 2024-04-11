@@ -1,3 +1,4 @@
+#pragma once
 #include <cmath>
 
 class Point {
@@ -25,7 +26,7 @@ public:
         return Point(x * scalar, y * scalar);
     }
     Point operator/(int divisor) const {
-        //Ensure divisor is not zero to avoid division by zero
+        //Ensure the divisor is not zero to avoid division by zero
         if (divisor != 0) {
             return Point(x / divisor, y / divisor);
         }
@@ -62,6 +63,9 @@ public:
         }
         //Handle division by zero gracefully (no change)
         return *this;
+    }
+    bool operator!=(const Point& p) const {
+        return (x != p.x) || (y != p.y);
     }
 
     //Distance method

@@ -25,7 +25,7 @@ void RenderComponent::DrawCorners(int x, int y, int w, int h) const
 	top = y;
 	bottom = y + h - 1;
 	
-	DrawPlus(left, bottom, 1, YELLOW);
+	DrawPlus(left, bottom, 1, PINK);
 	DrawPlus(right, bottom, 1, PINK);
 	DrawPlus(left, top, 1, PINK);
 	DrawPlus(right, top, 1, PINK);

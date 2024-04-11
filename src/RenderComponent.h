@@ -7,7 +7,7 @@ public:
     //Virtual destructor to ensure proper destruction of derived class objects
     virtual ~RenderComponent();
 
-    //Pure virtual function, any class inheriting from this class must provide its own implementation
+    //Pure virtual functions, any class inheriting from this class must provide its own implementations
     virtual void Draw(int x, int y) const = 0;
     virtual void DrawTint(int x, int y, const Color& col) const = 0;
     virtual void Release() = 0;

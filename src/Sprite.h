@@ -3,6 +3,8 @@
 #include "RenderComponent.h"
 #include <vector>
 
+enum class AnimMode { AUTOMATIC, MANUAL };
+
 struct Animation
 {
     int offset;
@@ -18,12 +20,17 @@ public:
 
     void SetNumberAnimations(int num);
     void SetAnimationDelay(int id, int delay);
-    // void SetAnimationOffset(int offset);  //add offset   
     void AddKeyFrame(int id, const Rectangle& rect);
     void SetAnimation(int id);
+    int GetAnimation();
+
+    void SetManualMode();
+    void SetAutomaticMode();
     
     void Update();
-    
+    void NextFrame();
+    void PrevFrame();
+
     void Draw(int x, int y) const override;
     void DrawTint(int x, int y, const Color& col) const override;
 
@@ -36,17 +43,7 @@ private:
 
     const Texture2D *img;
     std::vector<Animation> animations;
+
+    AnimMode mode;
 };
 
-
-//
-//f(int a, int b, int x = 0)
-//{
-//    ...
-//}
-//
-//f();
-//f(100);
-//
-//f(1, 2);
-//f(1, 2, 100);

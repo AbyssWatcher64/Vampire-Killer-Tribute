@@ -51,6 +51,8 @@ AppStatus Game::Initialise(float scale)
 
     //Set the target frame rate for the application
     SetTargetFPS(60);
+    //Disable the escape key to quit functionality
+    SetExitKey(0);
 
     return AppStatus::OK;
 }
@@ -90,6 +92,9 @@ void Game::FinishPlay()
 }
 AppStatus Game::Update()
 {
+    //Check if user attempts to close the window, either by clicking the close button or by pressing Alt+F4
+    if(WindowShouldClose()) return AppStatus::QUIT;
+
     switch (state)
     {
         case GameState::MAIN_MENU: 
@@ -109,8 +114,6 @@ AppStatus Game::Update()
             }
             else
             {
-                //Process Input
-                scene->HandleInputPlayer();
                 //Game logic
                 scene->Update();
             }
@@ -126,17 +129,24 @@ void Game::Render()
     
     switch (state)
     {
-        case GameState::MAIN_MENU:
+            case GameState::MAIN_MENU:
             //DrawTexture(*img_menu, 0, 0, WHITE);
             // This draws the Vampire killer logo in the middle.
             // TODO: Change the numbers of the second curly braces to have divisions so that if you make the screen smaller, it will get smaller as well (not hard-coded)
-            DrawTexturePro(*img_menu, { 0, 8, 256,104 }, { 10,30,WINDOW_WIDTH-WINDOW_WIDTH/14,WINDOW_HEIGHT-WINDOW_HEIGHT/2 }, { 0,0 }, 0, WHITE);
+           
+            //// This draws the Push Space Key text
+            //DrawTexturePro(*img_menu, { 258, 41, 110,7 }, { WINDOW_WIDTH/3,(WINDOW_HEIGHT - (WINDOW_HEIGHT / 3))+20,110,7 }, { 0,0 }, 0, WHITE);
 
-            // This draws the Konami text
-            DrawTexturePro(*img_menu, { 256, 16, 104,8 }, { WINDOW_WIDTH/3,WINDOW_HEIGHT - (WINDOW_HEIGHT / 3),104,8 }, { 0,0 }, 0, WHITE);
+            DrawTexturePro(*img_menu, { 0, 8, 256,104 }, { WINDOW_WIDTH / 42 /*32*/ ,WINDOW_WIDTH / 16,WINDOW_WIDTH - WINDOW_WIDTH / 20,WINDOW_HEIGHT - WINDOW_HEIGHT / 2 }, { 0,0 }, 0, WHITE);
 
-            // This draws the Push Space Key text
-            DrawTexturePro(*img_menu, { 258, 41, 110,7 }, { WINDOW_WIDTH/3,(WINDOW_HEIGHT - (WINDOW_HEIGHT / 3))+20,110,7 }, { 0,0 }, 0, WHITE);
+                // This draws the Konami text
+            // TODO: Check HEIGHT VS WIDTH ?? Are we using height for width?
+            DrawTexturePro(*img_menu, { 256, 16, 104,8 }, { 4.875 * (WINDOW_WIDTH / 16),WINDOW_HEIGHT - (WINDOW_HEIGHT / 3),WINDOW_HEIGHT / 2,WINDOW_WIDTH / 32 }, { 0,0 }, 0, WHITE);
+
+                // This draws the Push Space Key text
+            DrawTexturePro(*img_menu, { 257, 41, 110,7 }, { 4.875 * (WINDOW_WIDTH / 16),WINDOW_HEIGHT - (WINDOW_HEIGHT / 3),WINDOW_HEIGHT / 2,WINDOW_WIDTH / 32 }, { 0,0 }, 0, WHITE);
+            break;
+            
             break;
 
         case GameState::PLAYING:

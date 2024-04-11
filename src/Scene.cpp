@@ -18,7 +18,7 @@ Scene::~Scene()
 {
 	if (player != nullptr)
 	{
-		//player->Release();
+		player->Release();
 		delete player;
 		player = nullptr;
 	}
@@ -32,7 +32,7 @@ Scene::~Scene()
 AppStatus Scene::Init()
 {
 	//Create player
-	player = new Player({ 0,0 }, PLAYER_PHYSICAL_WIDTH, PLAYER_PHYSICAL_HEIGHT, State::IDLE, Look::RIGHT);
+	player = new Player({ 0,0 }, State::IDLE, Look::RIGHT);
 	if (player == nullptr)
 	{
 		LOG("Failed to allocate memory for Player");
@@ -64,6 +64,8 @@ AppStatus Scene::Init()
 		LOG("Failed to load Level 1");
 		return AppStatus::ERROR;
 	}
+	//Assign the tile map reference to the player to check collisions while navigating
+	player->SetTileMap(level);
 
     return AppStatus::OK;
 }
@@ -73,15 +75,12 @@ AppStatus Scene::LoadLevel(int stage)
 	int x, y, i;
 	Tile tile;
 	Point pos;
-	// Trying zombie
-	//int* map;
-
-	//map = new int[4] {, , , , };
+	
 	if(stage == 1)
 	{
-		//TODO: Fill stage with the adequate tiles
 		size = LEVEL_WIDTH * LEVEL_HEIGHT;
 		int map[] = {
+			
 				33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,  
 				29,		30,		31,		32,		29,		30,		31,		32,		29,		30,		31,		32,		29,		30,		31,		32,
 				25,		26,		27,		28,		25,		26,		27,		28,		25,		26,		27,		28,		25,		26,		27,		28,
@@ -89,8 +88,8 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		82,		83,		7,		5,		7,
-				3,		100,	65,		66,		800,	81,		4,		81,		4,		81,		4,		81,		800,	81,		3,		81,
-				2,		2,		62,		63,		64,		2,		2,		2,		2,		2,		2,		2,		64,		2,		2,		2,
+				3,		81,	65,		66,		81/*800*/,	81,		4,		81,		4,		81,		4,		81,	81/*800*/	,	81,		3,		81,
+				2,		100,		62,		63,		64,		2,		2,		2,		2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
@@ -104,25 +103,16 @@ AppStatus Scene::LoadLevel(int stage)
 				if (tile == Tile::PLAYER)
 				{
 					pos.x = x * TILE_SIZE;
-					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE - TILE_SIZE);
+					pos.y = y * TILE_SIZE + TILE_SIZE - 1;
 					player->SetPos(pos);
 				}
-				//TOASK:
-				//trying zombie out - It's not working
-
-				/*else if (tile == Tile::ZOMBIE)
-				{
-					pos.x = x * TILE_SIZE;
-					pos.y = y * TILE_SIZE - (ZOMBIE_FRAME_SIZE - TILE_SIZE);
-					zombie->SetPos(pos);
-				}*/
 				++i;
 			}
 		}
 		//Tile map
 		level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
 	}
-	else if(stage == 2)
+	else if (stage == 2)
 	{
 		size = LEVEL_WIDTH * LEVEL_HEIGHT;
 		int map[] = {
@@ -148,17 +138,17 @@ AppStatus Scene::LoadLevel(int stage)
 				if (tile == Tile::PLAYER)
 				{
 					pos.x = x * TILE_SIZE;
-					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE - TILE_SIZE);
+					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE_HEIGHT - TILE_SIZE);
 					player->SetPos(pos);
 				}
-				
+
 				++i;
 			}
 		}
 		//Tile map
 		level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
 	}
-	else if (stage == 3) 
+	else if (stage == 3)
 	{
 		size = LEVEL_WIDTH * LEVEL_HEIGHT;
 		int map[] = {
@@ -184,7 +174,8 @@ AppStatus Scene::LoadLevel(int stage)
 				if (tile == Tile::PLAYER)
 				{
 					pos.x = x * TILE_SIZE;
-					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE - TILE_SIZE);
+					//pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE - TILE_SIZE);
+					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE_HEIGHT - TILE_SIZE);
 					player->SetPos(pos);
 				}
 
@@ -202,69 +193,17 @@ AppStatus Scene::LoadLevel(int stage)
 	}
 	return AppStatus::OK;
 }
-void Scene::HandleInputPlayer()
+void Scene::Update()
 {
-	bool moving = false;
+	Point p1, p2;
+	AABB box;
 
+	//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
 	if (IsKeyPressed(KEY_F1))
 	{
 		debug = (DebugMode)(((int)debug + 1) % (int)DebugMode::SIZE);
 	}
 
-	switch(player->GetState())
-	{
-		case State::IDLE:
-			if (IsKeyPressed(KEY_SPACE))	player->Attack();
-			else if (IsKeyDown(KEY_LEFT))		player->StartWalkingLeft();
-			else if (IsKeyDown(KEY_RIGHT))	player->StartWalkingRight();
-			else if (IsKeyPressed(KEY_L))	player->Death();
-			break;
-
-		case State::WALKING:
-			if (player->IsLookingRight())
-			{
-				if (IsKeyPressed(KEY_SPACE))
-					player->Attack();
-				else if (IsKeyDown(KEY_RIGHT))
-				{
-					//continue walking right
-					moving = true;
-				}
-				else if (IsKeyDown(KEY_LEFT))
-				{
-					player->StartWalkingLeft();
-					moving = true;
-				}
-			}
-			else
-			{
-				if (IsKeyPressed(KEY_SPACE))
-					player->Attack();
-				else if (IsKeyDown(KEY_LEFT))
-				{
-					//continue walking left
-					moving = true;
-				}
-				else if (IsKeyDown(KEY_RIGHT))
-				{
-					player->StartWalkingRight();
-					moving = true;
-				}
-			}
-			if(!moving)	player->Stop();
-			break;
-		
-		case State::ATTACKING:
-			moving = false;
-			if (player->IsLookingRight())
-			{
-
-			}
-			break;
-	}
-}
-void Scene::Update()
-{
 	level->Update();
 	player->Update();
 }
