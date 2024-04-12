@@ -94,6 +94,11 @@ public:
 	
 	AppStatus Initialise();
 	void SetTileMap(TileMap* tilemap);
+
+	void InitScore();
+	void IncrScore(int n);
+	int GetScore();
+
 	void Update();
 	void DrawDebug(const Color& col) const;
 	void Release();
@@ -147,5 +152,7 @@ private:
 	Weapon weapon;
 
 	TileMap *map;
+
+	int score;
 };
 

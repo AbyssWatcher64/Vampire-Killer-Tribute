@@ -174,7 +174,16 @@ AppStatus TileMap::Initialise()
 	}
 	img_tiles = data.GetTexture(Resource::IMG_TILES);
 
+	//TODO: Add file for items adequately.
+	//if (data.LoadTexture(Resource::IMG_ITEMS, "img/items.png") != AppStatus::OK)
+	if (data.LoadTexture(Resource::IMG_ITEMS, "img/tiles.png") != AppStatus::OK)
+	{
+		return AppStatus::ERROR;
+	}
+	img_items = data.GetTexture(Resource::IMG_ITEMS);
+
 	fire = new Sprite(img_items);
+
 	if (fire == nullptr)
 	{
 		LOG("Failed to allocate memory for fire sprite");
@@ -395,19 +404,10 @@ void TileMap::Render()
 				pos.x = (float)j * TILE_SIZE;
 				pos.y = (float)i * TILE_SIZE;
 
-				if (tile != Tile::LASER)
-				{
-					rc = dict_rect[(int)tile];
-					DrawTextureRec(*img_tiles, rc, pos, WHITE);
-				}
-				else
-				{
-					laser->Draw((int)pos.x, (int)pos.y);
-				}
 				if (tile != Tile::FIRE)
 				{
 					rc = dict_rect[(int)tile];
-					DrawTextureRec(*img_tiles, rc, pos, WHITE);
+					DrawTextureRec(*img_items, rc, pos, WHITE);
 				}
 				else
 				{

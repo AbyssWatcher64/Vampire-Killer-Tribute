@@ -13,31 +13,25 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Game Loop">
-      <UniqueIdentifier>{958139eb-103c-4c43-bc10-38cead74e4dc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Entities">
       <UniqueIdentifier>{eed2c4d5-ab7d-4ccf-ab2e-e54057b7c502}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Scene">
-      <UniqueIdentifier>{54a3628a-7c28-4b94-bd66-41f0696e86b5}</UniqueIdentifier>
+    <Filter Include="Source Files\Render">
+      <UniqueIdentifier>{6a0ec2c2-2730-4b78-9c85-eedc9cfd5123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry">
+      <UniqueIdentifier>{cfc7017a-7404-4c0d-bb66-a02830f4d8d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{958139eb-103c-4c43-bc10-38cead74e4dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application">
+      <UniqueIdentifier>{e2705acc-4ae6-4b8e-bd38-2902e949194c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files\Game Loop</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Globals.cpp">
-      <Filter>Source Files\Game Loop</Filter>
-    </ClCompile>
     <ClCompile Include="src\Game.cpp">
-      <Filter>Source Files\Game Loop</Filter>
-    </ClCompile>
-    <ClCompile Include="src\RenderComponent.cpp">
-      <Filter>Source Files\Game Loop</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ResourceManager.cpp">
-      <Filter>Source Files\Game Loop</Filter>
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Player.cpp">
       <Filter>Source Files\Entities</Filter>
@@ -45,34 +39,40 @@
     <ClCompile Include="src\Entity.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="src\AABB.cpp">
-      <Filter>Source Files\Scene</Filter>
+    <ClCompile Include="src\Globals.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceManager.cpp">
+      <Filter>Source Files\Application</Filter>
     </ClCompile>
     <ClCompile Include="src\Scene.cpp">
-      <Filter>Source Files\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Sprite.cpp">
-      <Filter>Source Files\Scene</Filter>
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\TileMap.cpp">
-      <Filter>Source Files\Scene</Filter>
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderComponent.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sprite.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AABB.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StaticImage.cpp">
+      <Filter>Source Files\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Globals.h">
-      <Filter>Source Files\Game Loop</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MemLeaks.h">
-      <Filter>Source Files\Game Loop</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game.h">
-      <Filter>Source Files\Game Loop</Filter>
-    </ClInclude>
-    <ClInclude Include="src\RenderComponent.h">
-      <Filter>Source Files\Game Loop</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ResourceManager.h">
-      <Filter>Source Files\Game Loop</Filter>
+      <Filter>Source Files\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Player.h">
       <Filter>Source Files\Entities</Filter>
@@ -80,20 +80,38 @@
     <ClInclude Include="src\Entity.h">
       <Filter>Source Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="src\AABB.h">
-      <Filter>Source Files\Scene</Filter>
+    <ClInclude Include="src\Globals.h">
+      <Filter>Source Files\Application</Filter>
     </ClInclude>
-    <ClInclude Include="src\TileMap.h">
-      <Filter>Source Files\Scene</Filter>
+    <ClInclude Include="src\MemLeaks.h">
+      <Filter>Source Files\Application</Filter>
     </ClInclude>
-    <ClInclude Include="src\Point.h">
-      <Filter>Source Files\Scene</Filter>
+    <ClInclude Include="src\ResourceManager.h">
+      <Filter>Source Files\Application</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene.h">
-      <Filter>Source Files\Scene</Filter>
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TileMap.h">
+      <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderComponent.h">
+      <Filter>Source Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\Sprite.h">
-      <Filter>Source Files\Scene</Filter>
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AABB.h">
+      <Filter>Source Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Point.h">
+      <Filter>Source Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object.h">
+      <Filter>Source Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StaticImage.h">
+      <Filter>Source Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

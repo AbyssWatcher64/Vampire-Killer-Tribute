@@ -6,6 +6,8 @@ Sprite::Sprite(const Texture2D * texture)
     current_anim = -1;
     current_frame = 0;
     current_delay = 0;
+    mode = AnimMode::AUTOMATIC; // TODO: Revise if this is good coding, since we have the...
+    //...play only one cinematic
 }
 Sprite::~Sprite()
 {
@@ -74,12 +76,9 @@ void Sprite::Update()
             //TODO: Make this work
             if (mode == AnimMode::PLAYONCE)
             {
-                for (int i = 0; i < animations[current_anim].frames.size(); i++)
-                {
-                    current_frame++;
-                    current_frame %= animations[current_anim].frames.size();
-                    current_delay = animations[current_anim].delay;
-                }
+                current_frame++;
+                current_delay = animations[current_anim].delay;
+                // TODO: create an "Is animation finished" bool maybe
             }
         }
     }

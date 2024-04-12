@@ -28,6 +28,11 @@ Scene::~Scene()
         delete level;
         level = nullptr;
     }
+	for (Entity* obj : objects)
+	{
+		delete obj;
+	}
+	objects.clear();
 }
 AppStatus Scene::Init()
 {
@@ -75,11 +80,16 @@ AppStatus Scene::LoadLevel(int stage)
 	int x, y, i;
 	Tile tile;
 	Point pos;
+	int* map = nullptr;
+	Object* obj;
+
+	ClearLevel();
 	
+	size = LEVEL_WIDTH * LEVEL_HEIGHT;
 	if(stage == 1)
 	{
-		size = LEVEL_WIDTH * LEVEL_HEIGHT;
-		int map[] = {
+		map = new int[size] 
+			{
 			
 				33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,  
 				29,		30,		31,		32,		29,		30,		31,		32,		29,		30,		31,		32,		29,		30,		31,		32,
@@ -92,30 +102,13 @@ AppStatus Scene::LoadLevel(int stage)
 				2,		100,		62,		63,		64,		2,		2,		2,		2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
-		};
-		//Entities
-		i = 0;
-		for (y = 0; y < LEVEL_HEIGHT; ++y)
-		{
-			for (x = 0; x < LEVEL_WIDTH; ++x)
-			{
-				tile = (Tile)map[i];
-				if (tile == Tile::PLAYER)
-				{
-					pos.x = x * TILE_SIZE;
-					pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-					player->SetPos(pos);
-				}
-				++i;
-			}
-		}
-		//Tile map
-		level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
+			};
+		player->InitScore();
 	}
 	else if (stage == 2)
 	{
-		size = LEVEL_WIDTH * LEVEL_HEIGHT;
-		int map[] = {
+		map = new int[size]
+			{
 				33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,
 				29,		30,		31,		32,		29,		30,		31,		32,		29,		30,		31,		32,		29,		30,		31,		32,
 				25,		26,		27,		28,		25,		26,		27,		28,		25,		26,		27,		28,		25,		26,		27,		28,
@@ -123,35 +116,16 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		82,		83,		7,		5,		7,
-				3,		100,	65,		66,		800,	81,		4,		81,		4,		81,		4,		81,		800,	81,		3,		81,
+				3,		100,	65,		66, 81/*800*/,	81,		4,		81,		4,		81,		4,		81, 81/*800*/,	81,		3,		81,
 				2,		2,		62,		63,		64,		2,		2,		2,		2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
-		};
-		//Entities
-		i = 0;
-		for (y = 0; y < LEVEL_HEIGHT; ++y)
-		{
-			for (x = 0; x < LEVEL_WIDTH; ++x)
-			{
-				tile = (Tile)map[i];
-				if (tile == Tile::PLAYER)
-				{
-					pos.x = x * TILE_SIZE;
-					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE_HEIGHT - TILE_SIZE);
-					player->SetPos(pos);
-				}
-
-				++i;
-			}
-		}
-		//Tile map
-		level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
+			};
 	}
 	else if (stage == 3)
 	{
-		size = LEVEL_WIDTH * LEVEL_HEIGHT;
-		int map[] = {
+		map = new int[size]
+			{
 				33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		37,		38,		39,		38,		39,		38,
 				29,		30,		31,		32,		29,		30,		31,		32,		29,		30,		40,		41,		42,		42,		43,		44,
 				25,		26,		27,		28,		25,		26,		27,		28,		25,		26,		45,		46,		47,		48,		43,		49,
@@ -159,38 +133,59 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		45,		53,		54,		113,	55,		56,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		40,		50,		51,		113,	52,		84,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		45,		53,		54,		113,	55,		56,
-				3,		100,	65,		66,		800,	81,		4,		81,		4,		81,		57,		58,		59,		113,	60,		61,
+				3,		100,	65,		66, 81/*800*/,	81,		4,		81,		4,		81,		57,		58,		59,		113,	60,		61,
 				2,		2,		62,		63,		64,		2,		2,		2,		2,		2,		57,		85,		59,		113,	60,		86,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
-		//Entities
-		i = 0;
-		for (y = 0; y < LEVEL_HEIGHT; ++y)
-		{
-			for (x = 0; x < LEVEL_WIDTH; ++x)
-			{
-				tile = (Tile)map[i];
-				if (tile == Tile::PLAYER)
-				{
-					pos.x = x * TILE_SIZE;
-					//pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE - TILE_SIZE);
-					pos.y = y * TILE_SIZE - (PLAYER_FRAME_SIZE_HEIGHT - TILE_SIZE);
-					player->SetPos(pos);
-				}
-
-				++i;
-			}
-		}
-		//Tile map
-		level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
 	}
 	else
 	{
 		//Error level doesn't exist or incorrect level number
 		LOG("Failed to load level, stage %d doesn't exist", stage);
-		return AppStatus::ERROR;	
+		return AppStatus::ERROR;
 	}
+
+	//Entities and objects
+	i = 0;
+	for (y = 0; y < LEVEL_HEIGHT; ++y)
+	{
+		for (x = 0; x < LEVEL_WIDTH; ++x)
+		{
+			tile = (Tile)map[i];
+			if (tile == Tile::EMPTY)
+			{
+				map[i] = 0;
+			}
+			else if (tile == Tile::PLAYER)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				player->SetPos(pos);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ITEM_APPLE)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				obj = new Object(pos, ObjectType::APPLE);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ITEM_CHILI)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				obj = new Object(pos, ObjectType::CHILI);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			++i;
+		}
+	}
+	//Tile map
+	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
+
 	return AppStatus::OK;
 }
 void Scene::Update()
@@ -203,25 +198,90 @@ void Scene::Update()
 	{
 		debug = (DebugMode)(((int)debug + 1) % (int)DebugMode::SIZE);
 	}
+	//Debug levels instantly
+	if (IsKeyPressed(KEY_ONE))			LoadLevel(1);
+	else if (IsKeyPressed(KEY_TWO))		LoadLevel(2);
+	else if (IsKeyPressed(KEY_THREE))	LoadLevel(3);
 
 	level->Update();
 	player->Update();
+	CheckCollisions();
 }
 void Scene::Render()
 {
 	BeginMode2D(camera);
 
-    level->Render();
-
+	level->Render();
 	if (debug == DebugMode::OFF || debug == DebugMode::SPRITES_AND_HITBOXES)
+	{
+		RenderObjects();
 		player->Draw();
+	}
 	if (debug == DebugMode::SPRITES_AND_HITBOXES || debug == DebugMode::ONLY_HITBOXES)
+	{
+		RenderObjectsDebug(YELLOW);
 		player->DrawDebug(GREEN);
+	}
 
 	EndMode2D();
+
+	RenderGUI();
 }
 void Scene::Release()
 {
-    level->Release();
+	level->Release();
 	player->Release();
+	ClearLevel();
+}
+void Scene::CheckCollisions()
+{
+	AABB player_box, obj_box;
+
+	player_box = player->GetHitbox();
+	auto it = objects.begin();
+	while (it != objects.end())
+	{
+		obj_box = (*it)->GetHitbox();
+		if (player_box.TestAABB(obj_box))
+		{
+			player->IncrScore((*it)->Points());
+
+			//Delete the object
+			delete* it;
+			//Erase the object from the vector and get the iterator to the next valid element
+			it = objects.erase(it);
+		}
+		else
+		{
+			//Move to the next object
+			++it;
+		}
+	}
+}
+void Scene::ClearLevel()
+{
+	for (Object* obj : objects)
+	{
+		delete obj;
+	}
+	objects.clear();
+}
+void Scene::RenderObjects() const
+{
+	for (Object* obj : objects)
+	{
+		obj->Draw();
+	}
+}
+void Scene::RenderObjectsDebug(const Color& col) const
+{
+	for (Object* obj : objects)
+	{
+		obj->DrawDebug(col);
+	}
+}
+void Scene::RenderGUI() const
+{
+	//Temporal approach
+	DrawText(TextFormat("SCORE : %d", player->GetScore()), 10, 10, 8, LIGHTGRAY);
 }

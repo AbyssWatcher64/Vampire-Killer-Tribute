@@ -8,7 +8,9 @@
 
 enum class Tile {
 
-	//empty tile
+	// -1: area covered by an entity
+	EMPTY = -1,
+	//  0: air tile
 	AIR = 0,
 
 	BLOCK_GROUND_GRASS = 1, BLOCK_GATE, BLOCK_GATE_TREE_1, BLOCK_GATE_TREE_2,
@@ -134,6 +136,6 @@ private:
 	
 	//Tile sheet
 	const Texture2D *img_tiles;
-	const Texture2D* img_items;
+	const Texture2D *img_items;
 };
 

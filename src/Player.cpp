@@ -14,6 +14,7 @@ Player::Player(const Point& p, State s, Look view) :
 	jump_delay = PLAYER_JUMP_DELAY;
 	map = nullptr;
 	isHoldingShield = false;
+	score = 0;
 }
 Player::~Player()
 {
@@ -257,6 +258,18 @@ AppStatus Player::Initialise()
 
 
 	return AppStatus::OK;
+}
+void Player::InitScore()
+{
+	score = 0;
+}
+void Player::IncrScore(int n)
+{
+	score += n;
+}
+int Player::GetScore()
+{
+	return score;
 }
 bool Player::GetIsHoldingShield() const
 {
@@ -740,7 +753,7 @@ void Player::LogicClimbing()
 void Player::DrawDebug(const Color& col) const
 {	
 	Entity::DrawHitbox(pos.x, pos.y, width, height, col);
-	
+	//TODO Change this so that the width and height are appropriate
 	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), 18*16, 0, 8, LIGHTGRAY);
 	DrawPixel(pos.x, pos.y, WHITE);
 }
