@@ -51,6 +51,10 @@ void Sprite::SetAutomaticMode()
 {
     mode = AnimMode::AUTOMATIC;
 }
+void Sprite::SetPlayOnceMode()
+{
+    mode = AnimMode::PLAYONCE;
+}
 void Sprite::Update()
 {
     //Both animation modes (automatic and manual) are carry out with animation delay
@@ -66,9 +70,22 @@ void Sprite::Update()
                 current_frame %= animations[current_anim].frames.size();
                 current_delay = animations[current_anim].delay;
             }
+
+            //TODO: Make this work
+            if (mode == AnimMode::PLAYONCE)
+            {
+                for (int i = 0; i < animations[current_anim].frames.size(); i++)
+                {
+                    current_frame++;
+                    current_frame %= animations[current_anim].frames.size();
+                    current_delay = animations[current_anim].delay;
+                }
+            }
         }
     }
 }
+
+
 void Sprite::NextFrame()
 {
     //Next frame is only available in manual animation mode

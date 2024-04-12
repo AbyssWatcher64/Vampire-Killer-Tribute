@@ -3,7 +3,7 @@
 #include "RenderComponent.h"
 #include <vector>
 
-enum class AnimMode { AUTOMATIC, MANUAL };
+enum class AnimMode { AUTOMATIC, MANUAL, PLAYONCE };
 
 struct Animation
 {
@@ -26,6 +26,7 @@ public:
 
     void SetManualMode();
     void SetAutomaticMode();
+    void SetPlayOnceMode();
     
     void Update();
     void NextFrame();
