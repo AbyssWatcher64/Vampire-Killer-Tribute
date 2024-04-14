@@ -5,9 +5,11 @@
 
 Game::Game()
 {
-    state = GameState::MAIN_MENU;
+    state = GameState::INITIAL_SCREEN;//
     scene = nullptr;
     img_menu = nullptr;
+    img_initial = nullptr;
+    img_desc = nullptr;
 
     target = {};
     src = {};
@@ -65,6 +67,18 @@ AppStatus Game::LoadResources()
         return AppStatus::ERROR;
     }
     img_menu = data.GetTexture(Resource::IMG_MENU);
+
+    if (data.LoadTexture(Resource::IMG_INITIAL, "img/initial.png") != AppStatus::OK)
+    {
+        return AppStatus::ERROR;
+    }
+    img_initial = data.GetTexture(Resource::IMG_INITIAL);
+
+    if (data.LoadTexture(Resource::IMG_DESC, "img/description.png") != AppStatus::OK)
+    {
+        return AppStatus::ERROR;
+    }
+    img_desc = data.GetTexture(Resource::IMG_DESC);
     
     return AppStatus::OK;
 }
@@ -97,6 +111,18 @@ AppStatus Game::Update()
 
     switch (state)
     {
+        case GameState::INITIAL_SCREEN:
+            if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            if (IsKeyPressed(KEY_SPACE)) {
+                state = GameState::DESCRIPTION_SCREEN;
+            }
+            break;
+        case GameState::DESCRIPTION_SCREEN:
+            if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            if (IsKeyPressed(KEY_SPACE)) {
+                state = GameState::MAIN_MENU;
+            }
+            break;
         case GameState::MAIN_MENU: 
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             if (IsKeyPressed(KEY_SPACE))
@@ -129,7 +155,13 @@ void Game::Render()
     
     switch (state)
     {
-            case GameState::MAIN_MENU:
+        case GameState::INITIAL_SCREEN:
+            DrawTexturePro(*img_initial, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
+            break;
+        case GameState::DESCRIPTION_SCREEN:
+            DrawTexturePro(*img_desc, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
+            break;
+        case GameState::MAIN_MENU:
             //DrawTexture(*img_menu, 0, 0, WHITE);
             // This draws the Vampire killer logo in the middle.
             // TODO: Change the numbers of the second curly braces to have divisions so that if you make the screen smaller, it will get smaller as well (not hard-coded)
