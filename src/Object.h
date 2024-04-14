@@ -6,10 +6,12 @@
 
 #define POINTS_APPLE	10
 #define POINTS_CHILI	20
+#define POINTS_WHITEBAG 5000
 
 #define EQUIPMENT_NUMBER_SHIELD 0
 
-enum class ObjectType { APPLE, CHILI, SHIELD };
+enum class ObjectType { MORNINGSTAR, AXE, DAGGER, BLUECROSS,  SHIELD, HOURGLASS, WATER, MASTERKEY, ORB,
+	CHEST, WHITEBAG/*, FIRE*/ };
 
 class Object : public Entity
 {

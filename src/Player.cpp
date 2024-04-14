@@ -14,7 +14,10 @@ Player::Player(const Point& p, State s, Look view) :
 	jump_delay = PLAYER_JUMP_DELAY;
 	map = nullptr;
 	isHoldingShield = false;
+	hp = 100;
+	lives = 3;
 	score = 0;
+	hasDied = false;
 }
 Player::~Player()
 {
@@ -266,9 +269,25 @@ void Player::IncrScore(int n)
 {
 	score += n;
 }
-int Player::GetScore()
+int Player::GetScore() const
 {
 	return score;
+}
+int Player::GetLives() const
+{
+	return lives;
+}
+bool Player::GetHasDied() const
+{
+	return hasDied;
+}
+void Player::SetHasDied(bool state)
+{
+	hasDied = state;
+}
+int Player::GetHP() const
+{
+	return hp;
 }
 void Player::SetShield()
 {
@@ -495,18 +514,41 @@ void Player::Attack()
 	}
 	state = State::IDLE;
 }
+
+void Player::ChangeHP(int value)
+{
+	hp += value;
+	if (hp > 100)
+		hp = 100;
+	if (hp <= 0)
+	{
+		hp = 0;
+		Death();
+	}
+		
+}
+
 void Player::Death()
 {
 	state = State::DEAD;
+	lives--;
 	if (look == Look::RIGHT)
 	{
 		SetAnimation((int)PlayerAnim::DYING_RIGHT);
-		WaitTime(2);
 	}
 	else if (look == Look::LEFT)
 	{
 		SetAnimation((int)PlayerAnim::DYING_LEFT);
-		WaitTime(2);
+	}
+
+	if (lives <= 0)
+	{
+		//state::Gameover
+	}
+	else
+	{
+		//reset screen
+		hasDied = true;
 	}
 }
 void Player::ChangeAnimRight()
@@ -593,13 +635,21 @@ void Player::MoveX()
 		isHoldingShield = !isHoldingShield;
 		Stop();
 	}
+	if (IsKeyPressed(KEY_F6))
+	{
+		ChangeHP(-10);
+	}
+	if (IsKeyPressed(KEY_F7))
+	{
+		ChangeHP(+10);
+	}
 
-	if (IsKeyDown(KEY_DOWN))
+	if (IsKeyDown(KEY_DOWN) && hasDied == false)
 	{
 		if (state == State::IDLE) StartCrouching();
 		else if (state == State::WALKING) StartCrouching();
 	}
-	else if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT))
+	else if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT) && hasDied == false)
 	{
 		pos.x += -PLAYER_SPEED;
 		if (state == State::IDLE) StartWalkingLeft();
@@ -616,7 +666,7 @@ void Player::MoveX()
 			if (state == State::WALKING) Stop();
 		}
 	}
-	else if (IsKeyDown(KEY_RIGHT))
+	else if (IsKeyDown(KEY_RIGHT) && hasDied == false)
 	{
 		pos.x += PLAYER_SPEED;
 		if (state == State::IDLE)
@@ -634,10 +684,14 @@ void Player::MoveX()
 			if (state == State::WALKING) Stop();
 		}
 	}
-	else
+	else if (hasDied == false)
 	{
 		if (state == State::WALKING) Stop();
 		else if (state == State::CROUCHING) Stop();
+	}
+	else
+	{
+		Stop();
 	}
 }
 void Player::MoveY()

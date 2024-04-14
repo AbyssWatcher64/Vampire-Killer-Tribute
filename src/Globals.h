@@ -25,4 +25,5 @@ void log(const char file[], int line, const char* text, ...);
 #define LEVEL_HEIGHT	11
 
 //Entities animation delay
-#define ANIM_DELAY		8
+#define ANIM_DELAY		20
+//#define ANIM_DELAY		8 

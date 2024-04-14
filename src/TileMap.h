@@ -65,6 +65,8 @@ enum class Tile {
 	ZOMBIE = 201,
 
 	ITEM_SHIELD = 300,
+	
+	ITEM_WHITEBAG = 400,
 
 	FIRE = 800, FIRE_FRAME0, FIRE_FRAME1,
 

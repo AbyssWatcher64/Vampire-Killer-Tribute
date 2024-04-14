@@ -83,8 +83,10 @@ AppStatus Scene::LoadLevel(int stage)
 	int size;
 	int x, y, i;
 	Tile tile;
+	Tile tileInteractable;
 	Point pos;
 	int* map = nullptr;
+	int* mapInteractables = nullptr;
 	Object* obj;
 
 	ClearLevel();
@@ -102,10 +104,24 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		139,	140,	7,		5,		7,
-				3,		138,	65,		66,		138/*800*/,	138,		4,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
-				2,		200,	62,		63,		64,		2,		2,		300/*2*/, 2, 2, 2, 2, 64, 2, 2, 2,
+				3,		138,	65,		66,		138,	138,	4,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
+				2,		2,		62,		63,		64,		2,		2,		2,		 2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
+			};
+		mapInteractables = new int[size]
+			{
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
 		player->InitScore();
 	}
@@ -120,9 +136,23 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		139,	140,	7,		5,		7,
-				3,		200,	65,		66,		138,	138,	4,		138,	4,		138,	4,		138,	138,	138,	3,		138,
+				3,		138,	65,		66,		138,	138,	4,		138,	4,		138,	4,		138,	138,	138,	3,		138,
 				2,		2,		62,		63,		64,		2,		2,		2,		2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
+			};
+		mapInteractables = new int[size]
+			{
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		200,	0,		0,		0,		0,		0,		300,	0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
 	}
@@ -137,11 +167,25 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		45,		53,		54,		113,	55,		56,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		40,		50,		51,		113,	52,		141,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		45,		53,		54,		113,	55,		56,
-				3,		200,	65,		66,		138,	138,	4,		138,	4,		138,	57,		58,		59,		113,	60,		61,
+				3,		138,	65,		66,		138,	138,	4,		138,	4,		138,	57,		58,		59,		113,	60,		61,
 				2,		2,		62,		63,		64,		2,		2,		2,		2,		2,		57,		142,	59,		113,	60,		143,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
+		mapInteractables = new int[size]
+			{
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		800, 	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		200,	0,		0,		0,		0,		0,		300,	0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
+			};
 	}
 	else
 	{
@@ -168,7 +212,7 @@ AppStatus Scene::LoadLevel(int stage)
 				player->SetPos(pos);
 				map[i] = 0;
 			}
-			else if (tile == Tile::ITEM_APPLE)
+			/*else if (tile == Tile::ITEM_APPLE)
 			{
 				pos.x = x * TILE_SIZE;
 				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
@@ -183,7 +227,7 @@ AppStatus Scene::LoadLevel(int stage)
 				obj = new Object(pos, ObjectType::CHILI);
 				objects.push_back(obj);
 				map[i] = 0;
-			}
+			}*/
 			else if (tile == Tile::ITEM_SHIELD)
 			{
 				pos.x = x * TILE_SIZE;
@@ -192,11 +236,59 @@ AppStatus Scene::LoadLevel(int stage)
 				objects.push_back(obj);
 				map[i] = 0;
 			}
+
+
+			tileInteractable = (Tile)mapInteractables[i];
+			if (tileInteractable == Tile::EMPTY)
+			{
+				mapInteractables[i] = 0;
+			}
+			else if (tileInteractable == Tile::PLAYER)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				player->SetPos(pos);
+				mapInteractables[i] = 0;
+			}
+			//else if (tileInteractable == Tile::ITEM_APPLE)
+			//{
+			//	pos.x = x * TILE_SIZE;
+			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+			//	obj = new Object(pos, ObjectType::APPLE);
+			//	objects.push_back(obj);
+			//	mapInteractables[i] = 0;
+			//}
+			//else if (tileInteractable == Tile::ITEM_CHILI)
+			//{
+			//	pos.x = x * TILE_SIZE;
+			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+			//	obj = new Object(pos, ObjectType::CHILI);
+			//	objects.push_back(obj);
+			//	mapInteractables[i] = 0;
+			//}
+			else if (tileInteractable == Tile::ITEM_SHIELD)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				obj = new Object(pos, ObjectType::SHIELD);
+				objects.push_back(obj);
+				mapInteractables[i] = 0;
+			}
+			else if (tileInteractable == Tile::ITEM_WHITEBAG)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				obj = new Object(pos, ObjectType::WHITEBAG);
+				objects.push_back(obj);
+				mapInteractables[i] = 0;
+			}
+
 			++i;
 		}
 	}
 	//Tile map
 	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
+	//level->Load(mapInteractables, LEVEL_WIDTH, LEVEL_HEIGHT);
 
 	return AppStatus::OK;
 }
@@ -229,12 +321,14 @@ void Scene::Update()
 		currentLevel--;
 		player->SetPos(Point(WINDOW_WIDTH - 40, 150));
 	}
-	else if (player->GetXPos() == WINDOW_WIDTH-PLAYER_FRAME_SIZE_WIDTH && currentLevel != 3)
+	else if (player->GetXPos() == WINDOW_WIDTH-PLAYER_PHYSICAL_WIDTH && currentLevel != 3)
 	{
 		LoadLevel(currentLevel + 1);
 		currentLevel++;
 		player->SetPos(Point(20, 150));
 	}
+
+	ResetScreen();
 
 	level->Update();
 	player->Update();
@@ -265,6 +359,17 @@ void Scene::Release()
 	level->Release();
 	player->Release();
 	ClearLevel();
+}
+void Scene::ResetScreen()
+{	
+	if (player->GetHasDied() == true)
+	{
+		WaitTime(2);
+		LoadLevel(1);
+		player->SetHasDied(false);
+		player->ChangeHP(100);
+	}
+
 }
 void Scene::CheckCollisions()
 {
@@ -318,4 +423,6 @@ void Scene::RenderGUI() const
 {
 	//Temporal approach
 	DrawText(TextFormat("SCORE : %d", player->GetScore()), 10, 10, 8, LIGHTGRAY);
+	DrawText(TextFormat("HP : %d", player->GetHP()), 10, 20, 8, LIGHTGRAY);
+	DrawText(TextFormat("LIVES : %d", player->GetLives()), 10, 30, 8, LIGHTGRAY);
 }

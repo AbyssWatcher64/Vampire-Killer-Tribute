@@ -17,6 +17,8 @@ public:
     void Render();
     void Release();
 
+    void ResetScreen();
+
 private:
     AppStatus LoadLevel(int stage);
 

@@ -98,11 +98,17 @@ public:
 
 	void InitScore();
 	void IncrScore(int n);
-	int GetScore();
+	int GetScore() const;
+	int GetHP() const;
+	int GetLives() const;
+	bool GetHasDied() const; 
+	void SetHasDied(bool state);
 
 	void SetShield();
 
 	int GetXPos();
+
+	void ChangeHP(int value);
 
 	void Update();
 	void DrawDebug(const Color& col) const;
@@ -134,6 +140,7 @@ private:
 	void StartClimbingDown();
 	void ChangeAnimRight();
 	void ChangeAnimLeft();
+
 	void Death();
 
 	//Jump steps
@@ -169,5 +176,9 @@ private:
 	TileMap *map;
 
 	int score;
+	int hp;
+	int lives;
+
+	bool hasDied;
 };
 
