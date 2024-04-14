@@ -14,6 +14,7 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	//case ObjectType::CHILI: rc = { 5 * n, 3 * n, n, n }; break;
 	case ObjectType::SHIELD: rc = { 2 * n, 3 * n, n, n }; break;
 	case ObjectType::WHITEBAG: rc = { 8 * n, 1 * n, n, n }; break;
+	case ObjectType::BLUEBAG: rc = { 9 * n, 1 * n, n, n }; break;
 	//case ObjectType::FIRE: rc = { 0 * n, 4 * n, n, n }; break;
 
 	default: LOG("Internal error: object creation of invalid type");
@@ -37,6 +38,7 @@ int Object::Points() const
 	//if (type == ObjectType::APPLE)		return POINTS_APPLE;
 	//else if (type == ObjectType::CHILI)	return POINTS_CHILI;
 	if (type == ObjectType::WHITEBAG)	return POINTS_WHITEBAG;
+	else if (type == ObjectType::BLUEBAG)	return POINTS_BLUEBAG;
 	else
 	{
 		LOG("Internal error: object type invalid when giving points");

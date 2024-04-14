@@ -98,6 +98,9 @@ public:
 
 	void InitScore();
 	void IncrScore(int n);
+
+	void GodMode();
+
 	int GetScore() const;
 	int GetHP() const;
 	int GetLives() const;
@@ -180,5 +183,7 @@ private:
 	int lives;
 
 	bool hasDied;
+
+	bool godMode;
 };
 

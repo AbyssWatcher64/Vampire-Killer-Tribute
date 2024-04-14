@@ -119,7 +119,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,		0,		0,		0,		0,		0,		0,
+				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -282,6 +282,14 @@ AppStatus Scene::LoadLevel(int stage)
 				objects.push_back(obj);
 				mapInteractables[i] = 0;
 			}
+			else if (tileInteractable == Tile::ITEM_BLUEBAG)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				obj = new Object(pos, ObjectType::BLUEBAG);
+				objects.push_back(obj);
+				mapInteractables[i] = 0;
+			}
 
 			++i;
 		}
@@ -302,15 +310,19 @@ void Scene::Update()
 	{
 		debug = (DebugMode)(((int)debug + 1) % (int)DebugMode::SIZE);
 	}
-	else if(IsKeyPressed(KEY_F2))
+	if (IsKeyPressed(KEY_F2))
+	{
+		player->GodMode();
+	}
+	else if(IsKeyPressed(KEY_KP_1))
 	{
 		LoadLevel(1);
 	}
-	else if (IsKeyPressed(KEY_F3))
+	else if (IsKeyPressed(KEY_KP_2))
 	{
 		LoadLevel(2);
 	}
-	else if (IsKeyPressed(KEY_F4))
+	else if (IsKeyPressed(KEY_KP_3))
 	{
 		LoadLevel(3);
 	}

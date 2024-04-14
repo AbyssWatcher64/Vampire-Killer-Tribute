@@ -269,6 +269,10 @@ void Player::IncrScore(int n)
 {
 	score += n;
 }
+void Player::GodMode()
+{
+	godMode = !godMode;
+}
 int Player::GetScore() const
 {
 	return score;
@@ -517,15 +521,17 @@ void Player::Attack()
 
 void Player::ChangeHP(int value)
 {
-	hp += value;
-	if (hp > 100)
-		hp = 100;
-	if (hp <= 0)
+	if (!godMode)
 	{
-		hp = 0;
-		Death();
-	}
-		
+		hp += value;
+		if (hp > 100)
+			hp = 100;
+		if (hp <= 0)
+		{
+			hp = 0;
+			Death();
+		}
+	}		
 }
 
 void Player::Death()
@@ -684,14 +690,10 @@ void Player::MoveX()
 			if (state == State::WALKING) Stop();
 		}
 	}
-	else if (hasDied == false)
+	else
 	{
 		if (state == State::WALKING) Stop();
 		else if (state == State::CROUCHING) Stop();
-	}
-	else
-	{
-		Stop();
 	}
 }
 void Player::MoveY()
