@@ -7,16 +7,20 @@
 #define POINTS_APPLE	10
 #define POINTS_CHILI	20
 
-enum class ObjectType { APPLE, CHILI };
+#define EQUIPMENT_NUMBER_SHIELD 0
+
+enum class ObjectType { APPLE, CHILI, SHIELD };
 
 class Object : public Entity
 {
 public:
+	AppStatus Initialise();
 	Object(const Point& p, ObjectType t);
 	~Object();
 
 	void DrawDebug(const Color& col) const;
 	int Points() const;
+	int Equip() const;
 
 private:
 	ObjectType type;

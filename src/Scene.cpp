@@ -7,6 +7,8 @@ Scene::Scene()
 	player = nullptr;
     level = nullptr;
 	
+	currentLevel = 1;
+
 	camera.target = { 0, 0 };				//Center of the screen
 	camera.offset = { 0, MARGIN_GUI_Y };	//Offset from the target (center of the screen)
 	camera.rotation = 0.0f;					//No rotation
@@ -49,6 +51,8 @@ AppStatus Scene::Init()
 		LOG("Failed to initialise Player");
 		return AppStatus::ERROR;
 	}
+
+	
 
 	//Create level 
     level = new TileMap();
@@ -99,7 +103,7 @@ AppStatus Scene::LoadLevel(int stage)
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		139,	140,	7,		5,		7,
 				3,		138,	65,		66,		138/*800*/,	138,		4,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
-				2,		200,	62,		63,		64,		2,		2,		2,		2,		2,		2,		2,		64,		2,		2,		2,
+				2,		200,	62,		63,		64,		2,		2,		300/*2*/, 2, 2, 2, 2, 64, 2, 2, 2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -180,6 +184,14 @@ AppStatus Scene::LoadLevel(int stage)
 				objects.push_back(obj);
 				map[i] = 0;
 			}
+			else if (tile == Tile::ITEM_SHIELD)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				obj = new Object(pos, ObjectType::SHIELD);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
 			++i;
 		}
 	}
@@ -209,6 +221,19 @@ void Scene::Update()
 	else if (IsKeyPressed(KEY_F4))
 	{
 		LoadLevel(3);
+	}
+
+	if (player->GetXPos() == 0 && currentLevel != 1)
+	{
+		LoadLevel(currentLevel-1);
+		currentLevel--;
+		player->SetPos(Point(WINDOW_WIDTH - 40, 150));
+	}
+	else if (player->GetXPos() == WINDOW_WIDTH-PLAYER_FRAME_SIZE_WIDTH && currentLevel != 3)
+	{
+		LoadLevel(currentLevel + 1);
+		currentLevel++;
+		player->SetPos(Point(20, 150));
 	}
 
 	level->Update();
@@ -253,7 +278,8 @@ void Scene::CheckCollisions()
 		if (player_box.TestAABB(obj_box))
 		{
 			player->IncrScore((*it)->Points());
-
+			//player->SetShield((*it)->Points());
+			player->SetEquipment((*it)->Equip());
 			//Delete the object
 			delete* it;
 			//Erase the object from the vector and get the iterator to the next valid element

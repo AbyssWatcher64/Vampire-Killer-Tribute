@@ -270,27 +270,54 @@ int Player::GetScore()
 {
 	return score;
 }
+void Player::SetShield()
+{
+	isHoldingShield = true;
+}
+int Player::GetXPos()
+{
+	return pos.x;
+}
 bool Player::GetIsHoldingShield() const
 {
 	return Player::isHoldingShield;
 }
 
-void Player::SetWeapon(Weapon w)
+Equipment Player::SetEquipment(int equipNum)
 {
-	weapon = w;
+	if (equipNum == 0)
+	{
+		return EquipShield();
+	}
 }
-Weapon Player::EquipWhip()
+Equipment Player::EquipWhip()
 {
-	return weapon = Weapon::WHIP;
+	return equipment = Equipment::WHIP;
 }
-Weapon Player::EquipMorningStar()
+Equipment Player::EquipMorningStar()
 {
-	return weapon = Weapon::MORNINGSTAR;
+	return equipment = Equipment::MORNINGSTAR;
 }
-Weapon Player::EquipKnife()
+Equipment Player::EquipDagger()
 {
-	return weapon = Weapon::KNIFE;
+	return equipment = Equipment::DAGGER;
 }
+Equipment Player::EquipShield()
+{
+	isHoldingShield = true;
+	Stop();
+	return equipment = Equipment::SHIELD;
+}
+Equipment Player::EquipAxe()
+{
+	return equipment = Equipment::AXE;
+}
+Equipment Player::EquipCross()
+{
+	return equipment = Equipment::CROSS;
+}
+
+
 void Player::SetTileMap(TileMap* tilemap)
 {
 	map = tilemap;
@@ -564,7 +591,7 @@ void Player::MoveX()
 	if (IsKeyPressed(KEY_F5))
 	{
 		isHoldingShield = !isHoldingShield;
-		//Stop();
+		Stop();
 	}
 
 	if (IsKeyDown(KEY_DOWN))

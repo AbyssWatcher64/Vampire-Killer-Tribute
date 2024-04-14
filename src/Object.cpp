@@ -1,4 +1,5 @@
 #include "Object.h"
+#include "Sprite.h"
 #include "StaticImage.h"
 
 Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, OBJECT_PHYSICAL_SIZE, OBJECT_FRAME_SIZE, OBJECT_FRAME_SIZE)
@@ -11,20 +12,24 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	{
 	case ObjectType::APPLE: rc = { 4 * n, 3 * n, n, n }; break;
 	case ObjectType::CHILI: rc = { 5 * n, 3 * n, n, n }; break;
+	case ObjectType::SHIELD: rc = { 2 * n, 3 * n, n, n }; break;
 
 	default: LOG("Internal error: object creation of invalid type");
 	}
 
 	ResourceManager& data = ResourceManager::Instance();
-	render = new StaticImage(data.GetTexture(Resource::IMG_TILES), rc);
+	render = new StaticImage(data.GetTexture(Resource::IMG_ITEMS), rc);
 }
 Object::~Object()
 {
 }
+
 void Object::DrawDebug(const Color& col) const
 {
 	Entity::DrawHitbox(pos.x, pos.y, width, height, col);
 }
+
+// returns Points depending on the item grabbed
 int Object::Points() const
 {
 	if (type == ObjectType::APPLE)		return POINTS_APPLE;
@@ -35,3 +40,10 @@ int Object::Points() const
 		return 0;
 	}
 }
+
+int Object::Equip() const
+{
+	if (type == ObjectType::SHIELD)		return EQUIPMENT_NUMBER_SHIELD;
+}
+
+

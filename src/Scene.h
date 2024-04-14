@@ -20,6 +20,8 @@ public:
 private:
     AppStatus LoadLevel(int stage);
 
+    int currentLevel;
+
     void CheckCollisions();
     void ClearLevel();
     void RenderObjects() const;

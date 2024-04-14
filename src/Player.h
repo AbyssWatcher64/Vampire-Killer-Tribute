@@ -37,6 +37,7 @@
 enum class State { IDLE, WALKING, CROUCHING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD  };
 enum class Look { RIGHT, LEFT };
 enum class Weapon { WHIP, MORNINGSTAR, KNIFE };
+enum class Equipment { WHIP, MORNINGSTAR, DAGGER, SHIELD, AXE, CROSS };
 
 //Rendering states
 enum class PlayerAnim {
@@ -99,9 +100,16 @@ public:
 	void IncrScore(int n);
 	int GetScore();
 
+	void SetShield();
+
+	int GetXPos();
+
 	void Update();
 	void DrawDebug(const Color& col) const;
 	void Release();
+
+	Equipment SetEquipment(int equipNum);
+
 
 private:
 	bool IsLookingRight() const;
@@ -140,16 +148,23 @@ private:
 	//Player Weapons and Items
 	void Attack();
 	bool GetIsHoldingShield() const;
-	void SetWeapon(Weapon w);
-	Weapon EquipWhip();
-	Weapon EquipMorningStar();
-	Weapon EquipKnife();
+	//void SetWeapon(Weapon w);
+	////Weapon EquipWhip();
+	////Weapon EquipMorningStar();
+	////Weapon EquipKnife();
+
+	Equipment EquipWhip();
+	Equipment EquipMorningStar();
+	Equipment EquipDagger();
+	Equipment EquipShield();
+	Equipment EquipAxe();
+	Equipment EquipCross();
 
 	State state;
 	Look look;
 	int jump_delay;
 	bool isHoldingShield;
-	Weapon weapon;
+	Equipment equipment;
 
 	TileMap *map;
 
