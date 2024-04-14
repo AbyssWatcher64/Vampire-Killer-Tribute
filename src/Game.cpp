@@ -10,6 +10,7 @@ Game::Game()
     img_menu = nullptr;
     img_initial = nullptr;
     img_desc = nullptr;
+    img_ending = nullptr;
 
     target = {};
     src = {};
@@ -79,6 +80,12 @@ AppStatus Game::LoadResources()
         return AppStatus::ERROR;
     }
     img_desc = data.GetTexture(Resource::IMG_DESC);
+
+    if (data.LoadTexture(Resource::IMG_ENDING, "img/ending.png") != AppStatus::OK)
+    {
+        return AppStatus::ERROR;
+    }
+    img_ending = data.GetTexture(Resource::IMG_ENDING);
     
     return AppStatus::OK;
 }
@@ -142,6 +149,10 @@ AppStatus Game::Update()
             {
                 state = GameState::GAME_OVER;
             }
+            else if (IsKeyPressed(KEY_E))
+            {
+                state = GameState::ENDING;
+            }
             else
             {
                 //Game logic
@@ -149,6 +160,12 @@ AppStatus Game::Update()
             }
             break;
         case GameState::GAME_OVER:
+            if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            if (IsKeyPressed(KEY_SPACE)) {
+                state = GameState::MAIN_MENU;
+            }
+            break;
+        case GameState::ENDING:
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             if (IsKeyPressed(KEY_SPACE)) {
                 state = GameState::MAIN_MENU;
@@ -194,6 +211,9 @@ void Game::Render()
             break;
         case GameState::GAME_OVER:
             DrawTexturePro(*img_menu, { 400,89,73,7 }, { WINDOW_WIDTH/2.75,WINDOW_HEIGHT/2.25,73,7 }, { 0,0 }, 0, WHITE);
+            break;
+        case GameState::ENDING:
+            DrawTexturePro(*img_ending, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
             break;
     }
     
