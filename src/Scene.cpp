@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "Globals.h"
 
+
 Scene::Scene()
 {
 	player = nullptr;
@@ -314,6 +315,7 @@ void Scene::Update()
 	{
 		LoadLevel(3);
 	}
+	
 
 	if (player->GetXPos() == 0 && currentLevel != 1)
 	{

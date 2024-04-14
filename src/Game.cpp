@@ -5,7 +5,7 @@
 
 Game::Game()
 {
-    state = GameState::INITIAL_SCREEN;//
+    state = GameState::INITIAL_SCREEN;
     scene = nullptr;
     img_menu = nullptr;
     img_initial = nullptr;
@@ -138,10 +138,20 @@ AppStatus Game::Update()
                 FinishPlay();
                 state = GameState::MAIN_MENU;
             }
+            else if(IsKeyPressed(KEY_M))
+            {
+                state = GameState::GAME_OVER;
+            }
             else
             {
                 //Game logic
                 scene->Update();
+            }
+            break;
+        case GameState::GAME_OVER:
+            if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            if (IsKeyPressed(KEY_SPACE)) {
+                state = GameState::MAIN_MENU;
             }
             break;
     }
@@ -169,20 +179,21 @@ void Game::Render()
             //// This draws the Push Space Key text
             //DrawTexturePro(*img_menu, { 258, 41, 110,7 }, { WINDOW_WIDTH/3,(WINDOW_HEIGHT - (WINDOW_HEIGHT / 3))+20,110,7 }, { 0,0 }, 0, WHITE);
 
-            DrawTexturePro(*img_menu, { 0, 8, 256,104 }, { WINDOW_WIDTH / 42 /*32*/ ,WINDOW_WIDTH / 16,WINDOW_WIDTH - WINDOW_WIDTH / 20,WINDOW_HEIGHT - WINDOW_HEIGHT / 2 }, { 0,0 }, 0, WHITE);
+            DrawTexturePro(*img_menu, { 0, WINDOW_HEIGHT/26, WINDOW_WIDTH,WINDOW_HEIGHT/2 }, { WINDOW_WIDTH / 42 ,WINDOW_WIDTH / 16,WINDOW_WIDTH - WINDOW_WIDTH / 20, WINDOW_HEIGHT / 2.2 }, { 0,0 }, 0, WHITE);
 
                 // This draws the Konami text
             // TODO: Check HEIGHT VS WIDTH ?? Are we using height for width?
-            DrawTexturePro(*img_menu, { 256, 16, 104,8 }, { 4.875 * (WINDOW_WIDTH / 16),WINDOW_HEIGHT - (WINDOW_HEIGHT / 3),WINDOW_HEIGHT / 2,WINDOW_WIDTH / 32 }, { 0,0 }, 0, WHITE);
+            DrawTexturePro(*img_menu, { WINDOW_WIDTH, WINDOW_HEIGHT/13, WINDOW_WIDTH/2.45,WINDOW_HEIGHT / 26 }, { 4.875 * (WINDOW_WIDTH / 16),WINDOW_HEIGHT - (WINDOW_HEIGHT / 2.5),WINDOW_WIDTH / 2.45,WINDOW_HEIGHT / 26 }, { 0,0 }, 0, WHITE);
 
                 // This draws the Push Space Key text
-            DrawTexturePro(*img_menu, { 257, 41, 110,7 }, { 4.875 * (WINDOW_WIDTH / 16),WINDOW_HEIGHT - (WINDOW_HEIGHT / 3),WINDOW_HEIGHT / 2,WINDOW_WIDTH / 32 }, { 0,0 }, 0, WHITE);
-            break;
-            
+            DrawTexturePro(*img_menu, { WINDOW_WIDTH, WINDOW_HEIGHT/5, WINDOW_WIDTH / 2.3 ,WINDOW_HEIGHT / 26 }, { 4.875 * (WINDOW_WIDTH / 16),WINDOW_HEIGHT - (WINDOW_HEIGHT / 3.6),WINDOW_WIDTH/2.3,WINDOW_HEIGHT / 26 }, { 0,0 }, 0, WHITE);
             break;
 
         case GameState::PLAYING:
             scene->Render();
+            break;
+        case GameState::GAME_OVER:
+            DrawTexturePro(*img_menu, { 400,89,73,7 }, { WINDOW_WIDTH/2.75,WINDOW_HEIGHT/2.25,73,7 }, { 0,0 }, 0, WHITE);
             break;
     }
     
