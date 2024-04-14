@@ -41,7 +41,7 @@ Point Entity::GetRenderingPosition() const
 void Entity::Draw() const
 {
 	Point p = GetRenderingPosition();
-	render->Draw(p.x, p.y);
+	render->Draw(p.x, p.y); // we can use this x for offset
 }
 void Entity::DrawTint(const Color& col) const
 {

@@ -34,7 +34,7 @@
 #define GRAVITY_FORCE			1
 
 //Logic states
-enum class State { IDLE, WALKING, CROUCHING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD,  };
+enum class State { IDLE, WALKING, CROUCHING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD  };
 enum class Look { RIGHT, LEFT };
 enum class Weapon { WHIP, MORNINGSTAR, KNIFE };
 

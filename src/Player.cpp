@@ -146,32 +146,31 @@ AppStatus Player::Initialise()
 
 	// Jumping animations
 	sprite->SetAnimationDelay((int)PlayerAnim::FALLING_RIGHT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::FALLING_RIGHT, { 3 * n, h, n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::FALLING_RIGHT, { 3 * n, h, n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::FALLING_RIGHT, { 3 * n, 0, n, h });
 	sprite->SetAnimationDelay((int)PlayerAnim::FALLING_LEFT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::FALLING_LEFT, { 3 * n, h, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::FALLING_LEFT, { 3 * n, h, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::FALLING_LEFT, { 3 * n, 0, -n, h });
 
 	sprite->SetAnimationDelay((int)PlayerAnim::JUMPING_RIGHT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_RIGHT, { 3 * n, h, n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_RIGHT, { 3 * n, 0, n, h });
 	sprite->SetAnimationDelay((int)PlayerAnim::JUMPING_LEFT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_LEFT, { 3 * n, h, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_LEFT, { 3 * n, 0, -n, h });
+
 	sprite->SetAnimationDelay((int)PlayerAnim::LEVITATING_RIGHT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::LEVITATING_RIGHT, { 3 * n, h, n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::LEVITATING_RIGHT, { 3 * n, 0, n, h });
 	sprite->SetAnimationDelay((int)PlayerAnim::LEVITATING_LEFT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::LEVITATING_LEFT, { 3 * n, h, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::LEVITATING_LEFT, { 3 * n, 0, -n, h });
+
 
 	sprite->SetAnimationDelay((int)PlayerAnim::FALLING_RIGHT_SHIELD, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::FALLING_RIGHT_SHIELD, { 3 * n, h, n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::FALLING_RIGHT_SHIELD, { 3 * n, h, n, h });
 	sprite->SetAnimationDelay((int)PlayerAnim::FALLING_LEFT_SHIELD, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::FALLING_LEFT_SHIELD, { 3 * n, h, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::FALLING_LEFT_SHIELD, { 3 * n, h, -n, h });
 
 	sprite->SetAnimationDelay((int)PlayerAnim::JUMPING_RIGHT_SHIELD, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_RIGHT_SHIELD, { 3 * n, h, n, h });
 	sprite->SetAnimationDelay((int)PlayerAnim::JUMPING_LEFT_SHIELD, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::JUMPING_LEFT_SHIELD, { 3 * n, h, -n, h });
+
 	sprite->SetAnimationDelay((int)PlayerAnim::LEVITATING_RIGHT_SHIELD, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::LEVITATING_RIGHT_SHIELD, { 3 * n, h, n, h });
 	sprite->SetAnimationDelay((int)PlayerAnim::LEVITATING_LEFT_SHIELD, ANIM_DELAY);
@@ -389,11 +388,13 @@ void Player::StartCrouching()
 		else
 		SetAnimation((int)PlayerAnim::CROUCHING_RIGHT);
 	}
-	else					
+	else
+	{
 		if (GetIsHoldingShield() == true)
 			SetAnimation((int)PlayerAnim::CROUCHING_LEFT_SHIELD);
 		else
 			SetAnimation((int)PlayerAnim::CROUCHING_LEFT);
+	}
 }
 void Player::StartFalling()
 {
@@ -407,15 +408,32 @@ void Player::StartFalling()
 			SetAnimation((int)PlayerAnim::FALLING_RIGHT);
 
 	}
-		
-	else					SetAnimation((int)PlayerAnim::FALLING_LEFT);
+	else
+	{
+		if (GetIsHoldingShield() == true)
+			SetAnimation((int)PlayerAnim::FALLING_LEFT_SHIELD);
+		else
+			SetAnimation((int)PlayerAnim::FALLING_LEFT);
+	}
 }
 void Player::StartJumping()
 {
 	dir.y = -PLAYER_JUMP_FORCE;
 	state = State::JUMPING;
-	if (IsLookingRight())	SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
-	else					SetAnimation((int)PlayerAnim::JUMPING_LEFT);
+	if (IsLookingRight())
+	{
+		if (GetIsHoldingShield() == true)
+			SetAnimation((int)PlayerAnim::JUMPING_RIGHT_SHIELD);
+		else
+			SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
+	}
+	else
+	{
+		if (GetIsHoldingShield() == true)
+			SetAnimation((int)PlayerAnim::JUMPING_LEFT_SHIELD);
+		else
+			SetAnimation((int)PlayerAnim::JUMPING_LEFT);
+	}
 	jump_delay = PLAYER_JUMP_DELAY;
 }
 void Player::StartClimbingUp()
@@ -439,14 +457,14 @@ void Player::Attack()
 	{
 		SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
 		Sprite* sprite = dynamic_cast<Sprite*>(render);
-		sprite->SetPlayOnceMode();
+		//sprite->SetPlayOnceMode();
 		//state = State::IDLE;
 	}
 	else if (look == Look::LEFT)
 	{
 		SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
 		Sprite* sprite = dynamic_cast<Sprite*>(render);
-		sprite->SetPlayOnceMode();
+		//sprite->SetPlayOnceMode();
 	}
 	state = State::IDLE;
 }
@@ -488,9 +506,9 @@ void Player::ChangeAnimRight()
 				SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
 				break;
 		case State::FALLING:
-			//if (GetIsHoldingShield() == true)
-			//	SetAnimation((int)PlayerAnim::FALLING_RIGHT_SHIELD);
-			//else
+			if (GetIsHoldingShield() == true)
+				SetAnimation((int)PlayerAnim::FALLING_RIGHT_SHIELD);
+			else
 				SetAnimation((int)PlayerAnim::FALLING_RIGHT);
 			break;
 	}
@@ -517,7 +535,12 @@ void Player::ChangeAnimLeft()
 		else
 			SetAnimation((int)PlayerAnim::JUMPING_LEFT);
 		break;
-		case State::FALLING: SetAnimation((int)PlayerAnim::FALLING_LEFT); break;
+		case State::FALLING: 
+			if (GetIsHoldingShield() == true)
+				SetAnimation((int)PlayerAnim::FALLING_LEFT_SHIELD);
+			else
+				SetAnimation((int)PlayerAnim::FALLING_LEFT);
+			break;
 	}
 }
 void Player::Update()
@@ -541,7 +564,7 @@ void Player::MoveX()
 	if (IsKeyPressed(KEY_F5))
 	{
 		isHoldingShield = !isHoldingShield;
-		Stop();
+		//Stop();
 	}
 
 	if (IsKeyDown(KEY_DOWN))
@@ -754,7 +777,7 @@ void Player::DrawDebug(const Color& col) const
 {	
 	Entity::DrawHitbox(pos.x, pos.y, width, height, col);
 	//TODO Change this so that the width and height are appropriate
-	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), 18*16, 0, 8, LIGHTGRAY);
+	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), WINDOW_WIDTH-90, 0, 8, LIGHTGRAY);
 	DrawPixel(pos.x, pos.y, WHITE);
 }
 void Player::Release()
