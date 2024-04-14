@@ -152,7 +152,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		300,	0,		0,		0,		0,		0,		0,		0,		0,
+				0,		200,	0,		0,		0,		0,		0,		400,	0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -183,7 +183,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800, 	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		300,	0,		0,		0,		0,		0,		0,		0,		0,
+				0,		200,	0,		0,		0,		0,		401,	0,		0,		0,		500,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -291,7 +291,14 @@ AppStatus Scene::LoadLevel(int stage)
 				objects.push_back(obj);
 				mapInteractables[i] = 0;
 			}
-
+			else if (tileInteractable == Tile::ITEM_ORB)
+			{
+				pos.x = x * TILE_SIZE;
+				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				obj = new Object(pos, ObjectType::ORB);
+				objects.push_back(obj);
+				mapInteractables[i] = 0;
+			}
 			++i;
 		}
 	}
@@ -311,35 +318,44 @@ void Scene::Update()
 	{
 		debug = (DebugMode)(((int)debug + 1) % (int)DebugMode::SIZE);
 	}
-	if (IsKeyPressed(KEY_F2))
+	else if (IsKeyPressed(KEY_F2))
 	{
 		player->GodMode();
 	}
 	else if(IsKeyPressed(KEY_KP_1))
 	{
+		currentLevel = 1;
 		LoadLevel(1);
 	}
 	else if (IsKeyPressed(KEY_KP_2))
 	{
+		currentLevel = 2;
 		LoadLevel(2);
+
 	}
 	else if (IsKeyPressed(KEY_KP_3))
 	{
+		currentLevel = 3;
 		LoadLevel(3);
+
 	}
 	
 
-	if (player->GetXPos() == 0 && currentLevel != 1)
+	if (player->GetXPos() == 0 && currentLevel > 1)
 	{
+		
 		LoadLevel(currentLevel-1);
-		currentLevel--;
 		player->SetPos(Point(WINDOW_WIDTH - 40, 150));
+		currentLevel--;
+
+
 	}
-	else if (player->GetXPos() == WINDOW_WIDTH-PLAYER_PHYSICAL_WIDTH && currentLevel != 3)
+	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 3)
 	{
+		
 		LoadLevel(currentLevel + 1);
-		currentLevel++;
 		player->SetPos(Point(20, 150));
+		currentLevel++;
 	}
 
 	ResetScreen();
@@ -383,7 +399,22 @@ void Scene::ResetScreen()
 		player->SetHasDied(false);
 		player->ChangeHP(100);
 	}
-
+}
+bool Scene::GameOver()
+{
+	if (player->GetGameOver() == true)
+	{
+		player->SetGameOver(false);
+		return true;
+	}
+}
+bool Scene::GameEnd()
+{
+	if (player->GetGameEnd() == true)
+	{
+		player->SetGameEnd(false);
+		return true;
+	}
 }
 void Scene::CheckCollisions()
 {
@@ -399,6 +430,8 @@ void Scene::CheckCollisions()
 			player->IncrScore((*it)->Points());
 			//player->SetShield((*it)->Points());
 			player->SetEquipment((*it)->Equip());
+			if ((*it)->Equip() == 1000)
+				player->SetGameEnd(true);
 			//Delete the object
 			delete* it;
 			//Erase the object from the vector and get the iterator to the next valid element

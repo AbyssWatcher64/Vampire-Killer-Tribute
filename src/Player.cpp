@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include <raymath.h>
 
+
 Player::Player(const Point& p, State s, Look view) :
 	//Entity(p, PLAYER_PHYSICAL_WIDTH, PLAYER_PHYSICAL_HEIGHT, PLAYER_FRAME_SIZE, PLAYER_FRAME_SIZE)
 	Entity(p, PLAYER_PHYSICAL_WIDTH, PLAYER_PHYSICAL_HEIGHT, PLAYER_FRAME_SIZE_WIDTH, PLAYER_FRAME_SIZE_HEIGHT)
@@ -18,6 +19,8 @@ Player::Player(const Point& p, State s, Look view) :
 	lives = 3;
 	score = 0;
 	hasDied = false;
+	godMode = false;
+	gameEnd = false;
 }
 Player::~Player()
 {
@@ -289,6 +292,22 @@ void Player::SetHasDied(bool state)
 {
 	hasDied = state;
 }
+bool Player::GetGameOver() const
+{
+	return gameOver;
+}
+void Player::SetGameOver(bool state)
+{
+	gameOver = state;
+}
+bool Player::GetGameEnd() const
+{
+	return gameEnd;
+}
+void Player::SetGameEnd(bool state)
+{
+	gameEnd = state;
+}
 int Player::GetHP() const
 {
 	return hp;
@@ -339,8 +358,6 @@ Equipment Player::EquipCross()
 {
 	return equipment = Equipment::CROSS;
 }
-
-
 void Player::SetTileMap(TileMap* tilemap)
 {
 	map = tilemap;
@@ -549,7 +566,8 @@ void Player::Death()
 
 	if (lives <= 0)
 	{
-		//state::Gameover
+		gameOver = true;
+		
 	}
 	else
 	{

@@ -106,6 +106,10 @@ public:
 	int GetLives() const;
 	bool GetHasDied() const; 
 	void SetHasDied(bool state);
+	bool GetGameOver() const;
+	void SetGameOver(bool state);
+	bool GetGameEnd() const;
+	void SetGameEnd(bool state);
 
 	void SetShield();
 
@@ -183,6 +187,8 @@ private:
 	int lives;
 
 	bool hasDied;
+	bool gameOver;
+	bool gameEnd;
 
 	bool godMode;
 };

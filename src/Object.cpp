@@ -15,6 +15,7 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	case ObjectType::SHIELD: rc = { 2 * n, 3 * n, n, n }; break;
 	case ObjectType::WHITEBAG: rc = { 8 * n, 1 * n, n, n }; break;
 	case ObjectType::BLUEBAG: rc = { 9 * n, 1 * n, n, n }; break;
+	case ObjectType::ORB: rc = { 8 * n, 0 * n, n, n }; break;
 	//case ObjectType::FIRE: rc = { 0 * n, 4 * n, n, n }; break;
 
 	default: LOG("Internal error: object creation of invalid type");
@@ -49,6 +50,8 @@ int Object::Points() const
 int Object::Equip() const
 {
 	if (type == ObjectType::SHIELD)		return EQUIPMENT_NUMBER_SHIELD;
+	if (type == ObjectType::ORB)		return EQUIPMENT_WINNING_ORB;
 }
+
 
 

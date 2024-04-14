@@ -18,6 +18,8 @@ public:
     void Release();
 
     void ResetScreen();
+    bool GameOver();
+    bool GameEnd();
 
 private:
     AppStatus LoadLevel(int stage);

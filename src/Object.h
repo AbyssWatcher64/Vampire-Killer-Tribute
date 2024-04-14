@@ -10,6 +10,7 @@
 #define POINTS_WHITEBAG 5000
 
 #define EQUIPMENT_NUMBER_SHIELD 0
+#define EQUIPMENT_WINNING_ORB	1000
 
 enum class ObjectType { MORNINGSTAR, AXE, DAGGER, BLUECROSS,  SHIELD, HOURGLASS, WATER, MASTERKEY, ORB,
 	CHEST, WHITEBAG, BLUEBAG/*, FIRE*/ };
@@ -24,6 +25,7 @@ public:
 	void DrawDebug(const Color& col) const;
 	int Points() const;
 	int Equip() const;
+
 
 private:
 	ObjectType type;
