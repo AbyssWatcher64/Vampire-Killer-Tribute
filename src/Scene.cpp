@@ -214,8 +214,8 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		200,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 			};	
 	}
@@ -336,6 +336,8 @@ AppStatus Scene::LoadLevel(int stage)
 	//Tile map
 	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
 	//level->Load(mapInteractables, LEVEL_WIDTH, LEVEL_HEIGHT);
+	delete[] mapInteractables;
+	delete[] map;
 
 	return AppStatus::OK;
 }
@@ -382,8 +384,6 @@ void Scene::Update()
 		LoadLevel(currentLevel-1);
 		player->SetPos(Point(WINDOW_WIDTH - 40, 150));
 		currentLevel--;
-
-
 	}
 	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 3)
 	{

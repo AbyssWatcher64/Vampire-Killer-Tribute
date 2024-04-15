@@ -5,6 +5,7 @@
 
 enum class AnimMode { AUTOMATIC, MANUAL, PLAYONCE };
 
+// struct frame
 struct Animation
 {
     int offset;

@@ -12,10 +12,19 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	{
 	//case ObjectType::APPLE: rc = { 4 * n, 3 * n, n, n }; break;
 	//case ObjectType::CHILI: rc = { 5 * n, 3 * n, n, n }; break;
-	case ObjectType::SHIELD: rc = { 2 * n, 3 * n, n, n }; break;
+	case ObjectType::MORNINGSTAR: rc = { 0 * n, 0 * n, n, n }; break;
+	case ObjectType::AXE: rc = { 1 * n, 0 * n, 2 * n, n }; break;
+	case ObjectType::DAGGER: rc = { 3 * n, 0 * n, n, n }; break;
+	case ObjectType::BLUECROSS: rc = { 4 * n, 0 * n, n, n }; break;
+	case ObjectType::HOURGLASS: rc = { 5 * n, 0 * n, n, n }; break;
+	case ObjectType::HOLYWATER: rc = { 6 * n, 0 * n, n, n }; break;
+	case ObjectType::MASTERKEY: rc = { 7 * n, 0 * n, n, n }; break;
+	case ObjectType::ORB: rc = { 8 * n, 0 * n, n, n }; break;
 	case ObjectType::WHITEBAG: rc = { 8 * n, 1 * n, n, n }; break;
 	case ObjectType::BLUEBAG: rc = { 9 * n, 1 * n, n, n }; break;
-	case ObjectType::ORB: rc = { 8 * n, 0 * n, n, n }; break;
+	
+
+	case ObjectType::SHIELD: rc = { 2 * n, 3 * n, n, n }; break;
 	//case ObjectType::FIRE: rc = { 0 * n, 4 * n, n, n }; break;
 
 	default: LOG("Internal error: object creation of invalid type");

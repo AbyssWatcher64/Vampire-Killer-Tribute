@@ -311,8 +311,9 @@ Tile TileMap::GetTileIndex(int x, int y) const
 	return map[x + y * width];
 }
 bool TileMap::IsTileSolid(Tile tile) const
-{
-	return (Tile::SOLID_FIRST <= tile && tile <= Tile::SOLID_LAST);
+{	
+	//return (Tile::SOLID_FIRST <= tile && tile <= Tile::SOLID_LAST);
+	return (Tile::SOLID_FIRST <= tile && tile <= Tile::SOLID_LAST || (tile == Tile::BLOCK_PLATFORM_1 || tile == Tile::BLOCK_PLATFORM_2 || tile == Tile::BLOCK_PLATFORM_3));
 }
 bool TileMap::IsTileLadderTop(Tile tile) const
 {

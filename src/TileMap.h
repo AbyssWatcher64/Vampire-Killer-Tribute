@@ -96,8 +96,8 @@ enum class Tile {
 	STATIC_FIRST = BLOCK_SQUARE1_TL,
 	STATIC_LAST = LASER_R,
 	//SOLID_FIRST = BLOCK_SQUARE1_TL,
-	SOLID_FIRST = BLOCK_GROUND_GRASS,
-	SOLID_LAST = BLOCK_GROUND_GRASS,
+	SOLID_FIRST = BLOCK_GROUND_GRASS, /*BLOCK_PLATFORM_1,*/
+	SOLID_LAST = BLOCK_GROUND_GRASS, /*BLOCK_PLATFORM_3,*/
 	SPECIAL_FIRST = DOOR,
 	SPECIAL_LAST = LASER,
 	ENTITY_FIRST = PLAYER,
@@ -147,7 +147,9 @@ private:
 	int GetLadderCenterPos(int pixel_x, int pixel_y) const;
 
 	//Tile map
-	Tile *map;
+	Tile  *map;
+	//Tile  **map;
+	//std::vector<Tile*> screens; // either this or line above are the same
 
 	//Size of the tile map
 	int size, width, height;
