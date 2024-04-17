@@ -36,7 +36,7 @@
 //Logic states
 enum class State { IDLE, WALKING, CROUCHING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD  };
 enum class Look { RIGHT, LEFT };
-enum class Weapon { WHIP, MORNINGSTAR, KNIFE };
+enum class WeaponEquipped { WHIP, MORNINGSTAR, KNIFE };
 enum class Equipment { WHIP, MORNINGSTAR, DAGGER, SHIELD, AXE, CROSS };
 
 //Rendering states
@@ -114,6 +114,7 @@ public:
 	void SetShield();
 
 	int GetXPos();
+	int GetYPos();
 
 	void ChangeHP(int value);
 

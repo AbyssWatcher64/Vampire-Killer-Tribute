@@ -359,37 +359,56 @@ void Scene::Update()
 	{
 		currentLevel = 1;
 		LoadLevel(1);
+		player->SetPos(Point(20, 150));
 	}
 	else if (IsKeyPressed(KEY_KP_2))
 	{
 		currentLevel = 2;
 		LoadLevel(2);
+		player->SetPos(Point(20, 150));
 
 	}
 	else if (IsKeyPressed(KEY_KP_3))
 	{
 		currentLevel = 3;
 		LoadLevel(3);
+		player->SetPos(Point(20, 150));
 
 	}
 	else if (IsKeyPressed(KEY_KP_4))
 	{
 		LoadLevel(4);
+		currentLevel = 4;
+		player->SetPos(Point(20, 166));
 	}
 	
 
-	if (player->GetXPos() == 0 && currentLevel > 1)
+	if (player->GetXPos() == 0 && currentLevel == 4)
 	{
-		
-		LoadLevel(currentLevel-1);
-		player->SetPos(Point(WINDOW_WIDTH - 40, 150));
+		int tmpYPos = player->GetYPos() - 16;
+		LoadLevel(currentLevel - 1);
+		player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
 		currentLevel--;
 	}
-	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 3)
+	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 3)
 	{
-		
+		int tmpYPos = player->GetYPos() + 16;
 		LoadLevel(currentLevel + 1);
-		player->SetPos(Point(20, 150));
+		player->SetPos(Point(10, tmpYPos));
+		currentLevel++;
+	}
+	else if (player->GetXPos() == 0 && currentLevel > 1)
+	{
+		int tmpYPos = player->GetYPos();
+		LoadLevel(currentLevel - 1);
+		player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
+		currentLevel--;
+	}
+	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 4)
+	{
+		int tmpYPos = player->GetYPos();
+		LoadLevel(currentLevel + 1);
+		player->SetPos(Point(10, tmpYPos));
 		currentLevel++;
 	}
 

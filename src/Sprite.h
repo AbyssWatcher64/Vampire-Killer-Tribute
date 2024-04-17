@@ -22,6 +22,7 @@ public:
     void SetNumberAnimations(int num);
     void SetAnimationDelay(int id, int delay);
     void AddKeyFrame(int id, const Rectangle& rect);
+    void AddKeyFrameOffset(int id, const Rectangle& rect, int offset);
     void SetAnimation(int id);
     int GetAnimation();
 

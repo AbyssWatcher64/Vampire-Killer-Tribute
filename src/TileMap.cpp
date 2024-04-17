@@ -317,11 +317,11 @@ bool TileMap::IsTileSolid(Tile tile) const
 }
 bool TileMap::IsTileLadderTop(Tile tile) const
 {
-	return tile == Tile::LADDER_TOP_L || tile == Tile::LADDER_TOP_R;
+	return tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1;
 }
 bool TileMap::IsTileLadder(Tile tile) const
 {
-	return tile == Tile::LADDER_L || tile == Tile::LADDER_R;
+	return tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1;
 }
 bool TileMap::TestCollisionWallLeft(const AABB& box) const
 {
@@ -448,8 +448,8 @@ int TileMap::GetLadderCenterPos(int pixel_x, int pixel_y) const
 	ty = pixel_y / TILE_SIZE;
 	Tile tile = GetTileIndex(tx, ty);
 
-	if (tile == Tile::LADDER_L || tile == Tile::LADDER_TOP_L)		return tx * TILE_SIZE + TILE_SIZE;
-	else if (tile == Tile::LADDER_R || tile == Tile::LADDER_TOP_R)	return tx * TILE_SIZE;
+	if (tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1)		return tx * TILE_SIZE + TILE_SIZE;
+	else if (tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1)	return tx * TILE_SIZE;
 	else
 	{
 		LOG("Internal error, tile should be a LADDER, coord: (%d,%d), tile type: %d", pixel_x, pixel_y, (int)tile);

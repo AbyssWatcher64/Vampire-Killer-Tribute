@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "TileMap.h"
 #include "Globals.h"
+#include "Weapon.h"
 #include <raymath.h>
 
 
@@ -205,14 +206,14 @@ AppStatus Player::Initialise()
 
 	// WHIP Attacking animations
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_LEFT_WHIP, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)0 * n, n * 6, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)2 * n, n * 6, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)4 * n, n * 6, -(n * 4) , h });
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)0 * n, n * 6, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)4 * n, n * 6, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)8 * n, n * 6, -(n * 4) , h }, -2 * n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)0 * n, n * 8, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)2 * n, n * 8, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)4 * n, n * 8, -(n * 4) , h });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)0 * n, n * 8, -(n * 3) , h });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)4 * n, n * 8, -(n * 2) , h });
+	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)8 * n, n * 8, -(n * 4) , h });
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, { (float)0 * n, n * 10, -(n * 2) , h });
@@ -227,9 +228,9 @@ AppStatus Player::Initialise()
 
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT_WHIP, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)0 * n, n * 6, n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)2 * n, n * 6, n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)4 * n, n * 6, n * 4 , h });
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)0 * n, n * 6, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)4 * n, n * 6, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)8 * n, n * 6, n * 4 , h }, -n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)0 * n, n * 8, -(n * 2) , h });
@@ -319,6 +320,10 @@ void Player::SetShield()
 int Player::GetXPos()
 {
 	return pos.x;
+}
+int Player::GetYPos()
+{
+	return pos.y;
 }
 bool Player::GetIsHoldingShield() const
 {
@@ -524,6 +529,8 @@ void Player::Attack()
 	{
 		SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
 		Sprite* sprite = dynamic_cast<Sprite*>(render);
+		//TODO: Add weapon attack
+		Weapon* weaponAttack = new Weapon({pos.x + LOGICAL_WHIP_WIDTH_SIZE, pos.x + LOGICAL_WHIP_HEIGHT_SIZE}, WeaponType::WHIP);
 		//sprite->SetPlayOnceMode();
 		//state = State::IDLE;
 	}
@@ -642,18 +649,7 @@ void Player::Update()
 	//Instead, uses an independent behaviour for each axis.
 	MoveX();
 	MoveY();
-
-	Sprite* sprite = dynamic_cast<Sprite*>(render);
-	sprite->Update();
-}
-void Player::MoveX()
-{
-	AABB box;
-	int prev_x = pos.x;
-
-	//We can only go up and down while climbing
-	if (state == State::CLIMBING)	return;
-
+	
 	if (IsKeyPressed(KEY_F5))
 	{
 		isHoldingShield = !isHoldingShield;
@@ -668,6 +664,20 @@ void Player::MoveX()
 		ChangeHP(+10);
 	}
 
+	Sprite* sprite = dynamic_cast<Sprite*>(render);
+	sprite->Update();
+}
+void Player::MoveX()
+{
+	AABB box;
+	int prev_x = pos.x;
+
+	//We can only go up and down while climbing
+	//if (state == State::CLIMBING)	return;
+	if (state == State::CLIMBING) 
+	{
+		LogicClimbing();
+	}
 	if (IsKeyDown(KEY_DOWN) && hasDied == false)
 	{
 		if (state == State::IDLE) StartCrouching();
@@ -689,6 +699,7 @@ void Player::MoveX()
 			pos.x = prev_x;
 			if (state == State::WALKING) Stop();
 		}
+		// TODO: We could change the movement over here (and on the right wall)
 	}
 	else if (IsKeyDown(KEY_RIGHT) && hasDied == false)
 	{
@@ -754,6 +765,11 @@ void Player::MoveY()
 				{
 					StartClimbingDown();
 					pos.y += PLAYER_LADDER_SPEED;
+					pos.x -= PLAYER_LADDER_SPEED;
+				}
+				else
+				{
+					StartCrouching();
 				}
 					
 			}
@@ -837,12 +853,14 @@ void Player::LogicClimbing()
 
 	if (IsKeyDown(KEY_UP))
 	{
-		pos.y -= PLAYER_LADDER_SPEED;
+		pos.x += PLAYER_LADDER_SPEED / 5;
+		pos.y -= PLAYER_LADDER_SPEED / 5;
 		sprite->NextFrame();
 	}
 	else if (IsKeyDown(KEY_DOWN))
 	{
-		pos.y += PLAYER_LADDER_SPEED;
+		pos.x -= (PLAYER_LADDER_SPEED / 5);
+		pos.y += (PLAYER_LADDER_SPEED / 5);
 		sprite->PrevFrame();
 	}
 

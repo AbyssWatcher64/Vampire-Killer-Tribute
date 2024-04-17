@@ -8,6 +8,7 @@ Sprite::Sprite(const Texture2D * texture)
     current_delay = 0;
     mode = AnimMode::AUTOMATIC; // TODO: Revise if this is good coding, since we have the...
     //...play only one cinematic
+    //animations[current_anim].offset = 0;
 }
 Sprite::~Sprite()
 {
@@ -29,6 +30,14 @@ void Sprite::AddKeyFrame(int id, const Rectangle& rect)
 {
     if (id >= 0 && id < animations.size())
     {
+        animations[id].frames.push_back(rect);
+    }
+}
+void Sprite::AddKeyFrameOffset(int id, const Rectangle& rect, int offset)
+{
+    if (id >= 0 && id < animations.size())
+    {
+        animations[id].offset = offset;
         animations[id].frames.push_back(rect);
     }
 }
@@ -123,7 +132,7 @@ void Sprite::DrawTint(int x, int y, const Color& col) const
     {
         Rectangle rect = animations[current_anim].frames[current_frame];
         int offset = animations[current_anim].offset; // This wasn't in this framework
-        DrawTextureRec(*img, rect, { (float)x, (float)y }, col);
+        DrawTextureRec(*img, rect, { (float)x + offset, (float)y }, col);
     }
 }
 void Sprite::Release()
