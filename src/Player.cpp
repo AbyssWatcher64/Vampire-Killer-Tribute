@@ -530,7 +530,7 @@ void Player::Attack()
 		SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
 		Sprite* sprite = dynamic_cast<Sprite*>(render);
 		//TODO: Add weapon attack
-		Weapon* weaponAttack = new Weapon({pos.x + LOGICAL_WHIP_WIDTH_SIZE, pos.x + LOGICAL_WHIP_HEIGHT_SIZE}, WeaponType::WHIP);
+		/*Weapon* weaponAttack = new Weapon({pos.x + LOGICAL_WHIP_WIDTH_SIZE, pos.x + LOGICAL_WHIP_HEIGHT_SIZE}, WeaponType::WHIP);*/
 		//sprite->SetPlayOnceMode();
 		//state = State::IDLE;
 	}

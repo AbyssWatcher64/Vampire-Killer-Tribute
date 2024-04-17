@@ -411,6 +411,12 @@ void Scene::Update()
 		player->SetPos(Point(10, tmpYPos));
 		currentLevel++;
 	}
+	else if (player->GetXPos() <= 0 && currentLevel == 1)
+	{
+		int tmpYPos = player->GetYPos();
+		player->SetPos(Point(0, tmpYPos));
+		
+	}
 
 	ResetScreen();
 
