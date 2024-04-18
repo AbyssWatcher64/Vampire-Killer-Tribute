@@ -560,11 +560,14 @@ void Player::ChangeHP(int value)
 
 void Player::Death()
 {
+	/*Sprite* sprite = dynamic_cast<Sprite*>(render);
+	sprite->SetPlayOnceMode();*/
 	state = State::DEAD;
 	lives--;
 	if (look == Look::RIGHT)
 	{
 		SetAnimation((int)PlayerAnim::DYING_RIGHT);
+		
 	}
 	else if (look == Look::LEFT)
 	{
@@ -580,6 +583,15 @@ void Player::Death()
 	{
 		//reset screen
 		hasDied = true;
+	}
+}
+void Player::finishAnimation()
+{
+	Sprite* sprite = dynamic_cast<Sprite*>(render); //Se intentó pero no tengo ni idea de cómo definir la animación de dead como playonce para que el bool sea true (ToT)
+	if (sprite->isAnimationFinished == true) 
+	{
+		SetAnimation((int)PlayerAnim::IDLE_RIGHT);
+		pos.x = 0;
 	}
 }
 void Player::ChangeAnimRight()

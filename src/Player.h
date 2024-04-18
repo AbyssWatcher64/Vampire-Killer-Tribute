@@ -151,6 +151,8 @@ private:
 
 	void Death();
 
+	void finishAnimation();
+
 	//Jump steps
 	bool IsAscending() const;
 	bool IsLevitating() const;

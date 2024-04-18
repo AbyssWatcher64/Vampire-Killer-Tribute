@@ -3,6 +3,7 @@
 Sprite::Sprite(const Texture2D * texture)
 {
     img = texture;
+    isAnimationFinished = false;
     current_anim = -1;
     current_frame = 0;
     current_delay = 0;
@@ -87,6 +88,7 @@ void Sprite::Update()
             {
                 current_frame++;
                 current_delay = animations[current_anim].delay;
+                isAnimationFinished = true;
                 // TODO: create an "Is animation finished" bool maybe
             }
         }

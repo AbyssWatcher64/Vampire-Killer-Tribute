@@ -38,11 +38,12 @@ public:
     void DrawTint(int x, int y, const Color& col) const override;
 
     void Release() override;
-
+    bool isAnimationFinished;
 private:
     int current_anim;
     int current_frame;
     int current_delay;
+    
 
     const Texture2D *img;
     std::vector<Animation> animations;
