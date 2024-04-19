@@ -62,7 +62,7 @@ AppStatus Scene::Init()
 
 	//Create enemy
 	enemy = new Enemy({ WINDOW_WIDTH - ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT - TILE_SIZE * 4 - 1 }, EnemyState::IDLE, EnemyLook::LEFT); //Esto es lo que hace que spawnee un zombie justo al principio, pero si lo cambio de sitio me peta
-	if (enemy == nullptr)
+	if (enemy == nullptr) //Lava u Pol <3
 	{
 		LOG("Failed to allocate memory for Enemy");
 		return AppStatus::ERROR;
