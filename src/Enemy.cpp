@@ -21,7 +21,6 @@ Enemy::~Enemy()
 AppStatus Enemy::Initialise()
 {
 	int i;
-	//const int n = PLAYER_FRAME_SIZE;
 	const int n = ENEMY_FRAME_SIZE_WIDTH;
 	const int h = ENEMY_FRAME_SIZE_HEIGHT;
 
@@ -34,34 +33,32 @@ AppStatus Enemy::Initialise()
 	render = new Sprite(data.GetTexture(Resource::IMG_ENEMIES));
 	if (render == nullptr)
 	{
-		LOG("Failed to allocate memory for player sprite");
+		LOG("Failed to allocate memory for enemy sprite");
 		return AppStatus::ERROR;
 	}
 
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->SetNumberAnimations((int)EnemyAnim::NUM_ANIMATIONS);
 
-	for (i = 0; i < 4; ++i)
-
 	// Idle animations
-	sprite->SetAnimationDelay((int)EnemyAnim::IDLE_LEFT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)EnemyAnim::IDLE_LEFT, { 0, 0, -n, h });
-
 	sprite->SetAnimationDelay((int)EnemyAnim::IDLE_RIGHT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)EnemyAnim::IDLE_RIGHT, { 0, 0, n, h });
+	sprite->AddKeyFrame((int)EnemyAnim::IDLE_RIGHT, { 0, 2*n, -n, h });
+
+	sprite->SetAnimationDelay((int)EnemyAnim::IDLE_LEFT, ANIM_DELAY);
+	sprite->AddKeyFrame((int)EnemyAnim::IDLE_LEFT, { 0, 2*n, n, h });
 
 	// Walking animations
-	sprite->SetAnimationDelay((int)EnemyAnim::WALKING_LEFT, ANIM_DELAY);
-	for (i = 1; i < 3; ++i)
-		sprite->AddKeyFrame((int)EnemyAnim::WALKING_LEFT, { (float)i * n, 0, -n, h });
-	sprite->AddKeyFrame((int)EnemyAnim::WALKING_LEFT, { (float)0 * n, 0, -n, h });
-
 	sprite->SetAnimationDelay((int)EnemyAnim::WALKING_RIGHT, ANIM_DELAY);
-	for (i = 1; i < 3; ++i)
-		sprite->AddKeyFrame((int)EnemyAnim::WALKING_RIGHT, { (float)i * n, 0, n, h });
-	sprite->AddKeyFrame((int)EnemyAnim::WALKING_RIGHT, { (float)0 * n, 0, n, h });
+	for (i = 1; i < 2; ++i)
+		sprite->AddKeyFrame((int)EnemyAnim::WALKING_RIGHT, { (float)i * n, 2*n, -n, h });
+		sprite->AddKeyFrame((int)EnemyAnim::WALKING_RIGHT, { (float)0 * n, 2*n, -n, h });
 
-	sprite->SetAnimation((int)EnemyAnim::IDLE_RIGHT);
+	sprite->SetAnimationDelay((int)EnemyAnim::WALKING_LEFT, ANIM_DELAY);
+	for (i = 1; i < 2; ++i)
+		sprite->AddKeyFrame((int)EnemyAnim::WALKING_LEFT, { (float)i * n, 2*n, n, h });
+	sprite->AddKeyFrame((int)EnemyAnim::WALKING_LEFT, { (float)0 * n, 2*n, n, h });
+
+	sprite->SetAnimation((int)EnemyAnim::IDLE_LEFT);
 
 
 	return AppStatus::OK;
@@ -168,10 +165,14 @@ void Enemy::MoveX()
 	if (IsLookingRight())
 	{
 		pos.x += ENEMY_SPEED;
-		if (state == EnemyState::IDLE) StartWalkingRight();
+		if (state == EnemyState::IDLE)
+		{
+			StartWalkingRight();
+			
+		}
 		else
 		{
-			if (IsLookingLeft()) ChangeAnimRight();
+			if (IsLookingLeft()) ChangeAnimLeft();
 		}
 
 		box = GetHitbox();
@@ -185,18 +186,21 @@ void Enemy::MoveX()
 	{
 		pos.x +=	-ENEMY_SPEED;
 		if (state == EnemyState::IDLE)
+		{
 			StartWalkingLeft();
+			
+		}
 		else
 		{
-			if (IsLookingRight()) ChangeAnimLeft();
+			if (IsLookingRight()) ChangeAnimRight();
 		}
 
-		box = GetHitbox();
+		/*box = GetHitbox();
 		if (map->TestCollisionWallLeft(box))
 		{
 			pos.x = prev_x;
 			if (state == EnemyState::WALKING) Stop();
-		}
+		}*/
 	}
 	
 }
@@ -259,7 +263,7 @@ void Enemy::DrawDebug(const Color& col) const
 void Enemy::Release()
 {
 	ResourceManager& data = ResourceManager::Instance();
-	data.ReleaseTexture(Resource::IMG_PLAYER);
+	data.ReleaseTexture(Resource::IMG_ENEMIES);
 
 	render->Release();
 }

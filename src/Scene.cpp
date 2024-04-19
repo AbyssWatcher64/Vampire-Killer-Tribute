@@ -7,6 +7,7 @@ Scene::Scene()
 {
 	player = nullptr;
     level = nullptr;
+	enemy = nullptr;
 	
 	currentLevel = 1;
 
@@ -24,6 +25,12 @@ Scene::~Scene()
 		player->Release();
 		delete player;
 		player = nullptr;
+	}
+	if (enemy != nullptr)
+	{
+		enemy->Release();
+		delete enemy;
+		enemy = nullptr;
 	}
     if (level != nullptr)
     {
@@ -53,6 +60,19 @@ AppStatus Scene::Init()
 		return AppStatus::ERROR;
 	}
 
+	//Create enemy
+	enemy = new Enemy({ WINDOW_WIDTH - ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT - TILE_SIZE * 4 - 1 }, EnemyState::IDLE, EnemyLook::LEFT); //Esto es lo que hace que spawnee un zombie justo al principio, pero si lo cambio de sitio me peta
+	if (enemy == nullptr)
+	{
+		LOG("Failed to allocate memory for Enemy");
+		return AppStatus::ERROR;
+	}
+	//Initialise enemy
+	if (enemy->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Enemy");
+		return AppStatus::ERROR;
+	}
 	
 
 	//Create level 
@@ -76,6 +96,7 @@ AppStatus Scene::Init()
 	}
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
+	enemy->SetTileMap(level);
 
     return AppStatus::OK;
 }
@@ -120,7 +141,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		0,		0,		0,		0,
+				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		0,		0,		0,		201,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -244,6 +265,7 @@ AppStatus Scene::LoadLevel(int stage)
 				player->SetPos(pos);
 				map[i] = 0;
 			}
+			
 			/*else if (tile == Tile::ITEM_APPLE)
 			{
 				pos.x = x * TILE_SIZE;
@@ -282,6 +304,14 @@ AppStatus Scene::LoadLevel(int stage)
 				player->SetPos(pos);
 				mapInteractables[i] = 0;
 			}
+			//else if (tileInteractable == Tile::ZOMBIE /*&& IsKeyPressed(KEY_E)*/)
+			//{
+			//	pos.x = x * TILE_SIZE;
+			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+			//	enemy->SetPos(pos);
+			//	mapInteractables[i] = 0;
+			//}
+			
 			//else if (tileInteractable == Tile::ITEM_APPLE)
 			//{
 			//	pos.x = x * TILE_SIZE;
@@ -383,12 +413,14 @@ void Scene::Update()
 	}
 	else if (IsKeyPressed(KEY_E))
 	{
-		//Create enemy
-		enemy = new Enemy({ WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,0 }, EnemyState::IDLE, EnemyLook::RIGHT);
-		if (enemy->GetXPos() == 0) {
+		/*enemy = new Enemy({ 0,0 }, EnemyState::IDLE, EnemyLook::LEFT);*/
+		enemy->SetPos(Point(WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT-TILE_SIZE*4-1));
+		/*if (enemy->GetXPos() == 0) {
 			delete enemy;
-		}
+		}*/
+		
 	}
+	
 	
 
 	if (player->GetXPos() == 0 && currentLevel == 4)
@@ -425,12 +457,17 @@ void Scene::Update()
 		int tmpYPos = player->GetYPos();
 		player->SetPos(Point(0, tmpYPos));
 	}
+	else if (player->GetXPos() >= WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 4) {
+		int tmpYPos = player->GetYPos();
+		player->SetPos(Point(WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH, tmpYPos));
+	}
 	// TODO: Add it for level 4
 
 	ResetScreen();
 
 	level->Update();
 	player->Update();
+	enemy->Update();
 	CheckCollisions();
 }
 void Scene::Render()
@@ -442,6 +479,7 @@ void Scene::Render()
 	{
 		RenderObjects();
 		player->Draw();
+		enemy->Draw();
 	}
 	if (debug == DebugMode::SPRITES_AND_HITBOXES || debug == DebugMode::ONLY_HITBOXES)
 	{
@@ -457,6 +495,7 @@ void Scene::Release()
 {
 	level->Release();
 	player->Release();
+	enemy->Release();
 	ClearLevel();
 }
 void Scene::ResetScreen()
