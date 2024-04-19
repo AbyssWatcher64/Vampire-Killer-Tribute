@@ -585,15 +585,15 @@ void Player::Death()
 		hasDied = true;
 	}
 }
-void Player::finishAnimation()
-{
-	Sprite* sprite = dynamic_cast<Sprite*>(render); //Se intentó pero no tengo ni idea de cómo definir la animación de dead como playonce para que el bool sea true (ToT)
-	if (sprite->isAnimationFinished == true) 
-	{
-		SetAnimation((int)PlayerAnim::IDLE_RIGHT);
-		pos.x = 0;
-	}
-}
+//void Player::finishAnimation()
+//{
+//	Sprite* sprite = dynamic_cast<Sprite*>(render); //Se intentó pero no tengo ni idea de cómo definir la animación de dead como playonce para que el bool sea true (ToT)
+//	if (sprite->isAnimationFinished == true) 
+//	{
+//		SetAnimation((int)PlayerAnim::IDLE_RIGHT);
+//		pos.x = 0;
+//	}
+//}
 void Player::ChangeAnimRight()
 {
 	look = Look::RIGHT;
