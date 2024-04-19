@@ -529,18 +529,25 @@ void Player::Attack()
 	{
 		SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
 		Sprite* sprite = dynamic_cast<Sprite*>(render);
+		//while (sprite->GetIsAnimationFinished() == false)
+		//{
+		sprite->SetPlayOnceMode();
+	
+		//}
+		//sprite->SetPlayOnceMode();
+		//state = State::IDLE();
 		//TODO: Add weapon attack
 		/*Weapon* weaponAttack = new Weapon({pos.x + LOGICAL_WHIP_WIDTH_SIZE, pos.x + LOGICAL_WHIP_HEIGHT_SIZE}, WeaponType::WHIP);*/
-		//sprite->SetPlayOnceMode();
+		
 		//state = State::IDLE;
 	}
 	else if (look == Look::LEFT)
 	{
 		SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
 		Sprite* sprite = dynamic_cast<Sprite*>(render);
-		//sprite->SetPlayOnceMode();
+		sprite->SetPlayOnceMode();
 	}
-	state = State::IDLE;
+	//Stop();
 }
 
 void Player::ChangeHP(int value)
@@ -567,11 +574,19 @@ void Player::Death()
 	if (look == Look::RIGHT)
 	{
 		SetAnimation((int)PlayerAnim::DYING_RIGHT);
+		Sprite* sprite = dynamic_cast<Sprite*>(render);
+		//while (sprite->GetIsAnimationFinished() == false)
+		//{
+		sprite->SetPlayOnceMode();
 		
 	}
 	else if (look == Look::LEFT)
 	{
 		SetAnimation((int)PlayerAnim::DYING_LEFT);
+		Sprite* sprite = dynamic_cast<Sprite*>(render);
+		//while (sprite->GetIsAnimationFinished() == false)
+		//{
+		sprite->SetPlayOnceMode();
 	}
 
 	if (lives <= 0)
@@ -581,6 +596,8 @@ void Player::Death()
 	}
 	else
 	{
+		// unsure where the wait time must be
+		WaitTime(2);
 		//reset screen
 		hasDied = true;
 	}
@@ -678,6 +695,17 @@ void Player::Update()
 
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->Update();
+	if (sprite->GetIsAnimationFinished())
+	{
+		sprite->SetIsAnimationFinished(false);
+		state = State::IDLE;
+		Stop();
+		//Stop();
+		
+		
+		//state = State::IDLE;
+		
+	}
 }
 void Player::MoveX()
 {
@@ -690,12 +718,13 @@ void Player::MoveX()
 	{
 		LogicClimbing();
 	}
-	if (IsKeyDown(KEY_DOWN) && hasDied == false)
+	if (IsKeyDown(KEY_DOWN) && hasDied == false && state != State::ATTACKING)
 	{
 		if (state == State::IDLE) StartCrouching();
 		else if (state == State::WALKING) StartCrouching();
+		else if (state == State::JUMPING) return;
 	}
-	else if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT) && hasDied == false)
+	else if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT) && hasDied == false && state != State::ATTACKING)
 	{
 		pos.x += -PLAYER_SPEED;
 		if (state == State::IDLE) StartWalkingLeft();
@@ -711,9 +740,8 @@ void Player::MoveX()
 			pos.x = prev_x;
 			if (state == State::WALKING) Stop();
 		}
-		// TODO: We could change the movement over here (and on the right wall)
 	}
-	else if (IsKeyDown(KEY_RIGHT) && hasDied == false)
+	else if (IsKeyDown(KEY_RIGHT) && hasDied == false && state != State::ATTACKING)
 	{
 		pos.x += PLAYER_SPEED;
 		if (state == State::IDLE)
@@ -757,7 +785,7 @@ void Player::MoveY()
 		{
 			if (state == State::FALLING) Stop();
 
-			if (IsKeyDown(KEY_UP))
+			if (IsKeyDown(KEY_UP) && state != State::ATTACKING)
 			{
 				box = GetHitbox();
 				if (map->TestOnLadder(box, &pos.x))
@@ -767,7 +795,7 @@ void Player::MoveY()
 					StartJumping();
 				}
 			}
-			else if (IsKeyDown(KEY_DOWN))
+			else if (IsKeyDown(KEY_DOWN) && state != State::ATTACKING)
 			{
 				//To climb up the ladder, we need to check the control point (x, y)
 				//To climb down the ladder, we need to check pixel below (x, y+1) instead
@@ -785,9 +813,9 @@ void Player::MoveY()
 				}
 					
 			}
-			else if (IsKeyPressed(KEY_SPACE))
+			else if (IsKeyPressed(KEY_SPACE) && state != State::ATTACKING)
 			{
-				Attack();
+ 				Attack();
 			}
 			else if (IsKeyPressed(KEY_L))
 			{
@@ -863,13 +891,13 @@ void Player::LogicClimbing()
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	int tmp;
 
-	if (IsKeyDown(KEY_UP))
+	if (IsKeyDown(KEY_UP) && state != State::ATTACKING)
 	{
 		pos.x += PLAYER_LADDER_SPEED / 5;
 		pos.y -= PLAYER_LADDER_SPEED / 5;
 		sprite->NextFrame();
 	}
-	else if (IsKeyDown(KEY_DOWN))
+	else if (IsKeyDown(KEY_DOWN) && state != State::ATTACKING)
 	{
 		pos.x -= (PLAYER_LADDER_SPEED / 5);
 		pos.y += (PLAYER_LADDER_SPEED / 5);
@@ -878,6 +906,7 @@ void Player::LogicClimbing()
 
 	//It is important to first check LadderTop due to its condition as a collision ground.
 	//By doing so, we ensure that we don't stop climbing down immediately after starting the descent.
+	box = GetHitbox();
 	box = GetHitbox();
 	if (map->TestOnLadderTop(box, &tmp))
 	{

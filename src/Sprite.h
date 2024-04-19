@@ -26,6 +26,9 @@ public:
     void SetAnimation(int id);
     int GetAnimation();
 
+    bool GetIsAnimationFinished() const;
+    void SetIsAnimationFinished(bool value);
+
     void SetManualMode();
     void SetAutomaticMode();
     void SetPlayOnceMode();

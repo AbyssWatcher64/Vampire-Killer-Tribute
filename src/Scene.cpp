@@ -105,7 +105,7 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		139,	140,	7,		5,		7,
-				3,		138,	65,		66,		138,	138,	4,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
+				3,		138,	65,		66,		800/*138*/,	138,	4,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
 				2,		2,		62,		63,		64,		2,		2,		2,		 2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -413,10 +413,11 @@ void Scene::Update()
 	}
 	else if (player->GetXPos() <= 0 && currentLevel == 1)
 	{
+		// TODO: Change this in the player.cpp --> Stop animations if a wall is hit
 		int tmpYPos = player->GetYPos();
 		player->SetPos(Point(0, tmpYPos));
-		
 	}
+	// TODO: Add it for level 4
 
 	ResetScreen();
 
@@ -454,7 +455,7 @@ void Scene::ResetScreen()
 {	
 	if (player->GetHasDied() == true)
 	{
-		WaitTime(2);
+		//WaitTime(2);
 		LoadLevel(1);
 		player->SetHasDied(false);
 		player->ChangeHP(100);

@@ -55,6 +55,14 @@ int Sprite::GetAnimation()
 {
     return current_anim;
 }
+bool Sprite::GetIsAnimationFinished() const
+{
+    return isAnimationFinished;
+}
+void Sprite::SetIsAnimationFinished(bool value)
+{
+    isAnimationFinished = value;
+}
 void Sprite::SetManualMode()
 {
     mode = AnimMode::MANUAL;
@@ -66,6 +74,7 @@ void Sprite::SetAutomaticMode()
 void Sprite::SetPlayOnceMode()
 {
     mode = AnimMode::PLAYONCE;
+    SetIsAnimationFinished(false);
 }
 void Sprite::Update()
 {
@@ -86,10 +95,17 @@ void Sprite::Update()
             //TODO: Make this work
             if (mode == AnimMode::PLAYONCE)
             {
+
                 current_frame++;
+                //current_delay = animations[current_anim].delay;
                 current_delay = animations[current_anim].delay;
-                isAnimationFinished = true;
-                // TODO: create an "Is animation finished" bool maybe
+                //current_delay = animations[current_anim].delay;
+                //if (current_frame == animations[current_anim].frames.size() - 1)
+                if (current_frame == animations[current_anim].frames.size())
+                {    
+                        SetIsAnimationFinished(true);
+                        mode = AnimMode::AUTOMATIC;
+                }
             }
         }
     }
@@ -132,9 +148,13 @@ void Sprite::DrawTint(int x, int y, const Color& col) const
 {
     if (current_anim >= 0 && current_anim < animations.size())
     {
-        Rectangle rect = animations[current_anim].frames[current_frame];
-        int offset = animations[current_anim].offset; // This wasn't in this framework
-        DrawTextureRec(*img, rect, { (float)x + offset, (float)y }, col);
+        int n = animations[current_anim].frames.size();
+        if (current_frame >= 0 && current_frame < n)
+        {
+            Rectangle rect = animations[current_anim].frames[current_frame];
+            int offset = animations[current_anim].offset; // This wasn't in this framework
+            DrawTextureRec(*img, rect, { (float)x + offset, (float)y }, col);
+        }
     }
 }
 void Sprite::Release()
