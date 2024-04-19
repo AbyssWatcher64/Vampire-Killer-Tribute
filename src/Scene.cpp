@@ -381,6 +381,14 @@ void Scene::Update()
 		currentLevel = 4;
 		player->SetPos(Point(20, 166));
 	}
+	else if (IsKeyPressed(KEY_E))
+	{
+		//Create enemy
+		enemy = new Enemy({ WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,0 }, EnemyState::IDLE, EnemyLook::RIGHT);
+		if (enemy->GetXPos() == 0) {
+			delete enemy;
+		}
+	}
 	
 
 	if (player->GetXPos() == 0 && currentLevel == 4)
