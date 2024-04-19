@@ -26,8 +26,8 @@
 #define GRAVITY_FORCE			1
 
 //Logic states
-enum class State { IDLE, WALKING  };
-enum class Look { RIGHT, LEFT };
+enum class EnemyState { IDLE, WALKING  };
+enum class EnemyLook { RIGHT, LEFT };
 
 //Rendering states
 enum class EnemyAnim {
@@ -42,7 +42,7 @@ enum class EnemyAnim {
 class Enemy: public Entity
 {
 public:
-	Enemy(const Point& p, State s, Look view);
+	Enemy(const Point& p, EnemyState s, EnemyLook view);
 	~Enemy();
 	
 	AppStatus Initialise();
@@ -74,8 +74,8 @@ private:
 	void ChangeAnimRight();
 	void ChangeAnimLeft();
 
-	State state;
-	Look look;
+	EnemyState state;
+	EnemyLook look;
 
 	TileMap *map;
 
