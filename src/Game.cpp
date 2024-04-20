@@ -34,6 +34,9 @@ AppStatus Game::Initialise(float scale)
     //Initialise window
     InitWindow((int)w, (int)h, "Vampire Killer Tribute");
 
+    //Initialise audio system
+    InitAudioDevice();
+
     //Render texture initialisation, used to hold the rendering result so we can easily resize it
     target = LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT);
     if (target.id == 0)
@@ -235,6 +238,7 @@ void Game::Render()
 }
 void Game::Cleanup()
 {
+    CloseAudioDevice();
     UnloadResources();
     CloseWindow();
 }

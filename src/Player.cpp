@@ -5,6 +5,8 @@
 #include "Globals.h"
 #include "Weapon.h"
 #include <raymath.h>
+#include "SoundManager.h"
+#include "raylib.h" //for sfx
 
 
 Player::Player(const Point& p, State s, Look view) :
@@ -22,6 +24,8 @@ Player::Player(const Point& p, State s, Look view) :
 	hasDied = false;
 	godMode = false;
 	gameEnd = false;
+	wasCrouching = false;
+	//tmp 
 }
 Player::~Player()
 {
@@ -211,9 +215,9 @@ AppStatus Player::Initialise()
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)8 * n, n * 6, -(n * 4) , h }, -2 * n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)0 * n, n * 8, -(n * 3) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)4 * n, n * 8, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)8 * n, n * 8, -(n * 4) , h });
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)0 * n, n * 8, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)4 * n, n * 8, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)8 * n, n * 8, -(n * 4) , h }, -2 * n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, { (float)0 * n, n * 10, -(n * 2) , h });
@@ -233,9 +237,9 @@ AppStatus Player::Initialise()
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)8 * n, n * 6, n * 4 , h }, -n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)0 * n, n * 8, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)2 * n, n * 8, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)4 * n, n * 8, -(n * 4) , h });
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)0 * n, n * 8, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)4 * n, n * 8, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)8 * n, n * 8, n * 4 , h }, -n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, { (float)0 * n, n * 10, -(n * 2) , h });
@@ -524,30 +528,47 @@ void Player::StartClimbingDown()
 }
 void Player::Attack()
 {
-	state = State::ATTACKING;
-	if (look == Look::RIGHT)
+	if (state == State::CROUCHING)
 	{
-		SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
-		Sprite* sprite = dynamic_cast<Sprite*>(render);
-		//while (sprite->GetIsAnimationFinished() == false)
-		//{
-		sprite->SetPlayOnceMode();
+		wasCrouching = true;
+		state = State::ATTACKING;
+		if (look == Look::RIGHT)
+		{
+			SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP);
+			Sprite* sprite = dynamic_cast<Sprite*>(render);
+			sprite->SetPlayOnceMode();
+		}
+		else if (look == Look::LEFT)
+		{
+			SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP);
+			Sprite* sprite = dynamic_cast<Sprite*>(render);
+			sprite->SetPlayOnceMode();
+		}
+	}
+	else 
+	{
+		state = State::ATTACKING;
+		if (look == Look::RIGHT)
+		{
+			SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
+			Sprite* sprite = dynamic_cast<Sprite*>(render);
+			sprite->SetPlayOnceMode();
+		}
+		else if (look == Look::LEFT)
+		{
+			SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
+			Sprite* sprite = dynamic_cast<Sprite*>(render);
+			sprite->SetPlayOnceMode();
+		}
+	}
 	
-		//}
-		//sprite->SetPlayOnceMode();
-		//state = State::IDLE();
-		//TODO: Add weapon attack
-		/*Weapon* weaponAttack = new Weapon({pos.x + LOGICAL_WHIP_WIDTH_SIZE, pos.x + LOGICAL_WHIP_HEIGHT_SIZE}, WeaponType::WHIP);*/
-		
-		//state = State::IDLE;
-	}
-	else if (look == Look::LEFT)
-	{
-		SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
-		Sprite* sprite = dynamic_cast<Sprite*>(render);
-		sprite->SetPlayOnceMode();
-	}
-	//Stop();
+	//TODO: Add attacking SFX
+	// This works, but it will cause a memory leak.
+	//sfxList[8] = LoadSound("sfx/08.wav");
+	Sound attackSfx = LoadSound("sfx/08.wav");
+	PlaySound(attackSfx);
+
+
 }
 
 void Player::ChangeHP(int value)
@@ -698,8 +719,20 @@ void Player::Update()
 	if (sprite->GetIsAnimationFinished())
 	{
 		sprite->SetIsAnimationFinished(false);
-		state = State::IDLE;
-		Stop();
+		if (wasCrouching)
+		{
+
+			state = State::CROUCHING;
+			StartCrouching();
+		}
+		else
+		{
+			state = State::IDLE;
+			Stop();
+
+		}
+	
+		wasCrouching = false;
 		//Stop();
 		
 		
@@ -795,6 +828,10 @@ void Player::MoveY()
 					StartJumping();
 				}
 			}
+			else if (IsKeyPressed(KEY_SPACE) && state != State::ATTACKING)
+			{
+				Attack();
+			}
 			else if (IsKeyDown(KEY_DOWN) && state != State::ATTACKING)
 			{
 				//To climb up the ladder, we need to check the control point (x, y)
@@ -812,10 +849,6 @@ void Player::MoveY()
 					StartCrouching();
 				}
 					
-			}
-			else if (IsKeyPressed(KEY_SPACE) && state != State::ATTACKING)
-			{
- 				Attack();
 			}
 			else if (IsKeyPressed(KEY_L))
 			{

@@ -257,7 +257,7 @@ void Enemy::DrawDebug(const Color& col) const
 {	
 	Entity::DrawHitbox(pos.x, pos.y, width, height, col);
 	//TODO Change this so that the width and height are appropriate
-	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), WINDOW_WIDTH-90, 0, 8, LIGHTGRAY);
+	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), WINDOW_WIDTH-90, 50, 8, LIGHTGRAY);
 	DrawPixel(pos.x, pos.y, WHITE);
 }
 void Enemy::Release()

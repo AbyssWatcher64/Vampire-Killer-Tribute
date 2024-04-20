@@ -61,6 +61,9 @@ AppStatus Scene::Init()
 	}
 
 	//Create enemy
+	// this is what makes it spawn always, since it is creating
+	// an instance of an enemy on the right side of the screen
+	// TODO: Fix this
 	enemy = new Enemy({ WINDOW_WIDTH - ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT - TILE_SIZE * 4 - 1 }, EnemyState::IDLE, EnemyLook::LEFT); //Esto es lo que hace que spawnee un zombie justo al principio, pero si lo cambio de sitio me peta
 	if (enemy == nullptr) //Lava u Pol <3
 	{
@@ -141,7 +144,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		0,		0,		0,		201,
+				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		0,		0,		0,		0/*201*/,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -485,6 +488,7 @@ void Scene::Render()
 	{
 		RenderObjectsDebug(YELLOW);
 		player->DrawDebug(GREEN);
+		enemy->DrawDebug(RED);
 	}
 
 	EndMode2D();

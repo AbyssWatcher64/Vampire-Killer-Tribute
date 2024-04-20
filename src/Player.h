@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "TileMap.h"
+#include "SoundManager.h"
 
 //Representation model size: 16x32
 //#define PLAYER_FRAME_SIZE		16
@@ -34,7 +35,7 @@
 #define GRAVITY_FORCE			1
 
 //Logic states
-enum class State { IDLE, WALKING, CROUCHING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD  };
+enum class State { IDLE, WALKING, CROUCHING, CROUCHINGATTACKING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD  };
 enum class Look { RIGHT, LEFT };
 enum class WeaponEquipped { WHIP, MORNINGSTAR, KNIFE };
 enum class Equipment { WHIP, MORNINGSTAR, DAGGER, SHIELD, AXE, CROSS };
@@ -164,6 +165,7 @@ private:
 
 	//Player Weapons and Items
 	void Attack();
+	void CrouchAttack();
 	bool GetIsHoldingShield() const;
 	//void SetWeapon(Weapon w);
 	////Weapon EquipWhip();
@@ -193,6 +195,9 @@ private:
 	bool gameOver;
 	bool gameEnd;
 
+	bool wasCrouching;
+
 	bool godMode;
+
 };
 

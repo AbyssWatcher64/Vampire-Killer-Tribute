@@ -38,6 +38,9 @@ private:
     Enemy* enemy;
     TileMap *level;
     std::vector<Object*> objects;
+    
+    std::vector<Enemy*> enemies;
+    //Enemy** enemies;
 
     Camera2D camera;
     DebugMode debug;
