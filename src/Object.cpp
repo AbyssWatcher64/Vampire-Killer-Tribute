@@ -47,8 +47,18 @@ int Object::Points() const
 {
 	//if (type == ObjectType::APPLE)		return POINTS_APPLE;
 	//else if (type == ObjectType::CHILI)	return POINTS_CHILI;
-	if (type == ObjectType::WHITEBAG)	return POINTS_WHITEBAG;
-	else if (type == ObjectType::BLUEBAG)	return POINTS_BLUEBAG;
+	if (type == ObjectType::WHITEBAG) 
+	{
+		Sound moneyBagSfx = LoadSound("sfx/23.wav");
+		PlaySound(moneyBagSfx);
+		return POINTS_WHITEBAG;
+	}
+	else if (type == ObjectType::BLUEBAG) 
+	{
+		Sound moneyBagSfx = LoadSound("sfx/23.wav");
+		PlaySound(moneyBagSfx);
+		return POINTS_BLUEBAG;
+	}
 	else
 	{
 		LOG("Internal error: object type invalid when giving points");
@@ -59,7 +69,12 @@ int Object::Points() const
 int Object::Equip() const
 {
 	if (type == ObjectType::SHIELD)		return EQUIPMENT_NUMBER_SHIELD;
-	if (type == ObjectType::ORB)		return EQUIPMENT_WINNING_ORB;
+	if (type == ObjectType::ORB) 
+	{
+		Sound stageClear = LoadSound("music/04StageClear.ogg");
+		PlaySound(stageClear);
+		return EQUIPMENT_WINNING_ORB;
+	}
 }
 
 

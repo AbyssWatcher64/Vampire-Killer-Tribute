@@ -357,6 +357,8 @@ Equipment Player::EquipShield()
 {
 	isHoldingShield = true;
 	Stop();
+	Sound itemSfx = LoadSound("sfx/24.wav");
+	PlaySound(itemSfx);
 	return equipment = Equipment::SHIELD;
 }
 Equipment Player::EquipAxe()
@@ -567,8 +569,8 @@ void Player::Attack()
 	//sfxList[8] = LoadSound("sfx/08.wav");
 	Sound attackSfx = LoadSound("sfx/08.wav");
 	PlaySound(attackSfx);
-
-
+	
+	
 }
 
 void Player::ChangeHP(int value)

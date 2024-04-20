@@ -199,5 +199,7 @@ private:
 
 	bool godMode;
 
+	//Sound sfxList[37];
+
 };
 
