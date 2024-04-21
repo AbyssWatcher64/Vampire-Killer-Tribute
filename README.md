@@ -16,23 +16,23 @@ For in-depth information about this project, check out [the wiki](https://github
 Download the release version, uncompress the files, and execute the Vampire-Killer-Tribute.exe.
 
 ## Game Controls
-Left/Right Arrow keys -> Move
-Down Arrow key -> Crouch
-Up Arrow key -> Jump
-Space -> Attack
-E -> Move enemy to the right-side of the screen
-L -> Die
-F1 -> Debug Mode Hitboxes Textures on / Debug Mode Hitboxes Textures off / Debug Mode off
-F2 -> GodMode (player cannot take damage, can still die by cheating though!)
-F3 -> Game Over
-F4 -> Game End (Win screen)
-F5 -> Equip / Unequip shield
-Numpad 1 -> Change level to level 1
-Numpad 2 -> Change level to level 2
-Numpad 3 -> Change level to level 3
-Numpad 4 -> Change level to level 4
-Escape -> Quit playing / Quit menu
-Space -> Accept / Intro
+- Left/Right Arrow keys -> Move
+- Down Arrow key -> Crouch
+- Up Arrow key -> Jump
+- Space -> Attack
+- E -> Move enemy to the right-side of the screen
+- L -> Die
+- F1 -> Debug Mode Hitboxes Textures on / Debug Mode Hitboxes Textures off / Debug Mode off
+- F2 -> GodMode (player cannot take damage, can still die by cheating though!)
+- F3 -> Game Over
+- F4 -> Game End (Win screen)
+- F5 -> Equip / Unequip shield
+- Numpad 1 -> Change level to level 1
+- Numpad 2 -> Change level to level 2
+- Numpad 3 -> Change level to level 3
+- Numpad 4 -> Change level to level 4
+- Escape -> Quit playing / Quit menu
+- Space -> Accept / Intro
 
 ## Changelist
 v0.1 - Prototype build:
