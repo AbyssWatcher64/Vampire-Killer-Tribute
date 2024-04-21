@@ -544,6 +544,7 @@ void Scene::CheckCollisions()
 			player->SetEquipment((*it)->Equip());
 			if ((*it)->Equip() == 1000)
 				player->SetGameEnd(true);
+			player->GrabObject((*it)->ObjectNum());
 			//Delete the object
 			delete* it;
 			//Erase the object from the vector and get the iterator to the next valid element

@@ -92,15 +92,18 @@ AppStatus Game::LoadResources()
     }
     img_ending = data.GetTexture(Resource::IMG_ENDING);
 
-    Ost2VampireKiller = LoadMusicStream("music/02VampireKiller.ogg");
-    PlayMusicStream(Ost2VampireKiller);
-    /*SetMusicVolume(Ost2VampireKiller, 1.0);*/
+    Ost2VampireKiller = LoadMusicStream("music/test.mp3");
+    Ost2VampireKiller.looping = true;
+    //SetMusicVolume(Ost2VampireKiller, 1.0);
+
     
     return AppStatus::OK;
 }
 AppStatus Game::BeginPlay()
 {
     scene = new Scene();
+
+    PlayMusicStream(Ost2VampireKiller);
     if (scene == nullptr)
     {
         LOG("Failed to allocate memory for Scene");
@@ -117,6 +120,7 @@ AppStatus Game::BeginPlay()
 void Game::FinishPlay()
 {
     scene->Release();
+    StopMusicStream(Ost2VampireKiller);
     delete scene;
     scene = nullptr;
 }
@@ -181,6 +185,8 @@ AppStatus Game::Update()
                 //Game logic
                 scene->Update();
                 UpdateMusicStream(Ost2VampireKiller);
+                return AppStatus::OK;
+
             }
             break;
 
@@ -259,6 +265,10 @@ void Game::UnloadResources()
 {
     ResourceManager& data = ResourceManager::Instance();
     data.ReleaseTexture(Resource::IMG_MENU);
+    data.ReleaseTexture(Resource::IMG_INITIAL);
+    data.ReleaseTexture(Resource::IMG_DESC);
+    data.ReleaseTexture(Resource::IMG_ENDING);
+
 
     UnloadRenderTexture(target);
     UnloadMusicStream(Ost2VampireKiller);

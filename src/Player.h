@@ -124,6 +124,7 @@ public:
 	void Release();
 
 	Equipment SetEquipment(int equipNum);
+	void GrabObject(int object);
 
 
 private:
@@ -199,7 +200,15 @@ private:
 
 	bool godMode;
 
-	//Sound sfxList[37];
+
+
+
+	Sound shieldSFX;
+	Sound attackSFX;
+	Sound moneyBagSFX;
+	Sound orbSFX;
+	bool unloadedSounds;
+
 
 };
 

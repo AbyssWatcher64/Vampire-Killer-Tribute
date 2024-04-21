@@ -35,6 +35,7 @@ public:
 	void DrawDebug(const Color& col) const;
 	int Points() const;
 	int Equip() const;
+	int ObjectNum() const;
 
 
 private:
