@@ -36,7 +36,6 @@
 
 //Logic states
 enum class State { IDLE, WALKING, CROUCHING, CROUCHINGATTACKING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD  };
-enum class Look { RIGHT, LEFT };
 enum class WeaponEquipped { WHIP, MORNINGSTAR, KNIFE };
 enum class Equipment { WHIP, MORNINGSTAR, DAGGER, SHIELD, AXE, CROSS };
 
@@ -99,10 +98,10 @@ public:
 
 	void InitScore();
 	void IncrScore(int n);
+	int GetScore() const;
 
 	void GodMode();
 
-	int GetScore() const;
 	int GetHP() const;
 	int GetLives() const;
 	bool GetHasDied() const; 
@@ -199,9 +198,6 @@ private:
 	bool wasCrouching;
 
 	bool godMode;
-
-
-
 
 	Sound shieldSFX;
 	Sound attackSFX;

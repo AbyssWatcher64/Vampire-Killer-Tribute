@@ -6,8 +6,9 @@
 Scene::Scene()
 {
 	player = nullptr;
-    level = nullptr;
-	enemy = nullptr;
+	level = nullptr;
+	enemies = nullptr;
+	shots = nullptr;
 	
 	currentLevel = 1;
 
@@ -26,23 +27,28 @@ Scene::~Scene()
 		delete player;
 		player = nullptr;
 	}
-	if (enemy != nullptr)
+	if (level != nullptr)
 	{
-		enemy->Release();
-		delete enemy;
-		enemy = nullptr;
-	}
-    if (level != nullptr)
-    {
 		level->Release();
-        delete level;
-        level = nullptr;
-    }
+		delete level;
+		level = nullptr;
+	}
 	for (Entity* obj : objects)
 	{
 		delete obj;
 	}
 	objects.clear();
+	if (enemies != nullptr)
+	{
+		enemies->Release();
+		delete enemies;
+		enemies = nullptr;
+	}
+	if (shots != nullptr)
+	{
+		delete shots;
+		shots = nullptr;
+	}
 }
 AppStatus Scene::Init()
 {
@@ -60,23 +66,33 @@ AppStatus Scene::Init()
 		return AppStatus::ERROR;
 	}
 
-	//Create enemy
-	// this is what makes it spawn always, since it is creating
-	// an instance of an enemy on the right side of the screen
-	// TODO: Fix this
-	enemy = new Enemy({ WINDOW_WIDTH - ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT - TILE_SIZE * 4 - 1 }, EnemyState::IDLE, EnemyLook::LEFT); //Esto es lo que hace que spawnee un zombie justo al principio, pero si lo cambio de sitio me peta
-	if (enemy == nullptr) //Lava u Pol <3
+	//Create enemy manager
+	enemies = new EnemyManager();
+	if (enemies == nullptr)
 	{
-		LOG("Failed to allocate memory for Enemy");
+		LOG("Failed to allocate memory for Enemy Manager");
 		return AppStatus::ERROR;
 	}
-	//Initialise enemy
-	if (enemy->Initialise() != AppStatus::OK)
+	//Initialise enemy manager
+	if (enemies->Initialise() != AppStatus::OK)
 	{
-		LOG("Failed to initialise Enemy");
+		LOG("Failed to initialise Enemy Manager");
 		return AppStatus::ERROR;
 	}
 	
+	//Create shot manager 
+	shots = new ShotManager();
+	if (shots == nullptr)
+	{
+		LOG("Failed to allocate memory for Shot Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise shot manager
+	if (shots->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Shot Manager");
+		return AppStatus::ERROR;
+	}
 
 	//Create level 
     level = new TileMap();
@@ -99,7 +115,10 @@ AppStatus Scene::Init()
 	}
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
-	enemy->SetTileMap(level);
+	//Assign the tile map reference to the shot manager to check collisions when shots are shot
+	shots->SetTileMap(level);
+	//Assign the shot manager reference to the enemy manager so enemies can add shots
+	enemies->SetShotManager(shots);
 
     return AppStatus::OK;
 }
@@ -113,6 +132,7 @@ AppStatus Scene::LoadLevel(int stage)
 	int* map = nullptr;
 	int* mapInteractables = nullptr;
 	Object* obj;
+	AABB hitbox, area;
 
 	ClearLevel();
 	
@@ -250,6 +270,9 @@ AppStatus Scene::LoadLevel(int stage)
 		return AppStatus::ERROR;
 	}
 
+	//Tile map
+	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT); // REVIEW: this wasn't here in the prototype
+
 	//Entities and objects
 	i = 0;
 	for (y = 0; y < LEVEL_HEIGHT; ++y)
@@ -257,117 +280,86 @@ AppStatus Scene::LoadLevel(int stage)
 		for (x = 0; x < LEVEL_WIDTH; ++x)
 		{
 			tile = (Tile)map[i];
-			if (tile == Tile::EMPTY)
-			{
-				map[i] = 0;
-			}
-			else if (tile == Tile::PLAYER)
+			if (level->IsTileEntity(tile) || level->IsTileObject(tile))
 			{
 				pos.x = x * TILE_SIZE;
 				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				player->SetPos(pos);
-				map[i] = 0;
-			}
-			
-			/*else if (tile == Tile::ITEM_APPLE)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::APPLE);
-				objects.push_back(obj);
-				map[i] = 0;
-			}
-			else if (tile == Tile::ITEM_CHILI)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::CHILI);
-				objects.push_back(obj);
-				map[i] = 0;
-			}*/
-			else if (tile == Tile::ITEM_SHIELD)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::SHIELD);
-				objects.push_back(obj);
-				map[i] = 0;
-			}
 
-
-			tileInteractable = (Tile)mapInteractables[i];
-			if (tileInteractable == Tile::EMPTY)
-			{
-				mapInteractables[i] = 0;
+				if (tile == Tile::PLAYER)
+				{
+					player->SetPos(pos);
+				}
+				else if (tile == Tile::ITEM_SHIELD)
+				{
+					obj = new Object(pos, ObjectType::SHIELD);
+					objects.push_back(obj);
+					map[i] = 0;
+				}
+				
+				tileInteractable = (Tile)mapInteractables[i];
+				if (tileInteractable == Tile::PLAYER)
+				{
+					player->SetPos(pos);
+				}
+				else if (tileInteractable == Tile::ITEM_SHIELD)
+				{
+					obj = new Object(pos, ObjectType::SHIELD);
+					objects.push_back(obj);
+				}
+				else if (tileInteractable == Tile::ITEM_WHITEBAG)
+				{
+					obj = new Object(pos, ObjectType::WHITEBAG);
+					objects.push_back(obj);
+				}
+				else if (tileInteractable == Tile::ITEM_BLUEBAG)
+				{
+					obj = new Object(pos, ObjectType::BLUEBAG);
+					objects.push_back(obj);
+				}
+				else if (tileInteractable == Tile::ITEM_ORB)
+				{
+					obj = new Object(pos, ObjectType::ORB);
+					objects.push_back(obj);
+				}
+				else if (tile == Tile::ZOMBIE)
+				{
+					pos.x += (ZOMBIE_FRAME_SIZE - ZOMBIE_PHYSICAL_WIDTH) / 2;
+					hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+					area = level->GetSweptAreaX(hitbox);
+					enemies->Add(pos, EnemyType::ZOMBIE, area);
+				}
+				else
+				{
+					LOG("Internal error loading scene: invalid entity or object tile id")
+				}
+				//Examples enemies
+				//else if (tile == Tile::SLIME)
+				//{
+				//	pos.x += (SLIME_FRAME_SIZE - SLIME_PHYSICAL_WIDTH) / 2;
+				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::SLIME);
+				//	area = level->GetSweptAreaX(hitbox);
+				//	enemies->Add(pos, EnemyType::SLIME, area);
+				//}
+				//else if (tile == Tile::TURRET_LEFT)
+				//{
+				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::TURRET);
+				//	area = level->GetSweptAreaX(hitbox);
+				//	enemies->Add(pos, EnemyType::TURRET, area, Look::LEFT);
+				//}
+				//else if (tile == Tile::TURRET_RIGHT)
+				//{
+				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::TURRET);
+				//	area = level->GetSweptAreaX(hitbox);
+				//	enemies->Add(pos, EnemyType::TURRET, area, Look::RIGHT);
+				//}
+				++i;
 			}
-			else if (tileInteractable == Tile::PLAYER)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				player->SetPos(pos);
-				mapInteractables[i] = 0;
-			}
-			//else if (tileInteractable == Tile::ZOMBIE /*&& IsKeyPressed(KEY_E)*/)
-			//{
-			//	pos.x = x * TILE_SIZE;
-			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-			//	enemy->SetPos(pos);
-			//	mapInteractables[i] = 0;
-			//}
-			
-			//else if (tileInteractable == Tile::ITEM_APPLE)
-			//{
-			//	pos.x = x * TILE_SIZE;
-			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-			//	obj = new Object(pos, ObjectType::APPLE);
-			//	objects.push_back(obj);
-			//	mapInteractables[i] = 0;
-			//}
-			//else if (tileInteractable == Tile::ITEM_CHILI)
-			//{
-			//	pos.x = x * TILE_SIZE;
-			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-			//	obj = new Object(pos, ObjectType::CHILI);
-			//	objects.push_back(obj);
-			//	mapInteractables[i] = 0;
-			//}
-			else if (tileInteractable == Tile::ITEM_SHIELD)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::SHIELD);
-				objects.push_back(obj);
-				mapInteractables[i] = 0;
-			}
-			else if (tileInteractable == Tile::ITEM_WHITEBAG)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::WHITEBAG);
-				objects.push_back(obj);
-				mapInteractables[i] = 0;
-			}
-			else if (tileInteractable == Tile::ITEM_BLUEBAG)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::BLUEBAG);
-				objects.push_back(obj);
-				mapInteractables[i] = 0;
-			}
-			else if (tileInteractable == Tile::ITEM_ORB)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::ORB);
-				objects.push_back(obj);
-				mapInteractables[i] = 0;
-			}
-			++i;
 		}
 	}
-	//Tile map
-	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
+	
+	//Remove initial positions of objects and entities from the map
+	level->ClearObjectEntityPositions();
+
 	//level->Load(mapInteractables, LEVEL_WIDTH, LEVEL_HEIGHT);
 	delete[] mapInteractables;
 	delete[] map;
@@ -377,7 +369,7 @@ AppStatus Scene::LoadLevel(int stage)
 void Scene::Update()
 {
 	Point p1, p2;
-	AABB box;
+	AABB hitbox;
 
 	//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
 	if (IsKeyPressed(KEY_F1))
@@ -414,15 +406,16 @@ void Scene::Update()
 		currentLevel = 4;
 		player->SetPos(Point(20, 166));
 	}
-	else if (IsKeyPressed(KEY_E))
-	{
-		/*enemy = new Enemy({ 0,0 }, EnemyState::IDLE, EnemyLook::LEFT);*/
-		enemy->SetPos(Point(WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT-TILE_SIZE*4-1));
-		/*if (enemy->GetXPos() == 0) {
-			delete enemy;
-		}*/
-		
-	}
+	//This is not going to work from now on
+	//else if (IsKeyPressed(KEY_E))
+	//{
+	//	/*enemy = new Enemy({ 0,0 }, EnemyState::IDLE, EnemyLook::LEFT);*/
+	//	enemy->SetPos(Point(WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT-TILE_SIZE*4-1));
+	//	/*if (enemy->GetXPos() == 0) {
+	//		delete enemy;
+	//	}*/
+	//	
+	//}
 	
 	
 
@@ -466,12 +459,15 @@ void Scene::Update()
 	}
 	// TODO: Add it for level 4
 
-	ResetScreen();
+	//ResetScreen(); // REVIEW: this wasn't commented pre-prototype
 
 	level->Update();
 	player->Update();
-	enemy->Update();
-	CheckCollisions();
+	CheckObjectCollisions();
+
+	hitbox = player->GetHitbox();
+	enemies->Update(hitbox);
+	shots->Update(hitbox);
 }
 void Scene::Render()
 {
@@ -481,14 +477,16 @@ void Scene::Render()
 	if (debug == DebugMode::OFF || debug == DebugMode::SPRITES_AND_HITBOXES)
 	{
 		RenderObjects();
+		enemies->Draw();
 		player->Draw();
-		enemy->Draw();
+		shots->Draw();
 	}
 	if (debug == DebugMode::SPRITES_AND_HITBOXES || debug == DebugMode::ONLY_HITBOXES)
 	{
 		RenderObjectsDebug(YELLOW);
+		enemies->DrawDebug();
 		player->DrawDebug(GREEN);
-		enemy->DrawDebug(RED);
+		shots->DrawDebug(GRAY);
 	}
 
 	EndMode2D();
@@ -499,7 +497,6 @@ void Scene::Release()
 {
 	level->Release();
 	player->Release();
-	enemy->Release();
 	ClearLevel();
 }
 void Scene::ResetScreen()
@@ -528,7 +525,7 @@ bool Scene::GameEnd()
 		return true;
 	}
 }
-void Scene::CheckCollisions()
+void Scene::CheckObjectCollisions()
 {
 	AABB player_box, obj_box;
 
@@ -564,6 +561,8 @@ void Scene::ClearLevel()
 		delete obj;
 	}
 	objects.clear();
+	enemies->Release();
+	shots->Clear();
 }
 void Scene::RenderObjects() const
 {

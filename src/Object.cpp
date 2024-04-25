@@ -36,12 +36,10 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 Object::~Object()
 {
 }
-
 void Object::DrawDebug(const Color& col) const
 {
 	Entity::DrawHitbox(pos.x, pos.y, width, height, col);
 }
-
 // returns Points depending on the item grabbed
 int Object::Points() const
 {

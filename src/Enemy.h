@@ -1,83 +1,53 @@
 #pragma once
 #include "Entity.h"
-#include "TileMap.h"
 
-//Representation model size: 16x32
-//#define PLAYER_FRAME_SIZE		16
-#define ENEMY_FRAME_SIZE_WIDTH	16
-#define ENEMY_FRAME_SIZE_HEIGHT	32
+//Representation model size: 32x32
+#define SLIME_FRAME_SIZE		32
+//Logical model size: 24x30
+#define SLIME_PHYSICAL_WIDTH	24
+#define SLIME_PHYSICAL_HEIGHT	30
 
-//Logical model size: 12x28
-#define ENEMY_PHYSICAL_WIDTH	12
-#define ENEMY_PHYSICAL_HEIGHT	28
+//Representation model size: 32x32
+#define ZOMBIE_FRAME_SIZE		32
+//Logical model size: 24x30
+#define ZOMBIE_PHYSICAL_WIDTH	24
+#define ZOMBIE_PHYSICAL_HEIGHT	30
 
-//Horizontal speed and vertical speed while falling down
-#define ENEMY_SPEED			2
+//Representation model size: 32x32
+#define TURRET_FRAME_SIZE		32
+//Logical model size: 0x0
+#define TURRET_PHYSICAL_WIDTH	32
+#define TURRET_PHYSICAL_HEIGHT	26
 
-//Vertical speed while on a ladder
-#define ENEMY_LADDER_SPEED		1
 
-//Frame animation delay while on a ladder
-#define ENEMY_LADDER_DELAY		(2*ANIM_DELAY)
 
-#define ENEMY_LEVITATING_SPEED	4
+enum class EnemyType { ZOMBIE, SLIME, TURRET };
 
-//Gravity affects jumping velocity when jump_delay is 0
-#define GRAVITY_FORCE			1
-
-//Logic states
-enum class EnemyState { IDLE, WALKING  };
-enum class EnemyLook { RIGHT, LEFT };
-
-//Rendering states
-enum class EnemyAnim {
-	
-	IDLE_LEFT, IDLE_RIGHT,
-
-	WALKING_LEFT, WALKING_RIGHT,
-
-	NUM_ANIMATIONS
-};
-
-class Enemy: public Entity
+class Enemy : public Entity
 {
 public:
-	Enemy(const Point& p, EnemyState s, EnemyLook view);
-	~Enemy();
-	
-	AppStatus Initialise();
-	void SetTileMap(TileMap* tilemap);
+	Enemy(const Point& p, int width, int height, int frame_width, int frame_height);
+	virtual ~Enemy();
 
-	int GetXPos();
-	int GetYPos();
+	//Draw the maximum visibility area of the enemy
+	void DrawVisibilityArea(const Color& col) const;
 
-	void Update();
-	void DrawDebug(const Color& col) const;
-	void Release();
+	//Pure virtual functions, any class inheriting from this class must provide its own implementations
 
+	//Initialize the enemy with the specified look and area
+	virtual AppStatus Initialise(Look look, const AABB& area) = 0;
 
+	//Update the enemy according to its logic, return true if the enemy must shoot
+	virtual bool Update(const AABB& box) = 0;
 
-private:
-	bool IsLookingRight() const;
-	bool IsLookingLeft() const;
+	//Retrieve the position and direction of the shot to be thrown
+	virtual void GetShootingPosDir(Point* pos, Point* dir) const = 0;
 
-	//Enemy mechanics
-	void MoveX();
-	void MoveY();
+protected:
+	//Return true if the given hitbox is within the visibility area and the enemy is facing it
+	bool IsVisible(const AABB& hitbox);
 
-	//Animation management
-	void SetAnimation(int id);
-	EnemyAnim GetAnimation();
-	void Stop();
-	void StartWalkingLeft();
-	void StartWalkingRight();
-	void ChangeAnimRight();
-	void ChangeAnimLeft();
-
-	EnemyState state;
-	EnemyLook look;
-
-	TileMap *map;
-
+	Look look;
+	AABB visibility_area;
 };
 

@@ -1,9 +1,10 @@
 #pragma once
 #include <raylib.h>
 #include "Player.h"
-#include "Enemy.h"
 #include "TileMap.h"
 #include "Object.h"
+#include "EnemyManager.h"
+#include "ShotManager.h"
 
 enum class DebugMode { OFF, SPRITES_AND_HITBOXES, ONLY_HITBOXES, SIZE };
 
@@ -25,22 +26,28 @@ public:
 private:
     AppStatus LoadLevel(int stage);
 
-    int currentLevel;
-
-    void CheckCollisions();
+    void CheckObjectCollisions();
     void ClearLevel();
     void RenderObjects() const;
     void RenderObjectsDebug(const Color& col) const;
 
     void RenderGUI() const;
 
-    Player *player;
+    Player* player;
     Enemy* enemy;
-    TileMap *level;
+    int currentLevel;
+
+    //Level structure that contains all the static tiles
+    TileMap* level;
+
+    //Dynamic objects of the level: items and collectables
     std::vector<Object*> objects;
-    
-    std::vector<Enemy*> enemies;
-    //Enemy** enemies;
+
+    //Enemies present in the level
+    EnemyManager* enemies;
+
+    //Shots thrown by enemies
+    ShotManager* shots;
 
     Camera2D camera;
     DebugMode debug;
