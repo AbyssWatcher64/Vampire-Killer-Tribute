@@ -10,6 +10,7 @@ Sprite::Sprite(const Texture2D * texture)
     mode = AnimMode::AUTOMATIC; // TODO: Revise if this is good coding, since we have the...
     //...play only one cinematic
     //animations[current_anim].offset = 0;
+    animation_complete = false;
 }
 Sprite::~Sprite()
 {
@@ -49,6 +50,7 @@ void Sprite::SetAnimation(int id)
         current_anim = id;
         current_frame = 0;
         current_delay = animations[current_anim].delay;
+        animation_complete = false;
     }
 }
 int Sprite::GetAnimation()
@@ -71,6 +73,10 @@ void Sprite::SetAutomaticMode()
 {
     mode = AnimMode::AUTOMATIC;
 }
+bool Sprite::IsAnimationComplete() const
+{
+    return animation_complete;
+}
 void Sprite::SetPlayOnceMode()
 {
     mode = AnimMode::PLAYONCE;
@@ -90,6 +96,9 @@ void Sprite::Update()
                 current_frame++;
                 current_frame %= animations[current_anim].frames.size();
                 current_delay = animations[current_anim].delay;
+
+                //Animation is complete when we repeat from the first frame
+                animation_complete = (current_frame == 0);
             }
 
             //TODO: Make this work

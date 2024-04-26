@@ -16,7 +16,8 @@ Zombie::~Zombie()
 AppStatus Zombie::Initialise(Look look, const AABB& area)
 {
 	int i;
-	const int n = SLIME_FRAME_SIZE;
+	const int n = ZOMBIE_FRAME_SIZE_WIDTH;
+	const int h = ZOMBIE_FRAME_SIZE_HEIGHT;
 
 	ResourceManager& data = ResourceManager::Instance();
 	render = new Sprite(data.GetTexture(Resource::IMG_ENEMIES));
@@ -34,12 +35,15 @@ AppStatus Zombie::Initialise(Look look, const AABB& area)
 	sprite->SetAnimationDelay((int)ZombieAnim::IDLE_LEFT, ZOMBIE_ANIM_DELAY);
 	sprite->AddKeyFrame((int)ZombieAnim::IDLE_LEFT, { 0, 2 * n, -n, n });
 
-	sprite->SetAnimationDelay((int)ZombieAnim::WALKING_RIGHT, ZOMBIE_ANIM_DELAY);
-	for (i = 0; i < 3; ++i)
-		sprite->AddKeyFrame((int)ZombieAnim::WALKING_RIGHT, { (float)i * n, 2 * n, n, n });
-	sprite->SetAnimationDelay((int)ZombieAnim::WALKING_LEFT, ZOMBIE_ANIM_DELAY);
-	for (i = 0; i < 3; ++i)
-		sprite->AddKeyFrame((int)ZombieAnim::WALKING_LEFT, { (float)i * n, 2 * n, -n, n });
+	sprite->SetAnimationDelay((int)ZombieAnim::WALKING_RIGHT, ANIM_DELAY);
+	for (i = 1; i < 2; ++i)
+		sprite->AddKeyFrame((int)ZombieAnim::WALKING_RIGHT, { (float)i * n, 2 * n, -n, h });
+	sprite->AddKeyFrame((int)ZombieAnim::WALKING_RIGHT, { (float)0 * n, 2 * n, -n, h });
+
+	sprite->SetAnimationDelay((int)ZombieAnim::WALKING_LEFT, ANIM_DELAY);
+	for (i = 1; i < 2; ++i)
+		sprite->AddKeyFrame((int)ZombieAnim::WALKING_LEFT, { (float)i * n, 2 * n, n, h });
+	sprite->AddKeyFrame((int)ZombieAnim::WALKING_LEFT, { (float)0 * n, 2 * n, n, h });
 
 	sprite->SetAnimationDelay((int)ZombieAnim::ATTACK_RIGHT, ZOMBIE_ANIM_DELAY);
 	sprite->AddKeyFrame((int)ZombieAnim::ATTACK_RIGHT, { 0, 3 * n, n, n });
@@ -49,8 +53,8 @@ AppStatus Zombie::Initialise(Look look, const AABB& area)
 	sprite->AddKeyFrame((int)ZombieAnim::ATTACK_LEFT, { n, 3 * n, -n, n });
 
 	this->look = look;
-	if (look == Look::LEFT)        sprite->SetAnimation((int)ZombieAnim::IDLE_LEFT);
-	else if (look == Look::RIGHT) sprite->SetAnimation((int)ZombieAnim::IDLE_RIGHT);
+	if (look == Look::LEFT)        sprite->SetAnimation((int)ZombieAnim::WALKING_LEFT);
+	else if (look == Look::RIGHT) sprite->SetAnimation((int)ZombieAnim::WALKING_RIGHT);
 
 	visibility_area = area;
 
@@ -65,17 +69,20 @@ void Zombie::InitPattern()
 	//from appearing rushed or incomplete
 	const int n = ZOMBIE_ANIM_DELAY * 3;
 
-	pattern.push_back({ {0, 0}, 2 * n, (int)ZombieAnim::IDLE_RIGHT });
-	pattern.push_back({ {ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_RIGHT });
-	pattern.push_back({ {0, 0}, n, (int)ZombieAnim::IDLE_RIGHT });
-	pattern.push_back({ {ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_RIGHT });
-	pattern.push_back({ {0, 0}, n, (int)ZombieAnim::IDLE_RIGHT });
+	//pattern.push_back({ {0, 0}, 2 * n, (int)ZombieAnim::IDLE_RIGHT });
+	//pattern.push_back({ {ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_RIGHT });
+	//pattern.push_back({ {0, 0}, n, (int)ZombieAnim::IDLE_RIGHT });
+	//pattern.push_back({ {ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_RIGHT });
+	//pattern.push_back({ {0, 0}, n, (int)ZombieAnim::IDLE_RIGHT });
 
-	pattern.push_back({ {0, 0}, 2 * n, (int)ZombieAnim::IDLE_LEFT });
+	//pattern.push_back({ {0, 0}, 2 * n, (int)ZombieAnim::IDLE_LEFT });
+	//pattern.push_back({ {-ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_LEFT });
+	//pattern.push_back({ {0, 0}, n, (int)ZombieAnim::IDLE_LEFT });
+	//pattern.push_back({ {-ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_LEFT });
+	//pattern.push_back({ {0, 0}, n, (int)ZombieAnim::IDLE_LEFT });
+
+	//pattern.push_back({ {ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_RIGHT });
 	pattern.push_back({ {-ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_LEFT });
-	pattern.push_back({ {0, 0}, n, (int)ZombieAnim::IDLE_LEFT });
-	pattern.push_back({ {-ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_LEFT });
-	pattern.push_back({ {0, 0}, n, (int)ZombieAnim::IDLE_LEFT });
 
 	current_step = 0;
 	current_frames = 0;
@@ -86,58 +93,63 @@ bool Zombie::Update(const AABB& box)
 	bool shoot = false;
 	int anim_id;
 
-	if (state == ZombieState::ROAMING)
-	{
-		if (IsVisible(box))
-		{
-			state = ZombieState::ATTACK;
-			//The attack animation consists of 2 frames, with the second one being when
-			//we throw the shot. Wait for a frame before initiating the attack.
-			attack_delay = ZOMBIE_ANIM_DELAY;
+	attack_delay = ZOMBIE_ANIM_DELAY;
 
-			if (look == Look::LEFT)	sprite->SetAnimation((int)ZombieAnim::ATTACK_LEFT);
-			else					sprite->SetAnimation((int)ZombieAnim::ATTACK_RIGHT);
-		}
-		else
-		{
-			pos += pattern[current_step].speed;
-			current_frames++;
+	if (look == Look::LEFT)	sprite->SetAnimation((int)ZombieAnim::ATTACK_LEFT);
+	else					sprite->SetAnimation((int)ZombieAnim::ATTACK_RIGHT);
 
-			if (current_frames == pattern[current_step].frames)
-			{
-				current_step++;
-				current_step %= pattern.size();
-				current_frames = 0;
+	//if (state == ZombieState::ROAMING)
+	//{
+	//	if (IsVisible(box))
+	//	{
+	//		state = ZombieState::ATTACK;
+	//		//The attack animation consists of 2 frames, with the second one being when
+	//		//we throw the shot. Wait for a frame before initiating the attack.
+	//		attack_delay = ZOMBIE_ANIM_DELAY;
 
-				anim_id = pattern[current_step].anim;
-				sprite->SetAnimation(anim_id);
-				UpdateLook(anim_id);
-			}
-		}
-	}
-	else if (state == ZombieState::ATTACK)
-	{
-		if (!IsVisible(box))
-		{
-			state = ZombieState::ROAMING;
+	//		if (look == Look::LEFT)	sprite->SetAnimation((int)ZombieAnim::ATTACK_LEFT);
+	//		else					sprite->SetAnimation((int)ZombieAnim::ATTACK_RIGHT);
+	//	}
+	//	else
+	//	{
+	//		pos += pattern[current_step].speed;
+	//		current_frames++;
 
-			//Continue with the previous animation pattern before initiating the attack
-			anim_id = pattern[current_step].anim;
-			sprite->SetAnimation(anim_id);
-		}
-		else
-		{
-			attack_delay--;
-			if (attack_delay == 0)
-			{
-				shoot = true;
+	//		if (current_frames == pattern[current_step].frames)
+	//		{
+	//			current_step++;
+	//			current_step %= pattern.size();
+	//			current_frames = 0;
 
-				//The attack animation consists of 2 frames. Wait for a complete loop
-				//before shooting again
-				attack_delay = 2 * ZOMBIE_ANIM_DELAY;
-			}
-		}
-	}
+	//			anim_id = pattern[current_step].anim;
+	//			sprite->SetAnimation(anim_id);
+	//			UpdateLook(anim_id);
+	//		}
+	//	}
+	//}
+	//else if (state == ZombieState::ATTACK)
+	//{
+	//	if (!IsVisible(box))
+	//	{
+	//		state = ZombieState::ROAMING;
+
+	//		//Continue with the previous animation pattern before initiating the attack
+	//		anim_id = pattern[current_step].anim;
+	//		sprite->SetAnimation(anim_id);
+	//	}
+	//	else
+	//	{
+	//		attack_delay--;
+	//		if (attack_delay == 0)
+	//		{
+	//			shoot = true;
+
+	//			//The attack animation consists of 2 frames. Wait for a complete loop
+	//			//before shooting again
+	//			attack_delay = 2 * ZOMBIE_ANIM_DELAY;
+	//		}
+	//	}
+	//}
 	sprite->Update();
 
 	return shoot;

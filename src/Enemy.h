@@ -7,11 +7,12 @@
 #define SLIME_PHYSICAL_WIDTH	24
 #define SLIME_PHYSICAL_HEIGHT	30
 
-//Representation model size: 32x32
-#define ZOMBIE_FRAME_SIZE		32
-//Logical model size: 24x30
-#define ZOMBIE_PHYSICAL_WIDTH	24
-#define ZOMBIE_PHYSICAL_HEIGHT	30
+//Representation model size: 16x32
+#define ZOMBIE_FRAME_SIZE_WIDTH		16
+#define ZOMBIE_FRAME_SIZE_HEIGHT	32
+//Logical model size: 12x28
+#define ZOMBIE_PHYSICAL_WIDTH	12
+#define ZOMBIE_PHYSICAL_HEIGHT	28
 
 //Representation model size: 32x32
 #define TURRET_FRAME_SIZE		32

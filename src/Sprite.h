@@ -32,6 +32,7 @@ public:
     void SetManualMode();
     void SetAutomaticMode();
     void SetPlayOnceMode();
+    bool IsAnimationComplete() const;
     
     void Update();
     void NextFrame();
@@ -50,6 +51,8 @@ private:
 
     const Texture2D *img;
     std::vector<Animation> animations;
+
+    bool animation_complete;
 
     AnimMode mode;
 };

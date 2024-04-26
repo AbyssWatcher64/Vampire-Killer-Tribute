@@ -32,7 +32,7 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	//TODO: Add our enemies
 	if (type == EnemyType::ZOMBIE)
 	{
-		enemy = new Zombie(pos, ZOMBIE_PHYSICAL_WIDTH, ZOMBIE_PHYSICAL_HEIGHT, ZOMBIE_FRAME_SIZE, ZOMBIE_FRAME_SIZE);
+		enemy = new Zombie(pos, ZOMBIE_PHYSICAL_WIDTH, ZOMBIE_PHYSICAL_HEIGHT, ZOMBIE_FRAME_SIZE_WIDTH, ZOMBIE_FRAME_SIZE_HEIGHT);
 	}
 	else
 	{

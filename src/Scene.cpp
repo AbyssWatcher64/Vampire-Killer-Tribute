@@ -149,7 +149,7 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		139,	140,	7,		5,		7,
-				3,		138,	65,		66,		800/*138*/,	138,	4,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
+				3,		138,	65,		66,		/*800*/138,	138,	4,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
 				2,		2,		62,		63,		64,		2,		2,		2,		 2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -164,7 +164,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		0,		0,		0,		0/*201*/,
+				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		201,		0,		0,		0/*201*/,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -279,59 +279,111 @@ AppStatus Scene::LoadLevel(int stage)
 	{
 		for (x = 0; x < LEVEL_WIDTH; ++x)
 		{
-			tile = (Tile)map[i];
-			if (level->IsTileEntity(tile) || level->IsTileObject(tile))
+			tile = (Tile)mapInteractables[i];
+			pos.x = x * TILE_SIZE;
+			pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+			//tile = (Tile)map[i]; // Commenting this for testing
+			// TESTING
+			if (tile == Tile::PLAYER)
 			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+				player->SetPos(pos);
+			}
+			else if (tile == Tile::ITEM_SHIELD)
+			{
+				obj = new Object(pos, ObjectType::SHIELD);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ITEM_WHITEBAG)
+			{
+				obj = new Object(pos, ObjectType::WHITEBAG);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ITEM_BLUEBAG)
+			{
+				obj = new Object(pos, ObjectType::BLUEBAG);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ITEM_ORB)
+			{
+				obj = new Object(pos, ObjectType::ORB);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ZOMBIE)
+			{
+				pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+				area = level->GetSweptAreaX(hitbox);
+				enemies->Add(pos, EnemyType::ZOMBIE, area);
+			}
+			else
+			{
+				LOG("Internal error loading scene: invalid entity or object tile id")
+			}
+			//TESTING OVER
 
-				if (tile == Tile::PLAYER)
-				{
-					player->SetPos(pos);
-				}
-				else if (tile == Tile::ITEM_SHIELD)
-				{
-					obj = new Object(pos, ObjectType::SHIELD);
-					objects.push_back(obj);
-					map[i] = 0;
-				}
-				
-				tileInteractable = (Tile)mapInteractables[i];
-				if (tileInteractable == Tile::PLAYER)
-				{
-					player->SetPos(pos);
-				}
-				else if (tileInteractable == Tile::ITEM_SHIELD)
-				{
-					obj = new Object(pos, ObjectType::SHIELD);
-					objects.push_back(obj);
-				}
-				else if (tileInteractable == Tile::ITEM_WHITEBAG)
-				{
-					obj = new Object(pos, ObjectType::WHITEBAG);
-					objects.push_back(obj);
-				}
-				else if (tileInteractable == Tile::ITEM_BLUEBAG)
-				{
-					obj = new Object(pos, ObjectType::BLUEBAG);
-					objects.push_back(obj);
-				}
-				else if (tileInteractable == Tile::ITEM_ORB)
-				{
-					obj = new Object(pos, ObjectType::ORB);
-					objects.push_back(obj);
-				}
-				else if (tile == Tile::ZOMBIE)
-				{
-					pos.x += (ZOMBIE_FRAME_SIZE - ZOMBIE_PHYSICAL_WIDTH) / 2;
-					hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
-					area = level->GetSweptAreaX(hitbox);
-					enemies->Add(pos, EnemyType::ZOMBIE, area);
-				}
-				else
-				{
-					LOG("Internal error loading scene: invalid entity or object tile id")
-				}
+
+
+			//COMMENTING THIS FOR PURPOSES
+
+			//
+			//{
+			//	pos.x = x * TILE_SIZE;
+			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+
+			//	if (tile == Tile::PLAYER)
+			//	{
+			//		player->SetPos(pos);
+			//	}
+			//	else if (tile == Tile::ITEM_SHIELD)
+			//	{
+			//		obj = new Object(pos, ObjectType::SHIELD);
+			//		objects.push_back(obj);
+			//		map[i] = 0;
+			//	}
+
+
+				//tileInteractable = (Tile)mapInteractables[i];
+				//if (tileInteractable == Tile::PLAYER)
+				//{
+				//	player->SetPos(pos);
+				//}
+				//else if (tileInteractable == Tile::ITEM_SHIELD)
+				//{
+				//	obj = new Object(pos, ObjectType::SHIELD);
+				//	objects.push_back(obj);
+				//}
+				//else if (tileInteractable == Tile::ITEM_WHITEBAG)
+				//{
+				//	obj = new Object(pos, ObjectType::WHITEBAG);
+				//	objects.push_back(obj);
+				//}
+				//else if (tileInteractable == Tile::ITEM_BLUEBAG)
+				//{
+				//	obj = new Object(pos, ObjectType::BLUEBAG);
+				//	objects.push_back(obj);
+				//}
+				//else if (tileInteractable == Tile::ITEM_ORB)
+				//{
+				//	obj = new Object(pos, ObjectType::ORB);
+				//	objects.push_back(obj);
+				//}
+				//else if (tile == Tile::ZOMBIE)
+				//{
+				//	pos.x += (ZOMBIE_FRAME_SIZE - ZOMBIE_PHYSICAL_WIDTH) / 2;
+				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+				//	area = level->GetSweptAreaX(hitbox);
+				//	enemies->Add(pos, EnemyType::ZOMBIE, area);
+				//}
+				//else
+				//{
+				//	LOG("Internal error loading scene: invalid entity or object tile id")
+				//}
+				//COMMENTED
+
 				//Examples enemies
 				//else if (tile == Tile::SLIME)
 				//{
@@ -352,11 +404,13 @@ AppStatus Scene::LoadLevel(int stage)
 				//	area = level->GetSweptAreaX(hitbox);
 				//	enemies->Add(pos, EnemyType::TURRET, area, Look::RIGHT);
 				//}
+	
 				++i;
 			}
 		}
-	}
 	
+
+
 	//Remove initial positions of objects and entities from the map
 	level->ClearObjectEntityPositions();
 
