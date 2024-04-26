@@ -1,6 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
+
 #define ZOMBIE_SPEED			1
 #define ZOMBIE_ANIM_DELAY	(4*ANIM_DELAY)
 
@@ -11,10 +12,7 @@
 #define ZOMBIE_SHOT_SPEED	4
 
 enum class ZombieState { ROAMING, ATTACK };
-enum class ZombieAnim {
-	IDLE_LEFT, IDLE_RIGHT, WALKING_LEFT, WALKING_RIGHT,
-	ATTACK_LEFT, ATTACK_RIGHT, NUM_ANIMATIONS
-};
+enum class ZombieAnim {	WALKING_LEFT, WALKING_RIGHT, NUM_ANIMATIONS };
 
 struct Step
 {
@@ -31,6 +29,7 @@ public:
 
 	//Initialize the enemy with the specified look and area
 	AppStatus Initialise(Look look, const AABB& area) override;
+	//void SetTileMap(TileMap* tilemap);
 
 	//Update the enemy according to its logic, return true if the enemy must shoot
 	bool Update(const AABB& box) override;
@@ -41,9 +40,12 @@ public:
 private:
 	//Create the pattern behaviour
 	void InitPattern();
+	void MoveX();
 
 	//Update looking direction according to the current step of the pattern
 	void UpdateLook(int anim_id);
+
+	//TileMap* map;
 
 	int attack_delay;	//delay between attacks
 	ZombieState state;

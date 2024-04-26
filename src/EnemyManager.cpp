@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "Zombie.h"
 #include "BlackLeopard.h"
+#include "TileMap.h"
 
 EnemyManager::EnemyManager()
 {
@@ -18,8 +19,11 @@ AppStatus EnemyManager::Initialise()
 		LOG("Failed to load enemies sprite texture");
 		return AppStatus::ERROR;
 	}
-
 	return AppStatus::OK;
+}
+void EnemyManager::SetTileMap(TileMap* tilemap)
+{
+	map = tilemap;
 }
 void EnemyManager::SetShotManager(ShotManager* shots)
 {
@@ -80,8 +84,11 @@ AABB EnemyManager::GetEnemyHitBox(const Point& pos, EnemyType type) const
 }
 void EnemyManager::Update(const AABB& player_hitbox)
 {
+	AABB box;
 	bool shoot;
 	Point p, d;
+	//TODO: Add enemy collisions.
+	//box = enemy->GetHitbox();
 
 	for (Enemy* enemy : enemies)
 	{
@@ -91,6 +98,20 @@ void EnemyManager::Update(const AABB& player_hitbox)
 			enemy->GetShootingPosDir(&p, &d);
 			shots->Add(p, d);
 		}
+	/*	else if (map->TestCollisionWallLeft(box))
+		{
+			if (look == Look::LEFT)
+				look = Look::RIGHT;
+		}
+		else if (map->TestCollisionWallRight(box))
+		{
+			if (look == Look::RIGHT)
+				look = Look::LEFT;
+		}
+		else if (map->TestCollisionWallDown(box))
+		{
+
+		}*/
 	}
 }
 void EnemyManager::Draw() const
