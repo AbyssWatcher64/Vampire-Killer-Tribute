@@ -909,18 +909,54 @@ void Player::LogicJumping()
 			//Jumping is represented with 3 different states
 			if (IsAscending())
 			{
-				if (IsLookingRight())	SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
-				else					SetAnimation((int)PlayerAnim::JUMPING_LEFT);
+				if (GetIsHoldingShield() == true)
+				{
+					if (IsLookingRight())
+						SetAnimation((int)PlayerAnim::JUMPING_RIGHT_SHIELD);
+					else
+						SetAnimation((int)PlayerAnim::JUMPING_LEFT_SHIELD);
+				}
+				else
+				{
+					if (IsLookingRight())
+						SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
+					else
+						SetAnimation((int)PlayerAnim::JUMPING_LEFT);
+				}
 			}
 			else if (IsLevitating())
 			{
-				if (IsLookingRight())	SetAnimation((int)PlayerAnim::LEVITATING_RIGHT);
-				else					SetAnimation((int)PlayerAnim::LEVITATING_LEFT);
+				if (GetIsHoldingShield() == true)
+				{
+					if (IsLookingRight())
+						SetAnimation((int)PlayerAnim::JUMPING_RIGHT_SHIELD);
+					else
+						SetAnimation((int)PlayerAnim::JUMPING_LEFT_SHIELD);
+				}
+				else
+				{
+					if (IsLookingRight())
+						SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
+					else
+						SetAnimation((int)PlayerAnim::JUMPING_LEFT);
+				}
 			}
 			else if (IsDescending())
 			{
-				if (IsLookingRight())	SetAnimation((int)PlayerAnim::FALLING_RIGHT);
-				else					SetAnimation((int)PlayerAnim::FALLING_LEFT);
+				if (GetIsHoldingShield() == true)
+				{
+					if (IsLookingRight())
+						SetAnimation((int)PlayerAnim::JUMPING_RIGHT_SHIELD);
+					else
+						SetAnimation((int)PlayerAnim::JUMPING_LEFT_SHIELD);
+				}
+				else
+				{
+					if (IsLookingRight())
+						SetAnimation((int)PlayerAnim::JUMPING_RIGHT);
+					else
+						SetAnimation((int)PlayerAnim::JUMPING_LEFT);
+				}
 			}
 		}
 		//We check ground collision when jumping down

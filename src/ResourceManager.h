@@ -40,13 +40,19 @@ public:
     //Ensure Singleton cannot be copied or assigned
     ResourceManager(const ResourceManager&) = delete;
     ResourceManager& operator=(const ResourceManager&) = delete;
-    Sound sounds[36];
+
 
 private:
     //Private constructor to prevent instantiation
     ResourceManager();
     //Destructor
     ~ResourceManager();
+
+    Sound sounds[36];
+    //shieldSFX = LoadSound("sfx/24.wav");
+    //attackSFX = LoadSound("sfx/08.wav");
+    //moneyBagSFX = LoadSound("sfx/23.wav");
+    //orbSFX = LoadSound("music/test1.mp3");
 
     //Dictionary to store loaded textures
     std::unordered_map<Resource, Texture2D> textures;

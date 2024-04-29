@@ -51,6 +51,13 @@ const Texture2D* ResourceManager::GetTexture(Resource id) const
     return nullptr;
 }
 
+//void InitSounds()
+//{
+//    sounds[8] = LoadSound("sfx/08.wav");
+//    sounds[23] = LoadSound("sfx/23.wav");
+//    sounds[24] = LoadSound("sfx/24.wav");
+//}
+
 void ResourceManager::Release()
 {
     for (auto& pair : textures)
