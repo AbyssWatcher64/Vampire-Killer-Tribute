@@ -38,6 +38,7 @@
     <ClCompile Include="src\ShotManager.cpp" />
     <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\StaticImage.cpp" />
+    <ClCompile Include="src\Text.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
     <ClCompile Include="src\Zombie.cpp" />
   </ItemGroup>
@@ -62,6 +63,7 @@
     <ClInclude Include="src\ShotManager.h" />
     <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\StaticImage.h" />
+    <ClInclude Include="src\Text.h" />
     <ClInclude Include="src\TileMap.h" />
     <ClInclude Include="src\Zombie.h" />
   </ItemGroup>
@@ -89,7 +91,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">

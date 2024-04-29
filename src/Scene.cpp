@@ -51,6 +51,16 @@ Scene::~Scene()
 		delete shots;
 		shots = nullptr;
 	}
+	if (particles != nullptr)
+	{
+		delete particles;
+		particles = nullptr;
+	}
+	if (font != nullptr)
+	{
+		delete font;
+		font = nullptr;
+	}
 }
 AppStatus Scene::Init()
 {
@@ -131,9 +141,9 @@ AppStatus Scene::Init()
 		return AppStatus::ERROR;
 	}
 	//Initialise text font 1
-	if (font->Initialise(Resource::IMG_FONT, "images/font8x8.png", ' ', 8) != AppStatus::OK)
+	if (font->Initialise(Resource::IMG_FONT, "img/font.png", ' ', 8) != AppStatus::OK)
 	{
-		LOG("Failed to initialise Level");
+		LOG("Failed to initialise font img");
 		return AppStatus::ERROR;
 	}
 
@@ -651,8 +661,14 @@ void Scene::RenderObjectsDebug(const Color& col) const
 }
 void Scene::RenderGUI() const
 {
-	//Temporal approach
-	DrawText(TextFormat("SCORE : %d", player->GetScore()), 10, 10, 8, LIGHTGRAY);
-	DrawText(TextFormat("HP : %d", player->GetHP()), 10, 20, 8, LIGHTGRAY);
-	DrawText(TextFormat("LIVES : %d", player->GetLives()), 10, 30, 8, LIGHTGRAY);
+	////Temporal approach
+	//DrawText(TextFormat("SCORE : %d", player->GetScore()), 10, 10, 8, LIGHTGRAY);
+	//DrawText(TextFormat("HP : %d", player->GetHP()), 10, 20, 8, LIGHTGRAY);
+	//DrawText(TextFormat("LIVES : %d", player->GetLives()), 10, 30, 8, LIGHTGRAY);
+
+	static int frame;
+	frame++;
+	frame %= 1000;
+	font->Draw(10, 5, TextFormat("01234%d", player->GetScore()));
+	font->Draw(10, 20, TextFormat("1231245%d", frame), RED);
 }

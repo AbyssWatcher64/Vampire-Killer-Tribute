@@ -39,6 +39,7 @@ public:
     //Ensure Singleton cannot be copied or assigned
     ResourceManager(const ResourceManager&) = delete;
     ResourceManager& operator=(const ResourceManager&) = delete;
+    Sound sounds[36];
 
 private:
     //Private constructor to prevent instantiation
