@@ -125,6 +125,10 @@ AppStatus Scene::Init()
 		LOG("Failed to load Level 1");
 		return AppStatus::ERROR;
 	}
+
+
+
+
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
 	//Assign the tile map reference to the shot manager to check collisions when shots are shot
@@ -669,6 +673,8 @@ void Scene::RenderGUI() const
 	static int frame;
 	frame++;
 	frame %= 1000;
+	//DrawTexturePro(*img_ui, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
+
 	font->Draw(10, 5, TextFormat("01234%d", player->GetScore()));
 	font->Draw(10, 20, TextFormat("1231245%d", frame), RED);
 }

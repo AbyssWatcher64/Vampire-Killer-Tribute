@@ -56,6 +56,7 @@ private:
     Camera2D camera;
     DebugMode debug;
 
+    
     Text* font;
 };
 

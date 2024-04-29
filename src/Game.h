@@ -28,6 +28,7 @@ private:
     const Texture2D *img_initial;
     const Texture2D *img_desc;
     const Texture2D *img_ending;
+    const Texture2D* img_ui;
 
     Music Ost2VampireKiller;
     Sound Ost2VampireKillerSound;

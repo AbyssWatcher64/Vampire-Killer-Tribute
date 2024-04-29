@@ -12,6 +12,7 @@ Game::Game()
     img_initial = nullptr;
     img_desc = nullptr;
     img_ending = nullptr;
+    img_ui = nullptr;
 
     target = {};
     src = {};
@@ -85,12 +86,19 @@ AppStatus Game::LoadResources()
         return AppStatus::ERROR;
     }
     img_desc = data.GetTexture(Resource::IMG_DESC);
+    if (data.LoadTexture(Resource::IMG_UI, "img/ui.png") != AppStatus::OK)
+    {
+        return AppStatus::ERROR;
+    }
+    img_ui = data.GetTexture(Resource::IMG_UI);
 
     if (data.LoadTexture(Resource::IMG_ENDING, "img/ending.png") != AppStatus::OK)
     {
         return AppStatus::ERROR;
     }
     img_ending = data.GetTexture(Resource::IMG_ENDING);
+
+    
 
     Ost2VampireKiller = LoadMusicStream("music/test.mp3");
     Ost2VampireKiller.looping = true;
@@ -268,6 +276,7 @@ void Game::UnloadResources()
     data.ReleaseTexture(Resource::IMG_INITIAL);
     data.ReleaseTexture(Resource::IMG_DESC);
     data.ReleaseTexture(Resource::IMG_ENDING);
+    data.ReleaseTexture(Resource::IMG_UI);
 
 
     UnloadRenderTexture(target);
