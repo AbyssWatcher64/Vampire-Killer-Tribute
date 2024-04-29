@@ -5,6 +5,8 @@
 #include "Object.h"
 #include "EnemyManager.h"
 #include "ShotManager.h"
+#include "ParticleManager.h"
+#include "Text.h"
 
 enum class DebugMode { OFF, SPRITES_AND_HITBOXES, ONLY_HITBOXES, SIZE };
 
@@ -49,7 +51,11 @@ private:
     //Shots thrown by enemies
     ShotManager* shots;
 
+    ParticleManager* particles;
+
     Camera2D camera;
     DebugMode debug;
+
+    Text* font;
 };
 

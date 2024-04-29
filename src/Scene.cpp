@@ -9,6 +9,8 @@ Scene::Scene()
 	level = nullptr;
 	enemies = nullptr;
 	shots = nullptr;
+	particles = nullptr;
+	font = nullptr;
 	
 	currentLevel = 1;
 
@@ -120,6 +122,20 @@ AppStatus Scene::Init()
 	//Assign the shot manager reference to the enemy manager so enemies can add shots
 	enemies->SetShotManager(shots);
 	enemies->SetTileMap(level);
+
+	//Create text font 1
+	font = new Text();
+	if (font == nullptr)
+	{
+		LOG("Failed to allocate memory for font 1");
+		return AppStatus::ERROR;
+	}
+	//Initialise text font 1
+	if (font->Initialise(Resource::IMG_FONT, "images/font8x8.png", ' ', 8) != AppStatus::OK)
+	{
+		LOG("Failed to initialise Level");
+		return AppStatus::ERROR;
+	}
 
     return AppStatus::OK;
 }
