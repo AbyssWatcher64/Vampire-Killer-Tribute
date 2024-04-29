@@ -3,11 +3,14 @@
 Sprite::Sprite(const Texture2D * texture)
 {
     img = texture;
+    isAnimationFinished = false;
     current_anim = -1;
     current_frame = 0;
     current_delay = 0;
     mode = AnimMode::AUTOMATIC; // TODO: Revise if this is good coding, since we have the...
     //...play only one cinematic
+    //animations[current_anim].offset = 0;
+    animation_complete = false;
 }
 Sprite::~Sprite()
 {
@@ -32,6 +35,14 @@ void Sprite::AddKeyFrame(int id, const Rectangle& rect)
         animations[id].frames.push_back(rect);
     }
 }
+void Sprite::AddKeyFrameOffset(int id, const Rectangle& rect, int offset)
+{
+    if (id >= 0 && id < animations.size())
+    {
+        animations[id].offset = offset;
+        animations[id].frames.push_back(rect);
+    }
+}
 void Sprite::SetAnimation(int id)
 {
     if (id >= 0 && id < animations.size())
@@ -39,11 +50,20 @@ void Sprite::SetAnimation(int id)
         current_anim = id;
         current_frame = 0;
         current_delay = animations[current_anim].delay;
+        animation_complete = false;
     }
 }
 int Sprite::GetAnimation()
 {
     return current_anim;
+}
+bool Sprite::GetIsAnimationFinished() const
+{
+    return isAnimationFinished;
+}
+void Sprite::SetIsAnimationFinished(bool value)
+{
+    isAnimationFinished = value;
 }
 void Sprite::SetManualMode()
 {
@@ -53,9 +73,14 @@ void Sprite::SetAutomaticMode()
 {
     mode = AnimMode::AUTOMATIC;
 }
+bool Sprite::IsAnimationComplete() const
+{
+    return animation_complete;
+}
 void Sprite::SetPlayOnceMode()
 {
     mode = AnimMode::PLAYONCE;
+    SetIsAnimationFinished(false);
 }
 void Sprite::Update()
 {
@@ -71,14 +96,25 @@ void Sprite::Update()
                 current_frame++;
                 current_frame %= animations[current_anim].frames.size();
                 current_delay = animations[current_anim].delay;
+
+                //Animation is complete when we repeat from the first frame
+                animation_complete = (current_frame == 0);
             }
 
             //TODO: Make this work
             if (mode == AnimMode::PLAYONCE)
             {
+
                 current_frame++;
+                //current_delay = animations[current_anim].delay;
                 current_delay = animations[current_anim].delay;
-                // TODO: create an "Is animation finished" bool maybe
+                //current_delay = animations[current_anim].delay;
+                //if (current_frame == animations[current_anim].frames.size() - 1)
+                if (current_frame == animations[current_anim].frames.size())
+                {    
+                        SetIsAnimationFinished(true);
+                        mode = AnimMode::AUTOMATIC;
+                }
             }
         }
     }
@@ -121,9 +157,13 @@ void Sprite::DrawTint(int x, int y, const Color& col) const
 {
     if (current_anim >= 0 && current_anim < animations.size())
     {
-        Rectangle rect = animations[current_anim].frames[current_frame];
-        int offset = animations[current_anim].offset; // This wasn't in this framework
-        DrawTextureRec(*img, rect, { (float)x, (float)y }, col);
+        int n = animations[current_anim].frames.size();
+        if (current_frame >= 0 && current_frame < n)
+        {
+            Rectangle rect = animations[current_anim].frames[current_frame];
+            int offset = animations[current_anim].offset; // This wasn't in this framework
+            DrawTextureRec(*img, rect, { (float)x + offset, (float)y }, col);
+        }
     }
 }
 void Sprite::Release()

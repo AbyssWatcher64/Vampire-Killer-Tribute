@@ -6,7 +6,11 @@
 Scene::Scene()
 {
 	player = nullptr;
-    level = nullptr;
+	level = nullptr;
+	enemies = nullptr;
+	shots = nullptr;
+	particles = nullptr;
+	font = nullptr;
 	
 	currentLevel = 1;
 
@@ -25,17 +29,28 @@ Scene::~Scene()
 		delete player;
 		player = nullptr;
 	}
-    if (level != nullptr)
-    {
+	if (level != nullptr)
+	{
 		level->Release();
-        delete level;
-        level = nullptr;
-    }
+		delete level;
+		level = nullptr;
+	}
 	for (Entity* obj : objects)
 	{
 		delete obj;
 	}
 	objects.clear();
+	if (enemies != nullptr)
+	{
+		enemies->Release();
+		delete enemies;
+		enemies = nullptr;
+	}
+	if (shots != nullptr)
+	{
+		delete shots;
+		shots = nullptr;
+	}
 }
 AppStatus Scene::Init()
 {
@@ -53,7 +68,33 @@ AppStatus Scene::Init()
 		return AppStatus::ERROR;
 	}
 
+	//Create enemy manager
+	enemies = new EnemyManager();
+	if (enemies == nullptr)
+	{
+		LOG("Failed to allocate memory for Enemy Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise enemy manager
+	if (enemies->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Enemy Manager");
+		return AppStatus::ERROR;
+	}
 	
+	//Create shot manager 
+	shots = new ShotManager();
+	if (shots == nullptr)
+	{
+		LOG("Failed to allocate memory for Shot Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise shot manager
+	if (shots->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Shot Manager");
+		return AppStatus::ERROR;
+	}
 
 	//Create level 
     level = new TileMap();
@@ -76,6 +117,25 @@ AppStatus Scene::Init()
 	}
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
+	//Assign the tile map reference to the shot manager to check collisions when shots are shot
+	shots->SetTileMap(level);
+	//Assign the shot manager reference to the enemy manager so enemies can add shots
+	enemies->SetShotManager(shots);
+	enemies->SetTileMap(level);
+
+	//Create text font 1
+	font = new Text();
+	if (font == nullptr)
+	{
+		LOG("Failed to allocate memory for font 1");
+		return AppStatus::ERROR;
+	}
+	//Initialise text font 1
+	if (font->Initialise(Resource::IMG_FONT, "images/font8x8.png", ' ', 8) != AppStatus::OK)
+	{
+		LOG("Failed to initialise Level");
+		return AppStatus::ERROR;
+	}
 
     return AppStatus::OK;
 }
@@ -89,6 +149,7 @@ AppStatus Scene::LoadLevel(int stage)
 	int* map = nullptr;
 	int* mapInteractables = nullptr;
 	Object* obj;
+	AABB hitbox, area;
 
 	ClearLevel();
 	
@@ -105,7 +166,7 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		139,	140,	7,		5,		7,
-				3,		138,	65,		66,		138,	138,	4,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
+				3,		138,	65,		66,		/*800*/138,	138,	1/*4*/,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
 				2,		2,		62,		63,		64,		2,		2,		2,		 2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -120,7 +181,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		0,		0,		0,		0,
+				201,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		201,		0,		0,		0/*201*/,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -214,8 +275,8 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		200,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 			};	
 	}
@@ -226,123 +287,160 @@ AppStatus Scene::LoadLevel(int stage)
 		return AppStatus::ERROR;
 	}
 
+	//Tile map
+	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT); // REVIEW: this wasn't here in the prototype
+
 	//Entities and objects
 	i = 0;
 	for (y = 0; y < LEVEL_HEIGHT; ++y)
 	{
 		for (x = 0; x < LEVEL_WIDTH; ++x)
 		{
-			tile = (Tile)map[i];
-			if (tile == Tile::EMPTY)
+			tile = (Tile)mapInteractables[i];
+			pos.x = x * TILE_SIZE;
+			pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+			//tile = (Tile)map[i]; // Commenting this for testing
+			// TESTING
+			if (tile == Tile::PLAYER)
 			{
-				map[i] = 0;
-			}
-			else if (tile == Tile::PLAYER)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
 				player->SetPos(pos);
-				map[i] = 0;
 			}
-			/*else if (tile == Tile::ITEM_APPLE)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::APPLE);
-				objects.push_back(obj);
-				map[i] = 0;
-			}
-			else if (tile == Tile::ITEM_CHILI)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::CHILI);
-				objects.push_back(obj);
-				map[i] = 0;
-			}*/
 			else if (tile == Tile::ITEM_SHIELD)
 			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
 				obj = new Object(pos, ObjectType::SHIELD);
 				objects.push_back(obj);
 				map[i] = 0;
 			}
-
-
-			tileInteractable = (Tile)mapInteractables[i];
-			if (tileInteractable == Tile::EMPTY)
+			else if (tile == Tile::ITEM_WHITEBAG)
 			{
-				mapInteractables[i] = 0;
-			}
-			else if (tileInteractable == Tile::PLAYER)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				player->SetPos(pos);
-				mapInteractables[i] = 0;
-			}
-			//else if (tileInteractable == Tile::ITEM_APPLE)
-			//{
-			//	pos.x = x * TILE_SIZE;
-			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-			//	obj = new Object(pos, ObjectType::APPLE);
-			//	objects.push_back(obj);
-			//	mapInteractables[i] = 0;
-			//}
-			//else if (tileInteractable == Tile::ITEM_CHILI)
-			//{
-			//	pos.x = x * TILE_SIZE;
-			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-			//	obj = new Object(pos, ObjectType::CHILI);
-			//	objects.push_back(obj);
-			//	mapInteractables[i] = 0;
-			//}
-			else if (tileInteractable == Tile::ITEM_SHIELD)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-				obj = new Object(pos, ObjectType::SHIELD);
-				objects.push_back(obj);
-				mapInteractables[i] = 0;
-			}
-			else if (tileInteractable == Tile::ITEM_WHITEBAG)
-			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
 				obj = new Object(pos, ObjectType::WHITEBAG);
 				objects.push_back(obj);
-				mapInteractables[i] = 0;
+				map[i] = 0;
 			}
-			else if (tileInteractable == Tile::ITEM_BLUEBAG)
+			else if (tile == Tile::ITEM_BLUEBAG)
 			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
 				obj = new Object(pos, ObjectType::BLUEBAG);
 				objects.push_back(obj);
-				mapInteractables[i] = 0;
+				map[i] = 0;
 			}
-			else if (tileInteractable == Tile::ITEM_ORB)
+			else if (tile == Tile::ITEM_ORB)
 			{
-				pos.x = x * TILE_SIZE;
-				pos.y = y * TILE_SIZE + TILE_SIZE - 1;
 				obj = new Object(pos, ObjectType::ORB);
 				objects.push_back(obj);
-				mapInteractables[i] = 0;
+				map[i] = 0;
 			}
-			++i;
+			else if (tile == Tile::ZOMBIE)
+			{
+				pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+				area = level->GetSweptAreaX(hitbox);
+				enemies->Add(pos, EnemyType::ZOMBIE, area);
+			}
+			else
+			{
+				LOG("Internal error loading scene: invalid entity or object tile id")
+			}
+			//TESTING OVER
+
+
+
+			//COMMENTING THIS FOR PURPOSES
+
+			//
+			//{
+			//	pos.x = x * TILE_SIZE;
+			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+
+			//	if (tile == Tile::PLAYER)
+			//	{
+			//		player->SetPos(pos);
+			//	}
+			//	else if (tile == Tile::ITEM_SHIELD)
+			//	{
+			//		obj = new Object(pos, ObjectType::SHIELD);
+			//		objects.push_back(obj);
+			//		map[i] = 0;
+			//	}
+
+
+				//tileInteractable = (Tile)mapInteractables[i];
+				//if (tileInteractable == Tile::PLAYER)
+				//{
+				//	player->SetPos(pos);
+				//}
+				//else if (tileInteractable == Tile::ITEM_SHIELD)
+				//{
+				//	obj = new Object(pos, ObjectType::SHIELD);
+				//	objects.push_back(obj);
+				//}
+				//else if (tileInteractable == Tile::ITEM_WHITEBAG)
+				//{
+				//	obj = new Object(pos, ObjectType::WHITEBAG);
+				//	objects.push_back(obj);
+				//}
+				//else if (tileInteractable == Tile::ITEM_BLUEBAG)
+				//{
+				//	obj = new Object(pos, ObjectType::BLUEBAG);
+				//	objects.push_back(obj);
+				//}
+				//else if (tileInteractable == Tile::ITEM_ORB)
+				//{
+				//	obj = new Object(pos, ObjectType::ORB);
+				//	objects.push_back(obj);
+				//}
+				//else if (tile == Tile::ZOMBIE)
+				//{
+				//	pos.x += (ZOMBIE_FRAME_SIZE - ZOMBIE_PHYSICAL_WIDTH) / 2;
+				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+				//	area = level->GetSweptAreaX(hitbox);
+				//	enemies->Add(pos, EnemyType::ZOMBIE, area);
+				//}
+				//else
+				//{
+				//	LOG("Internal error loading scene: invalid entity or object tile id")
+				//}
+				//COMMENTED
+
+				//Examples enemies
+				//else if (tile == Tile::SLIME)
+				//{
+				//	pos.x += (SLIME_FRAME_SIZE - SLIME_PHYSICAL_WIDTH) / 2;
+				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::SLIME);
+				//	area = level->GetSweptAreaX(hitbox);
+				//	enemies->Add(pos, EnemyType::SLIME, area);
+				//}
+				//else if (tile == Tile::TURRET_LEFT)
+				//{
+				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::TURRET);
+				//	area = level->GetSweptAreaX(hitbox);
+				//	enemies->Add(pos, EnemyType::TURRET, area, Look::LEFT);
+				//}
+				//else if (tile == Tile::TURRET_RIGHT)
+				//{
+				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::TURRET);
+				//	area = level->GetSweptAreaX(hitbox);
+				//	enemies->Add(pos, EnemyType::TURRET, area, Look::RIGHT);
+				//}
+	
+				++i;
+			}
 		}
-	}
-	//Tile map
-	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT);
+	
+
+
+	//Remove initial positions of objects and entities from the map
+	level->ClearObjectEntityPositions();
+
 	//level->Load(mapInteractables, LEVEL_WIDTH, LEVEL_HEIGHT);
+	delete[] mapInteractables;
+	delete[] map;
 
 	return AppStatus::OK;
 }
 void Scene::Update()
 {
 	Point p1, p2;
-	AABB box;
+	AABB hitbox;
 
 	//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
 	if (IsKeyPressed(KEY_F1))
@@ -357,47 +455,90 @@ void Scene::Update()
 	{
 		currentLevel = 1;
 		LoadLevel(1);
+		player->SetPos(Point(20, 150));
 	}
 	else if (IsKeyPressed(KEY_KP_2))
 	{
 		currentLevel = 2;
 		LoadLevel(2);
+		player->SetPos(Point(20, 150));
 
 	}
 	else if (IsKeyPressed(KEY_KP_3))
 	{
 		currentLevel = 3;
 		LoadLevel(3);
+		player->SetPos(Point(20, 150));
 
 	}
 	else if (IsKeyPressed(KEY_KP_4))
 	{
 		LoadLevel(4);
+		currentLevel = 4;
+		player->SetPos(Point(20, 166));
 	}
+	//This is not going to work from now on
+	//else if (IsKeyPressed(KEY_E))
+	//{
+	//	/*enemy = new Enemy({ 0,0 }, EnemyState::IDLE, EnemyLook::LEFT);*/
+	//	enemy->SetPos(Point(WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT-TILE_SIZE*4-1));
+	//	/*if (enemy->GetXPos() == 0) {
+	//		delete enemy;
+	//	}*/
+	//	
+	//}
+	
 	
 
-	if (player->GetXPos() == 0 && currentLevel > 1)
+	if (player->GetXPos() == 0 && currentLevel == 4)
 	{
-		
-		LoadLevel(currentLevel-1);
-		player->SetPos(Point(WINDOW_WIDTH - 40, 150));
+		int tmpYPos = player->GetYPos() - 16;
+		LoadLevel(currentLevel - 1);
+		player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
 		currentLevel--;
-
-
 	}
-	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 3)
+	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 3)
 	{
-		
+		int tmpYPos = player->GetYPos() + 16;
 		LoadLevel(currentLevel + 1);
-		player->SetPos(Point(20, 150));
+		player->SetPos(Point(10, tmpYPos));
 		currentLevel++;
 	}
+	else if (player->GetXPos() == 0 && currentLevel > 1)
+	{
+		int tmpYPos = player->GetYPos();
+		LoadLevel(currentLevel - 1);
+		player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
+		currentLevel--;
+	}
+	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 4)
+	{
+		int tmpYPos = player->GetYPos();
+		LoadLevel(currentLevel + 1);
+		player->SetPos(Point(10, tmpYPos));
+		currentLevel++;
+	}
+	else if (player->GetXPos() <= 0 && currentLevel == 1)
+	{
+		// TODO: Change this in the player.cpp --> Stop animations if a wall is hit
+		int tmpYPos = player->GetYPos();
+		player->SetPos(Point(0, tmpYPos));
+	}
+	else if (player->GetXPos() >= WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 4) {
+		int tmpYPos = player->GetYPos();
+		player->SetPos(Point(WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH, tmpYPos));
+	}
+	// TODO: Add it for level 4
 
-	ResetScreen();
+	//ResetScreen(); // REVIEW: this wasn't commented pre-prototype
 
 	level->Update();
 	player->Update();
-	CheckCollisions();
+	CheckObjectCollisions();
+
+	hitbox = player->GetHitbox();
+	enemies->Update(hitbox);
+	shots->Update(hitbox);
 }
 void Scene::Render()
 {
@@ -407,12 +548,16 @@ void Scene::Render()
 	if (debug == DebugMode::OFF || debug == DebugMode::SPRITES_AND_HITBOXES)
 	{
 		RenderObjects();
+		enemies->Draw();
 		player->Draw();
+		shots->Draw();
 	}
 	if (debug == DebugMode::SPRITES_AND_HITBOXES || debug == DebugMode::ONLY_HITBOXES)
 	{
 		RenderObjectsDebug(YELLOW);
+		enemies->DrawDebug();
 		player->DrawDebug(GREEN);
+		shots->DrawDebug(GRAY);
 	}
 
 	EndMode2D();
@@ -429,7 +574,7 @@ void Scene::ResetScreen()
 {	
 	if (player->GetHasDied() == true)
 	{
-		WaitTime(2);
+		//WaitTime(2);
 		LoadLevel(1);
 		player->SetHasDied(false);
 		player->ChangeHP(100);
@@ -451,7 +596,7 @@ bool Scene::GameEnd()
 		return true;
 	}
 }
-void Scene::CheckCollisions()
+void Scene::CheckObjectCollisions()
 {
 	AABB player_box, obj_box;
 
@@ -467,6 +612,7 @@ void Scene::CheckCollisions()
 			player->SetEquipment((*it)->Equip());
 			if ((*it)->Equip() == 1000)
 				player->SetGameEnd(true);
+			player->GrabObject((*it)->ObjectNum());
 			//Delete the object
 			delete* it;
 			//Erase the object from the vector and get the iterator to the next valid element
@@ -486,6 +632,8 @@ void Scene::ClearLevel()
 		delete obj;
 	}
 	objects.clear();
+	enemies->Release();
+	shots->Clear();
 }
 void Scene::RenderObjects() const
 {

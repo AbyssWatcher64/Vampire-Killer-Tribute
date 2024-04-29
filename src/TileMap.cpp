@@ -295,6 +295,17 @@ AppStatus TileMap::Load(int data[], int w, int h)
 
 	return AppStatus::OK;
 }
+void TileMap::ClearObjectEntityPositions()
+{
+	int i;
+	Tile tile;
+	for (i = 0; i < size; ++i)
+	{
+		tile = map[i];
+		if (IsTileEntity(tile) || IsTileObject(tile) || tile == Tile::EMPTY)
+			map[i] = Tile::AIR;
+	}
+}
 void TileMap::Update()
 {
 	fire->Update();
@@ -310,17 +321,26 @@ Tile TileMap::GetTileIndex(int x, int y) const
 	}
 	return map[x + y * width];
 }
-bool TileMap::IsTileSolid(Tile tile) const
+bool TileMap::IsTileObject(Tile tile) const
 {
-	return (Tile::SOLID_FIRST <= tile && tile <= Tile::SOLID_LAST);
+	return Tile::OBJECT_FIRST <= tile && tile <= Tile::OBJECT_LAST;
+}
+bool TileMap::IsTileEntity(Tile tile) const
+{
+	return Tile::ENTITY_FIRST <= tile && tile <= Tile::ENTITY_LAST;
+}
+bool TileMap::IsTileSolid(Tile tile) const
+{	
+	//return (Tile::SOLID_FIRST <= tile && tile <= Tile::SOLID_LAST);
+	return (Tile::SOLID_FIRST <= tile && tile <= Tile::SOLID_LAST || (tile == Tile::BLOCK_PLATFORM_1 || tile == Tile::BLOCK_PLATFORM_2 || tile == Tile::BLOCK_PLATFORM_3));
 }
 bool TileMap::IsTileLadderTop(Tile tile) const
 {
-	return tile == Tile::LADDER_TOP_L || tile == Tile::LADDER_TOP_R;
+	return tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1;
 }
 bool TileMap::IsTileLadder(Tile tile) const
 {
-	return tile == Tile::LADDER_L || tile == Tile::LADDER_R;
+	return tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1;
 }
 bool TileMap::TestCollisionWallLeft(const AABB& box) const
 {
@@ -447,13 +467,66 @@ int TileMap::GetLadderCenterPos(int pixel_x, int pixel_y) const
 	ty = pixel_y / TILE_SIZE;
 	Tile tile = GetTileIndex(tx, ty);
 
-	if (tile == Tile::LADDER_L || tile == Tile::LADDER_TOP_L)		return tx * TILE_SIZE + TILE_SIZE;
-	else if (tile == Tile::LADDER_R || tile == Tile::LADDER_TOP_R)	return tx * TILE_SIZE;
+	if (tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1)		return tx * TILE_SIZE + TILE_SIZE;
+	else if (tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1)	return tx * TILE_SIZE;
 	else
 	{
 		LOG("Internal error, tile should be a LADDER, coord: (%d,%d), tile type: %d", pixel_x, pixel_y, (int)tile);
 		return 0;
 	}
+}
+AABB TileMap::GetSweptAreaX(const AABB& hitbox) const
+{
+	AABB box;
+	int column, x, y, y0, y1;
+	bool collision;
+
+	box.pos.y = hitbox.pos.y;
+	box.height = hitbox.height;
+
+	column = hitbox.pos.x / TILE_SIZE;
+	y0 = hitbox.pos.y / TILE_SIZE;
+	y1 = (hitbox.pos.y + hitbox.height - 1) / TILE_SIZE;
+
+	//Compute left tile index
+	collision = false;
+	x = column - 1;
+	while (!collision && x >= 0)
+	{
+		//Iterate over the tiles within the vertical range
+		for (y = y0; y <= y1; ++y)
+		{
+			//One solid tile is sufficient
+			if (IsTileSolid(GetTileIndex(x, y)))
+			{
+				collision = true;
+				break;
+			}
+		}
+		if (!collision) x--;
+	}
+	box.pos.x = (x + 1) * TILE_SIZE;
+
+	//Compute right tile index
+	collision = false;
+	x = column + 1;
+	while (!collision && x < LEVEL_WIDTH)
+	{
+		//Iterate over the tiles within the vertical range
+		for (y = y0; y <= y1; ++y)
+		{
+			//One solid tile is sufficient
+			if (IsTileSolid(GetTileIndex(x, y)))
+			{
+				collision = true;
+				break;
+			}
+		}
+		if (!collision) x++;
+	}
+	box.width = x * TILE_SIZE - box.pos.x;
+
+	return box;
 }
 void TileMap::Render()
 {

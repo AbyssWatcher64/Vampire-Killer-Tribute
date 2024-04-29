@@ -96,12 +96,12 @@ enum class Tile {
 	STATIC_FIRST = BLOCK_SQUARE1_TL,
 	STATIC_LAST = LASER_R,
 	//SOLID_FIRST = BLOCK_SQUARE1_TL,
-	SOLID_FIRST = BLOCK_GROUND_GRASS,
-	SOLID_LAST = BLOCK_GROUND_GRASS,
-	SPECIAL_FIRST = DOOR,
-	SPECIAL_LAST = LASER,
+	SOLID_FIRST = BLOCK_GROUND_GRASS, /*BLOCK_PLATFORM_1,*/
+	SOLID_LAST = BLOCK_GROUND_GRASS, /*BLOCK_PLATFORM_3,*/
+	OBJECT_FIRST = ITEM_SHIELD, //KEY_RED
+	OBJECT_LAST = ITEM_ORB, //ITEM_CHILI 
 	ENTITY_FIRST = PLAYER,
-	ENTITY_LAST = PLAYER
+	ENTITY_LAST = ZOMBIE
 
 };
 
@@ -113,9 +113,14 @@ public:
 
 	AppStatus Initialise();
 	AppStatus Load(int data[], int w, int h);
+	void ClearObjectEntityPositions();
+
 	void Update();
 	void Render();
 	void Release();
+
+	bool IsTileObject(Tile tile) const;
+	bool IsTileEntity(Tile tile) const;
 
 	//Test for collisions with walls
 	bool TestCollisionWallLeft(const AABB& box) const;
@@ -135,6 +140,9 @@ public:
 	//Test if box is on ladder top and update 'px' with the x-center position of the ladder
 	bool TestOnLadderTop(const AABB& box, int* px) const;
 
+	//Given a hitbox, computes the maximum swept box model along the X-axis without solid tiles
+	AABB GetSweptAreaX(const AABB& hitboxbox) const;
+
 private:
 	void InitTileDictionary();
 
@@ -148,6 +156,8 @@ private:
 
 	//Tile map
 	Tile *map;
+	//Tile  **map;
+	//std::vector<Tile*> screens; // either this or line above are the same
 
 	//Size of the tile map
 	int size, width, height;

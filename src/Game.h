@@ -28,6 +28,10 @@ private:
     const Texture2D *img_initial;
     const Texture2D *img_desc;
     const Texture2D *img_ending;
+
+    Music Ost2VampireKiller;
+    Sound Ost2VampireKillerSound;
+    
     
 
     //To work with original game units and then scale the result

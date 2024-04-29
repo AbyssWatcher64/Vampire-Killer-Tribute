@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "TileMap.h"
+#include "SoundManager.h"
 
 //Representation model size: 16x32
 //#define PLAYER_FRAME_SIZE		16
@@ -34,9 +35,8 @@
 #define GRAVITY_FORCE			1
 
 //Logic states
-enum class State { IDLE, WALKING, CROUCHING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD  };
-enum class Look { RIGHT, LEFT };
-enum class Weapon { WHIP, MORNINGSTAR, KNIFE };
+enum class State { IDLE, WALKING, CROUCHING, CROUCHINGATTACKING, ATTACKING, JUMPING, FALLING, CLIMBING, DEAD  };
+enum class WeaponEquipped { WHIP, MORNINGSTAR, KNIFE };
 enum class Equipment { WHIP, MORNINGSTAR, DAGGER, SHIELD, AXE, CROSS };
 
 //Rendering states
@@ -98,10 +98,10 @@ public:
 
 	void InitScore();
 	void IncrScore(int n);
+	int GetScore() const;
 
 	void GodMode();
 
-	int GetScore() const;
 	int GetHP() const;
 	int GetLives() const;
 	bool GetHasDied() const; 
@@ -114,6 +114,7 @@ public:
 	void SetShield();
 
 	int GetXPos();
+	int GetYPos();
 
 	void ChangeHP(int value);
 
@@ -122,6 +123,7 @@ public:
 	void Release();
 
 	Equipment SetEquipment(int equipNum);
+	void GrabObject(int object);
 
 
 private:
@@ -150,6 +152,8 @@ private:
 
 	void Death();
 
+	void finishAnimation();
+
 	//Jump steps
 	bool IsAscending() const;
 	bool IsLevitating() const;
@@ -161,6 +165,7 @@ private:
 
 	//Player Weapons and Items
 	void Attack();
+	void CrouchAttack();
 	bool GetIsHoldingShield() const;
 	//void SetWeapon(Weapon w);
 	////Weapon EquipWhip();
@@ -190,6 +195,16 @@ private:
 	bool gameOver;
 	bool gameEnd;
 
+	bool wasCrouching;
+
 	bool godMode;
+
+	Sound shieldSFX;
+	Sound attackSFX;
+	Sound moneyBagSFX;
+	Sound orbSFX;
+	bool unloadedSounds;
+
+
 };
 

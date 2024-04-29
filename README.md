@@ -13,13 +13,41 @@ Vampire Killer was developed and published by Konami in 1986 for the MSX2. It is
 For in-depth information about this project, check out [the wiki](https://github.com/AbyssWatcher64/Vampire-Killer-Tribute/wiki/1.-Home)!
 
 ## Installation
-TODO
+Download the release version, uncompress the files, and execute the Vampire-Killer-Tribute.exe.
 
 ## Game Controls
-TODO
+- Left/Right Arrow keys -> Move
+- Down Arrow key -> Crouch
+- Up Arrow key -> Jump
+- Space -> Attack
+- E -> Move enemy to the right-side of the screen
+- L -> Die
+- F1 -> Debug Mode Hitboxes Textures on / Debug Mode Hitboxes Textures off / Debug Mode off
+- F2 -> GodMode (player cannot take damage, can still die by cheating though!)
+- F3 -> Game Over
+- F4 -> Game End (Win screen)
+- F5 -> Equip / Unequip shield
+- Numpad 1 -> Change level to level 1
+- Numpad 2 -> Change level to level 2
+- Numpad 3 -> Change level to level 3
+- Numpad 4 -> Change level to level 4
+- Escape -> Quit playing / Quit menu
+- Space -> Accept / Intro
 
 ## Changelist
-TODO
+v0.1 - Prototype build:
+- Added Simon.
+- Added animations:
+  - Attack
+  - Crouch
+  - Jump
+  - Walk
+  - Idle
+- Added an enemy, although unfinished.
+- Added sound, although unfinished.
+- Added levels 0, 1, 2, 3.
+- Added some items.
+- Added collisions, tiles, etc.
 
 ## Credits
 [@JulaChan](https://github.com/JulaChan) - Judit Parras (juladraw22@gmail.com)

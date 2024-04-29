@@ -3,7 +3,10 @@
 #include "Sprite.h"
 #include "TileMap.h"
 #include "Globals.h"
+#include "Weapon.h"
 #include <raymath.h>
+#include "SoundManager.h"
+#include "raylib.h" //for sfx
 
 
 Player::Player(const Point& p, State s, Look view) :
@@ -21,6 +24,9 @@ Player::Player(const Point& p, State s, Look view) :
 	hasDied = false;
 	godMode = false;
 	gameEnd = false;
+	wasCrouching = false;
+	//tmp 
+	unloadedSounds = false;
 }
 Player::~Player()
 {
@@ -205,19 +211,20 @@ AppStatus Player::Initialise()
 
 	// WHIP Attacking animations
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_LEFT_WHIP, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)0 * n, n * 6, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)2 * n, n * 6, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)4 * n, n * 6, -(n * 4) , h });
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)0 * n, n * 6, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)4 * n, n * 6, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)8 * n, n * 6, -(n * 4) , h }, -2 * n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)0 * n, n * 8, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)2 * n, n * 8, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)4 * n, n * 8, -(n * 4) , h });
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)0 * n, n * 8, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)4 * n, n * 8, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)8 * n, n * 8, -(n * 4) , h }, -2 * n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, { (float)0 * n, n * 10, -(n * 2) , h });
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, { (float)2 * n, n * 10, -(n * 2) , h });
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, { (float)4 * n, n * 10, -(n * 4) , h });
+
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_DOWNSTAIRS_LEFT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_DOWNSTAIRS_LEFT_WHIP, { (float)0 * n, n * 12, -(n * 2) , h });
@@ -227,14 +234,14 @@ AppStatus Player::Initialise()
 
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT_WHIP, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)0 * n, n * 6, n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)2 * n, n * 6, n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)4 * n, n * 6, n * 4 , h });
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)0 * n, n * 6, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)4 * n, n * 6, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)8 * n, n * 6, n * 4 , h }, -n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, ANIM_DELAY);
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)0 * n, n * 8, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)2 * n, n * 8, -(n * 2) , h });
-	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)4 * n, n * 8, -(n * 4) , h });
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)0 * n, n * 8, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)4 * n, n * 8, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)8 * n, n * 8, n * 4 , h }, -n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, { (float)0 * n, n * 10, -(n * 2) , h });
@@ -261,6 +268,11 @@ AppStatus Player::Initialise()
 
 	sprite->SetAnimation((int)PlayerAnim::IDLE_RIGHT);
 
+
+	shieldSFX = LoadSound("sfx/24.wav");
+	attackSFX = LoadSound("sfx/08.wav");
+	moneyBagSFX = LoadSound("sfx/23.wav");
+	orbSFX = LoadSound("music/test1.mp3");
 
 	return AppStatus::OK;
 }
@@ -320,6 +332,10 @@ int Player::GetXPos()
 {
 	return pos.x;
 }
+int Player::GetYPos()
+{
+	return pos.y;
+}
 bool Player::GetIsHoldingShield() const
 {
 	return Player::isHoldingShield;
@@ -330,6 +346,18 @@ Equipment Player::SetEquipment(int equipNum)
 	if (equipNum == 0)
 	{
 		return EquipShield();
+	}
+}
+void Player::GrabObject(int object)
+{
+	switch (object)
+	{
+	case 1:
+		PlaySound(moneyBagSFX);
+		break;
+	case 2:
+		PlaySound(orbSFX);
+		break;
 	}
 }
 Equipment Player::EquipWhip()
@@ -348,6 +376,8 @@ Equipment Player::EquipShield()
 {
 	isHoldingShield = true;
 	Stop();
+	
+	PlaySound(shieldSFX);   // temporal approch
 	return equipment = Equipment::SHIELD;
 }
 Equipment Player::EquipAxe()
@@ -519,21 +549,46 @@ void Player::StartClimbingDown()
 }
 void Player::Attack()
 {
-	state = State::ATTACKING;
-	if (look == Look::RIGHT)
+	if (state == State::CROUCHING)
 	{
-		SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
-		Sprite* sprite = dynamic_cast<Sprite*>(render);
-		//sprite->SetPlayOnceMode();
-		//state = State::IDLE;
+		wasCrouching = true;
+		state = State::ATTACKING;
+		if (look == Look::RIGHT)
+		{
+			SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP);
+			Sprite* sprite = dynamic_cast<Sprite*>(render);
+			sprite->SetPlayOnceMode();
+		}
+		else if (look == Look::LEFT)
+		{
+			SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP);
+			Sprite* sprite = dynamic_cast<Sprite*>(render);
+			sprite->SetPlayOnceMode();
+		}
 	}
-	else if (look == Look::LEFT)
+	else 
 	{
-		SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
-		Sprite* sprite = dynamic_cast<Sprite*>(render);
-		//sprite->SetPlayOnceMode();
+		state = State::ATTACKING;
+		if (look == Look::RIGHT)
+		{
+			SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
+			Sprite* sprite = dynamic_cast<Sprite*>(render);
+			sprite->SetPlayOnceMode();
+		}
+		else if (look == Look::LEFT)
+		{
+			SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
+			Sprite* sprite = dynamic_cast<Sprite*>(render);
+			sprite->SetPlayOnceMode();
+		}
 	}
-	state = State::IDLE;
+	
+	//TODO: Add attacking SFX
+	// This works, but it will cause a memory leak.
+	//sfxList[8] = LoadSound("sfx/08.wav");
+	PlaySound(attackSFX);
+	
+	
 }
 
 void Player::ChangeHP(int value)
@@ -553,15 +608,26 @@ void Player::ChangeHP(int value)
 
 void Player::Death()
 {
+	/*Sprite* sprite = dynamic_cast<Sprite*>(render);
+	sprite->SetPlayOnceMode();*/
 	state = State::DEAD;
 	lives--;
 	if (look == Look::RIGHT)
 	{
 		SetAnimation((int)PlayerAnim::DYING_RIGHT);
+		Sprite* sprite = dynamic_cast<Sprite*>(render);
+		//while (sprite->GetIsAnimationFinished() == false)
+		//{
+		sprite->SetPlayOnceMode();
+		
 	}
 	else if (look == Look::LEFT)
 	{
 		SetAnimation((int)PlayerAnim::DYING_LEFT);
+		Sprite* sprite = dynamic_cast<Sprite*>(render);
+		//while (sprite->GetIsAnimationFinished() == false)
+		//{
+		sprite->SetPlayOnceMode();
 	}
 
 	if (lives <= 0)
@@ -571,10 +637,21 @@ void Player::Death()
 	}
 	else
 	{
+		// unsure where the wait time must be
+		WaitTime(2);
 		//reset screen
 		hasDied = true;
 	}
 }
+//void Player::finishAnimation()
+//{
+//	Sprite* sprite = dynamic_cast<Sprite*>(render); //Se intentó pero no tengo ni idea de cómo definir la animación de dead como playonce para que el bool sea true (ToT)
+//	if (sprite->isAnimationFinished == true) 
+//	{
+//		SetAnimation((int)PlayerAnim::IDLE_RIGHT);
+//		pos.x = 0;
+//	}
+//}
 void Player::ChangeAnimRight()
 {
 	look = Look::RIGHT;
@@ -642,20 +719,11 @@ void Player::Update()
 	//Instead, uses an independent behaviour for each axis.
 	MoveX();
 	MoveY();
-
-	Sprite* sprite = dynamic_cast<Sprite*>(render);
-	sprite->Update();
-}
-void Player::MoveX()
-{
-	AABB box;
-	int prev_x = pos.x;
-
-	//We can only go up and down while climbing
-	if (state == State::CLIMBING)	return;
-
+	
 	if (IsKeyPressed(KEY_F5))
 	{
+		if (!isHoldingShield)
+			PlaySound(shieldSFX);
 		isHoldingShield = !isHoldingShield;
 		Stop();
 	}
@@ -668,12 +736,50 @@ void Player::MoveX()
 		ChangeHP(+10);
 	}
 
-	if (IsKeyDown(KEY_DOWN) && hasDied == false)
+	Sprite* sprite = dynamic_cast<Sprite*>(render);
+	sprite->Update();
+	if (sprite->GetIsAnimationFinished())
+	{
+		sprite->SetIsAnimationFinished(false);
+		if (wasCrouching)
+		{
+
+			state = State::CROUCHING;
+			StartCrouching();
+		}
+		else
+		{
+			state = State::IDLE;
+			Stop();
+
+		}
+	
+		wasCrouching = false;
+		//Stop();
+		
+		
+		//state = State::IDLE;
+		
+	}
+}
+void Player::MoveX()
+{
+	AABB box;
+	int prev_x = pos.x;
+
+	//We can only go up and down while climbing
+	//if (state == State::CLIMBING)	return;
+	if (state == State::CLIMBING) 
+	{
+		LogicClimbing();
+	}
+	if (IsKeyDown(KEY_DOWN) && hasDied == false && state != State::ATTACKING)
 	{
 		if (state == State::IDLE) StartCrouching();
 		else if (state == State::WALKING) StartCrouching();
+		else if (state == State::JUMPING) return;
 	}
-	else if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT) && hasDied == false)
+	else if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT) && hasDied == false && state != State::ATTACKING)
 	{
 		pos.x += -PLAYER_SPEED;
 		if (state == State::IDLE) StartWalkingLeft();
@@ -690,7 +796,7 @@ void Player::MoveX()
 			if (state == State::WALKING) Stop();
 		}
 	}
-	else if (IsKeyDown(KEY_RIGHT) && hasDied == false)
+	else if (IsKeyDown(KEY_RIGHT) && hasDied == false && state != State::ATTACKING)
 	{
 		pos.x += PLAYER_SPEED;
 		if (state == State::IDLE)
@@ -734,7 +840,7 @@ void Player::MoveY()
 		{
 			if (state == State::FALLING) Stop();
 
-			if (IsKeyDown(KEY_UP))
+			if (IsKeyDown(KEY_UP) && state != State::ATTACKING)
 			{
 				box = GetHitbox();
 				if (map->TestOnLadder(box, &pos.x))
@@ -744,7 +850,11 @@ void Player::MoveY()
 					StartJumping();
 				}
 			}
-			else if (IsKeyDown(KEY_DOWN))
+			else if (IsKeyPressed(KEY_SPACE) && state != State::ATTACKING)
+			{
+				Attack();
+			}
+			else if (IsKeyDown(KEY_DOWN) && state != State::ATTACKING)
 			{
 				//To climb up the ladder, we need to check the control point (x, y)
 				//To climb down the ladder, we need to check pixel below (x, y+1) instead
@@ -754,12 +864,13 @@ void Player::MoveY()
 				{
 					StartClimbingDown();
 					pos.y += PLAYER_LADDER_SPEED;
+					pos.x -= PLAYER_LADDER_SPEED;
+				}
+				else
+				{
+					StartCrouching();
 				}
 					
-			}
-			else if (IsKeyPressed(KEY_SPACE))
-			{
-				Attack();
 			}
 			else if (IsKeyPressed(KEY_L))
 			{
@@ -835,19 +946,22 @@ void Player::LogicClimbing()
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	int tmp;
 
-	if (IsKeyDown(KEY_UP))
+	if (IsKeyDown(KEY_UP) && state != State::ATTACKING)
 	{
-		pos.y -= PLAYER_LADDER_SPEED;
+		pos.x += PLAYER_LADDER_SPEED / 5;
+		pos.y -= PLAYER_LADDER_SPEED / 5;
 		sprite->NextFrame();
 	}
-	else if (IsKeyDown(KEY_DOWN))
+	else if (IsKeyDown(KEY_DOWN) && state != State::ATTACKING)
 	{
-		pos.y += PLAYER_LADDER_SPEED;
+		pos.x -= (PLAYER_LADDER_SPEED / 5);
+		pos.y += (PLAYER_LADDER_SPEED / 5);
 		sprite->PrevFrame();
 	}
 
 	//It is important to first check LadderTop due to its condition as a collision ground.
 	//By doing so, we ensure that we don't stop climbing down immediately after starting the descent.
+	box = GetHitbox();
 	box = GetHitbox();
 	if (map->TestOnLadderTop(box, &tmp))
 	{
@@ -880,11 +994,46 @@ void Player::DrawDebug(const Color& col) const
 	//TODO Change this so that the width and height are appropriate
 	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), WINDOW_WIDTH-90, 0, 8, LIGHTGRAY);
 	DrawPixel(pos.x, pos.y, WHITE);
+
 }
 void Player::Release()
 {
+	//if (shieldSFX.stream.processor != NULL)
+	//{
+	//	UnloadSound(shieldSFX);
+
+	//}
+	//if (attackSFX.stream.processor != NULL)
+	//{
+	//	UnloadSound(attackSFX);
+
+	//}
+	//if (moneyBagSFX.stream.processor != NULL)
+	//{
+	//	UnloadSound(moneyBagSFX);
+	//}
+	//if (orbSFX.stream.processor != NULL)
+	//{
+	//	UnloadSound(orbSFX);
+	//}
+	if (!unloadedSounds)
+	{
+		UnloadSound(shieldSFX);
+		UnloadSound(attackSFX);
+		UnloadSound(moneyBagSFX);
+		UnloadSound(orbSFX);
+		unloadedSounds = true;
+	}
+
+
+
+
+	//UnloadSound(attackSFX);
 	ResourceManager& data = ResourceManager::Instance();
 	data.ReleaseTexture(Resource::IMG_PLAYER);
 
+	
 	render->Release();
+
+
 }

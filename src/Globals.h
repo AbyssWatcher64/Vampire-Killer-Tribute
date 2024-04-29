@@ -1,7 +1,7 @@
 #pragma once
 
 //Displaying scale factor
-#define GAME_SCALE_FACTOR	2.0f
+#define GAME_SCALE_FACTOR	3.0f
 
 //Function return values
 enum class AppStatus { OK = 0, ERROR, QUIT };
@@ -25,5 +25,5 @@ void log(const char file[], int line, const char* text, ...);
 #define LEVEL_HEIGHT	11
 
 //Entities animation delay
-#define ANIM_DELAY		20
-//#define ANIM_DELAY		8 
+//#define ANIM_DELAY		20 // for testing and checking anims
+#define ANIM_DELAY		8
