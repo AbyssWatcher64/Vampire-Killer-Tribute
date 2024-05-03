@@ -9,12 +9,10 @@ FadeTransition::FadeTransition()
     frames_to = 0;
     frames_counter = 0;
     rect = {};
+    toScene = 1;
     state = FadeState::IN;
 
-    w = WINDOW_WIDTH * GAME_SCALE_FACTOR;
-    h = WINDOW_HEIGHT * GAME_SCALE_FACTOR;
-    src = { 0, 0, WINDOW_WIDTH, -WINDOW_HEIGHT };
-    dst = { 0, 0, w, h };
+    dst = {};
 }
 FadeTransition::~FadeTransition()
 {
@@ -43,29 +41,38 @@ void FadeTransition::Set(GameState from, int frames_from, GameState to, int fram
 
     state = FadeState::OUT;
 }
- void FadeTransition::SetScene(int to)
+void FadeTransition::SetScene(int to, int frames_from,int frames_to)
 {
-    // These two look unnecessary
-    this->from = GameState::PLAYING;
-    this->to = GameState::PLAYING;
     is_active = true;
-    this->frames_from = 5;
-    this->frames_to = 5;
-    this->rect = rect;
-    frames_counter = 0;
+
+    w = WINDOW_WIDTH * GAME_SCALE_FACTOR;
+    h = WINDOW_HEIGHT * GAME_SCALE_FACTOR;
+    dst = { 0, 0, w, h };
+
+    this->toScene = to;
+    this->frames_from = frames_from;
+    this->frames_to = frames_to;
+    this->rect = dst;
+
     state = FadeState::IN;
 }
-void FadeTransition::SetScene()
+
+void FadeTransition::SetScene(int from, int to, int frames_from, int frames_to)
 {
-    this->from = GameState::PLAYING;
-    this->to = GameState::PLAYING;
     is_active = true;
-    this->frames_from = 5;
-    this->frames_to = 5;
-    frames_counter = 0;
-    this->rect = rect;
+
+    w = WINDOW_WIDTH * GAME_SCALE_FACTOR;
+    h = WINDOW_HEIGHT * GAME_SCALE_FACTOR;
+    dst = { 0, 0, w, h };
+
+    this->toScene = to;
+    this->frames_from = frames_from;
+    this->frames_to = frames_to;
+    this->rect = dst;
+
     state = FadeState::OUT;
 }
+
 bool FadeTransition::IsActive()
 {
     return is_active;

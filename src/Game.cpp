@@ -13,6 +13,7 @@ Game::Game()
     img_desc = nullptr;
     img_ending = nullptr;
     img_ui = nullptr;
+    
 
     target = {};
     src = {};
@@ -178,8 +179,8 @@ AppStatus Game::Update()
             if (IsKeyPressed(KEY_SPACE))
             {
                 if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
-                //state = GameState::PLAYING;
-                fade_transition.Set(GameState::MAIN_MENU, 5, GameState::PLAYING, 5, dst);
+                state = GameState::PLAYING;
+                //fade_transition.Set(GameState::MAIN_MENU, 5, GameState::PLAYING, 5, dst);
                 //PlayMusicStream(Ost2VampireKiller); //No sé si ponerlo en Game o Scene
             }
             break;
@@ -260,7 +261,7 @@ void Game::Render()
             // TODO: Change the numbers of the second curly braces to have divisions so that if you make the screen smaller, it will get smaller as well (not hard-coded)
            
             //// This draws the Push Space Key text
-            //DrawTexturePro(*img_menu, { 258, 41, 110,7 }, { WINDOW_WIDTH/3,(WINDOW_HEIGHT - (WINDOW_HEIGHT / 3))+20,110,7 }, { 0,0 }, 0, WHITE);
+            DrawTexturePro(*img_menu, { 258, 41, 110,7 }, { WINDOW_WIDTH/3,(WINDOW_HEIGHT - (WINDOW_HEIGHT / 3))+20,110,7 }, { 0,0 }, 0, WHITE);
 
             DrawTexturePro(*img_menu, { 0, WINDOW_HEIGHT/26, WINDOW_WIDTH,WINDOW_HEIGHT/2 }, { WINDOW_WIDTH / 42 ,WINDOW_WIDTH / 16,WINDOW_WIDTH - WINDOW_WIDTH / 20, WINDOW_HEIGHT / 2.2f }, { 0,0 }, 0, WHITE);
 

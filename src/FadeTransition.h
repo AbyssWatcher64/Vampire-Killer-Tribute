@@ -20,8 +20,8 @@ public:
     void Set(GameState from, int frames_from, GameState to, int frames_to, const Rectangle& rect);
 
     // For scenes
-    void SetScene(int to);
-    void SetScene();
+    void SetScene(int to, int frames_from, int frames_to);
+    void SetScene(int from, int to, int frames_from, int frames_to);
 
     //Check if the fade effect is currently active
     bool IsActive();
@@ -45,6 +45,8 @@ private:
     //Counter to track the current frame during the fade effect
     int frames_counter;
 
+    int toScene;
+
     //Rectangle defining the area where the fade effect will be applied
     Rectangle rect;
 
@@ -54,6 +56,6 @@ private:
 
 
 
-    Rectangle src, dst;
+    Rectangle dst;
     float w, h;
 };

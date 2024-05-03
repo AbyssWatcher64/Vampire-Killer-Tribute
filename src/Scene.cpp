@@ -151,6 +151,9 @@ AppStatus Scene::Init()
 		return AppStatus::ERROR;
 	}
 
+	fade_transition.SetScene(1, 10, 10);
+
+
     return AppStatus::OK;
 }
 AppStatus Scene::LoadLevel(int stage)
@@ -161,8 +164,6 @@ AppStatus Scene::LoadLevel(int stage)
 	//h = WINDOW_HEIGHT * GAME_SCALE_FACTOR;
 	//src = { 0, 0, WINDOW_WIDTH, -WINDOW_HEIGHT };
 	//dst = { 0, 0, w, h };
-
-	fade_transition.SetScene();
 
 	int size;
 	int x, y, i;
@@ -390,6 +391,7 @@ void Scene::Update()
 	{
 		if (player->GetXPos() == 0 && currentLevel == 4)
 		{
+			fade_transition.SetScene(currentLevel - 1, currentLevel, 10, 10);
 			int tmpYPos = player->GetYPos() - 16;
 			LoadLevel(currentLevel - 1);
 			player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
@@ -397,6 +399,7 @@ void Scene::Update()
 		}
 		else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 3)
 		{
+			fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
 			int tmpYPos = player->GetYPos() + 16;
 			LoadLevel(currentLevel + 1);
 			player->SetPos(Point(10, tmpYPos));
@@ -404,6 +407,7 @@ void Scene::Update()
 		}
 		else if (player->GetXPos() == 0 && currentLevel > 1)
 		{
+			fade_transition.SetScene(currentLevel - 1, currentLevel, 10, 10);
 			int tmpYPos = player->GetYPos();
 			LoadLevel(currentLevel - 1);
 			player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
@@ -411,6 +415,7 @@ void Scene::Update()
 		}
 		else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 4)
 		{
+			fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
 			int tmpYPos = player->GetYPos();
 			LoadLevel(currentLevel + 1);
 			player->SetPos(Point(10, tmpYPos));
@@ -422,7 +427,8 @@ void Scene::Update()
 			int tmpYPos = player->GetYPos();
 			player->SetPos(Point(0, tmpYPos));
 		}
-		else if (player->GetXPos() >= WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 4) {
+		else if (player->GetXPos() >= WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 4) 
+		{
 			int tmpYPos = player->GetYPos();
 			player->SetPos(Point(WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH, tmpYPos));
 		}
@@ -438,56 +444,58 @@ void Scene::Update()
 		hitbox = player->GetHitbox();
 		enemies->Update(hitbox);
 		shots->Update(hitbox);
-	}
 
-	//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
-	if (IsKeyPressed(KEY_F1))
-	{
-		debug = (DebugMode)(((int)debug + 1) % (int)DebugMode::SIZE);
-	}
-	else if (IsKeyPressed(KEY_F2))
-	{
-		player->GodMode();
-	}
-	else if(IsKeyPressed(KEY_KP_1))
-	{
-		fade_transition.SetScene(1);
-		currentLevel = 1;
-		LoadLevel(1);
-		player->SetPos(Point(20, 150));
-	}
-	else if (IsKeyPressed(KEY_KP_2))
-	{
-		fade_transition.SetScene(1);
-		currentLevel = 2;
-		LoadLevel(2);
-		player->SetPos(Point(20, 150));
+		//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
+		if (IsKeyPressed(KEY_F1))
+		{
+			debug = (DebugMode)(((int)debug + 1) % (int)DebugMode::SIZE);
+		}
+		else if (IsKeyPressed(KEY_F2))
+		{
+			player->GodMode();
+		}
+		else if (IsKeyPressed(KEY_KP_1))
+		{
+			fade_transition.SetScene(1, currentLevel, 10, 10);
+			LoadLevel(1);
+			player->SetPos(Point(20, 150));
+			currentLevel = 1;
+		}
+		else if (IsKeyPressed(KEY_KP_2))
+		{
+			//fade_transition.SetScene(1);
+			fade_transition.SetScene(currentLevel, 2, 10, 10);
+			currentLevel = 2;
+			LoadLevel(2);
+			player->SetPos(Point(20, 150));
+		}
+		else if (IsKeyPressed(KEY_KP_3))
+		{
+			fade_transition.SetScene(currentLevel, 3, 10, 10);
+			currentLevel = 3;
+			LoadLevel(3);
+			player->SetPos(Point(20, 150));
 
+		}
+		else if (IsKeyPressed(KEY_KP_4))
+		{
+			//Idk if order is relevant
+			LoadLevel(4);
+			currentLevel = 4;
+			player->SetPos(Point(20, 166));
+			fade_transition.SetScene(currentLevel, 4, 10, 10);
+		}
+		//This is not going to work from now on
+		//else if (IsKeyPressed(KEY_E))
+		//{
+		//	/*enemy = new Enemy({ 0,0 }, EnemyState::IDLE, EnemyLook::LEFT);*/
+		//	enemy->SetPos(Point(WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT-TILE_SIZE*4-1));
+		//	/*if (enemy->GetXPos() == 0) {
+		//		delete enemy;
+		//	}*/
+		//	
+		//}
 	}
-	else if (IsKeyPressed(KEY_KP_3))
-	{
-		fade_transition.SetScene(1);
-		currentLevel = 3;
-		LoadLevel(3);
-		player->SetPos(Point(20, 150));
-
-	}
-	else if (IsKeyPressed(KEY_KP_4))
-	{
-		LoadLevel(4);
-		currentLevel = 4;
-		player->SetPos(Point(20, 166));
-	}
-	//This is not going to work from now on
-	//else if (IsKeyPressed(KEY_E))
-	//{
-	//	/*enemy = new Enemy({ 0,0 }, EnemyState::IDLE, EnemyLook::LEFT);*/
-	//	enemy->SetPos(Point(WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT-TILE_SIZE*4-1));
-	//	/*if (enemy->GetXPos() == 0) {
-	//		delete enemy;
-	//	}*/
-	//	
-	//}
 
 	if (currentLevel == 1)
 	{
