@@ -96,6 +96,9 @@
     <ClCompile Include="src\Text.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="src\FadeTransition.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -165,6 +168,9 @@
       <Filter>Source Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="src\Text.h">
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FadeTransition.h">
       <Filter>Source Files\Render</Filter>
     </ClInclude>
   </ItemGroup>

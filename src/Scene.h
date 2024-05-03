@@ -7,6 +7,7 @@
 #include "ShotManager.h"
 #include "ParticleManager.h"
 #include "Text.h"
+#include "FadeTransition.h"
 
 enum class DebugMode { OFF, SPRITES_AND_HITBOXES, ONLY_HITBOXES, SIZE };
 
@@ -59,7 +60,9 @@ private:
     Camera2D camera;
     DebugMode debug;
 
+    GameState state;
     
     Text* font;
+    FadeTransition fade_transition;
 };
 

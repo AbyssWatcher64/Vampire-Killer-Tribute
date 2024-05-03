@@ -57,10 +57,14 @@ AppStatus Game::Initialise(float scale)
         return AppStatus::ERROR;
     }
 
+    //Initialise the fade in effect
+    fade_transition.Set(GameState::MAIN_MENU, 5, dst);
+
     //Set the target frame rate for the application
     SetTargetFPS(60);
     //Disable the escape key to quit functionality
     SetExitKey(0);
+
 
 
     return AppStatus::OK;
@@ -137,8 +141,26 @@ AppStatus Game::Update()
     //Check if user attempts to close the window, either by clicking the close button or by pressing Alt+F4
     if(WindowShouldClose()) return AppStatus::QUIT;
 
-    switch (state)
+
+    if (fade_transition.IsActive())
     {
+        GameState prev_frame = state;
+        state = fade_transition.Update();
+
+        //Begin play and finish play are delayed due to the fading transition effect
+        if (prev_frame == GameState::MAIN_MENU && state == GameState::PLAYING)
+        {
+            if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
+        }
+        else if (prev_frame == GameState::PLAYING && state == GameState::MAIN_MENU)
+        {
+            FinishPlay();
+        }
+    }
+    else
+    {
+        switch (state)
+        {
         case GameState::INITIAL_SCREEN:
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             if (IsKeyPressed(KEY_SPACE)) {
@@ -151,24 +173,27 @@ AppStatus Game::Update()
                 state = GameState::MAIN_MENU;
             }
             break;
-        case GameState::MAIN_MENU: 
+        case GameState::MAIN_MENU:
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             if (IsKeyPressed(KEY_SPACE))
             {
-                if(BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
-                state = GameState::PLAYING;
+                if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
+                //state = GameState::PLAYING;
+                fade_transition.Set(GameState::MAIN_MENU, 5, GameState::PLAYING, 5, dst);
                 //PlayMusicStream(Ost2VampireKiller); //No sé si ponerlo en Game o Scene
             }
             break;
 
-        case GameState::PLAYING:  
+        case GameState::PLAYING:
             if (IsKeyPressed(KEY_ESCAPE))
             {
-                FinishPlay();
-                state = GameState::MAIN_MENU;
+                //FinishPlay();
+                //state = GameState::MAIN_MENU;
+                fade_transition.Set(GameState::PLAYING, 5, GameState::MAIN_MENU, 5, dst);
+
                 //StopMusicStream(Ost2VampireKiller);
             }
-            else if(IsKeyPressed(KEY_F3))
+            else if (IsKeyPressed(KEY_F3))
             {
                 state = GameState::GAME_OVER;
                 //StopMusicStream(Ost2VampireKiller);
@@ -199,7 +224,7 @@ AppStatus Game::Update()
             break;
 
         case GameState::GAME_OVER:
-            if (IsKeyPressed(KEY_ESCAPE)) 
+            if (IsKeyPressed(KEY_ESCAPE))
                 return AppStatus::QUIT;
             else if (IsKeyPressed(KEY_SPACE))
                 state = GameState::MAIN_MENU;
@@ -210,7 +235,9 @@ AppStatus Game::Update()
                 state = GameState::MAIN_MENU;
             }
             break;
+        }
     }
+
     return AppStatus::OK;
 }
 void Game::Render()
@@ -261,6 +288,7 @@ void Game::Render()
     //Draw render texture to screen, properly scaled
     BeginDrawing();
     DrawTexturePro(target.texture, src, dst, { 0, 0 }, 0.0f, WHITE);
+    if (fade_transition.IsActive()) fade_transition.Render();
     EndDrawing();
 }
 void Game::Cleanup()

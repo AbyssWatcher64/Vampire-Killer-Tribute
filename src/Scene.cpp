@@ -66,6 +66,7 @@ Scene::~Scene()
 }
 AppStatus Scene::Init()
 {
+
 	//Create player
 	player = new Player({ 0,0 }, State::IDLE, Look::RIGHT);
 	if (player == nullptr)
@@ -128,9 +129,6 @@ AppStatus Scene::Init()
 		return AppStatus::ERROR;
 	}
 
-
-
-
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
 	//Assign the tile map reference to the shot manager to check collisions when shots are shot
@@ -157,6 +155,15 @@ AppStatus Scene::Init()
 }
 AppStatus Scene::LoadLevel(int stage)
 {
+	//Rectangle src, dst;
+	//float w, h;
+	//w = WINDOW_WIDTH * GAME_SCALE_FACTOR;
+	//h = WINDOW_HEIGHT * GAME_SCALE_FACTOR;
+	//src = { 0, 0, WINDOW_WIDTH, -WINDOW_HEIGHT };
+	//dst = { 0, 0, w, h };
+
+	fade_transition.SetScene();
+
 	int size;
 	int x, y, i;
 	Tile tile;
@@ -375,6 +382,63 @@ void Scene::Update()
 {
 	Point p1, p2;
 	AABB hitbox;
+	if (fade_transition.IsActive())
+	{
+		fade_transition.Update();
+	}
+	else
+	{
+		if (player->GetXPos() == 0 && currentLevel == 4)
+		{
+			int tmpYPos = player->GetYPos() - 16;
+			LoadLevel(currentLevel - 1);
+			player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
+			currentLevel--;
+		}
+		else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 3)
+		{
+			int tmpYPos = player->GetYPos() + 16;
+			LoadLevel(currentLevel + 1);
+			player->SetPos(Point(10, tmpYPos));
+			currentLevel++;
+		}
+		else if (player->GetXPos() == 0 && currentLevel > 1)
+		{
+			int tmpYPos = player->GetYPos();
+			LoadLevel(currentLevel - 1);
+			player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
+			currentLevel--;
+		}
+		else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 4)
+		{
+			int tmpYPos = player->GetYPos();
+			LoadLevel(currentLevel + 1);
+			player->SetPos(Point(10, tmpYPos));
+			currentLevel++;
+		}
+		else if (player->GetXPos() <= 0 && currentLevel == 1)
+		{
+			// TODO: Change this in the player.cpp --> Stop animations if a wall is hit
+			int tmpYPos = player->GetYPos();
+			player->SetPos(Point(0, tmpYPos));
+		}
+		else if (player->GetXPos() >= WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 4) {
+			int tmpYPos = player->GetYPos();
+			player->SetPos(Point(WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH, tmpYPos));
+		}
+		// TODO: Add it for level 4
+
+		//ResetScreen(); // REVIEW: this wasn't commented pre-prototype
+
+		level->Update();
+		player->Update();
+		CheckObjectCollisions();
+		CheckEnemyCollisions();
+
+		hitbox = player->GetHitbox();
+		enemies->Update(hitbox);
+		shots->Update(hitbox);
+	}
 
 	//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
 	if (IsKeyPressed(KEY_F1))
@@ -387,12 +451,14 @@ void Scene::Update()
 	}
 	else if(IsKeyPressed(KEY_KP_1))
 	{
+		fade_transition.SetScene(1);
 		currentLevel = 1;
 		LoadLevel(1);
 		player->SetPos(Point(20, 150));
 	}
 	else if (IsKeyPressed(KEY_KP_2))
 	{
+		fade_transition.SetScene(1);
 		currentLevel = 2;
 		LoadLevel(2);
 		player->SetPos(Point(20, 150));
@@ -400,6 +466,7 @@ void Scene::Update()
 	}
 	else if (IsKeyPressed(KEY_KP_3))
 	{
+		fade_transition.SetScene(1);
 		currentLevel = 3;
 		LoadLevel(3);
 		player->SetPos(Point(20, 150));
@@ -445,56 +512,7 @@ void Scene::Update()
 
 	}
 
-	if (player->GetXPos() == 0 && currentLevel == 4)
-	{
-		int tmpYPos = player->GetYPos() - 16;
-		LoadLevel(currentLevel - 1);
-		player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
-		currentLevel--;
-	}
-	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 3)
-	{
-		int tmpYPos = player->GetYPos() + 16;
-		LoadLevel(currentLevel + 1);
-		player->SetPos(Point(10, tmpYPos));
-		currentLevel++;
-	}
-	else if (player->GetXPos() == 0 && currentLevel > 1)
-	{
-		int tmpYPos = player->GetYPos();
-		LoadLevel(currentLevel - 1);
-		player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
-		currentLevel--;
-	}
-	else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 4)
-	{
-		int tmpYPos = player->GetYPos();
-		LoadLevel(currentLevel + 1);
-		player->SetPos(Point(10, tmpYPos));
-		currentLevel++;
-	}
-	else if (player->GetXPos() <= 0 && currentLevel == 1)
-	{
-		// TODO: Change this in the player.cpp --> Stop animations if a wall is hit
-		int tmpYPos = player->GetYPos();
-		player->SetPos(Point(0, tmpYPos));
-	}
-	else if (player->GetXPos() >= WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel == 4) {
-		int tmpYPos = player->GetYPos();
-		player->SetPos(Point(WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH, tmpYPos));
-	}
-	// TODO: Add it for level 4
-
-	//ResetScreen(); // REVIEW: this wasn't commented pre-prototype
-
-	level->Update();
-	player->Update();
-	CheckObjectCollisions();
-	CheckEnemyCollisions();
-
-	hitbox = player->GetHitbox();
-	enemies->Update(hitbox);
-	shots->Update(hitbox);
+	
 }
 void Scene::Render()
 {
@@ -517,7 +535,7 @@ void Scene::Render()
 	}
 
 	EndMode2D();
-
+ 	if (fade_transition.IsActive()) fade_transition.Render();
 	RenderGUI();
 }
 void Scene::Release()
