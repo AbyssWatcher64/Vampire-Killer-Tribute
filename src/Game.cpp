@@ -74,7 +74,7 @@ AppStatus Game::LoadResources()
 {
     ResourceManager& data = ResourceManager::Instance();
     
-    if (data.LoadTexture(Resource::IMG_MENU, "img/ui.png") != AppStatus::OK)
+    if (data.LoadTexture(Resource::IMG_MENU, "img/uielements.png") != AppStatus::OK)
     {
         return AppStatus::ERROR;
     }
@@ -275,6 +275,7 @@ void Game::Render()
 
         case GameState::PLAYING:
             scene->Render();
+            DrawTexturePro(*img_ui, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
             break;
         case GameState::GAME_OVER:
             DrawTexturePro(*img_menu, { 400,89,73,7 }, { WINDOW_WIDTH/2.75f,WINDOW_HEIGHT/2.25f,73,7 }, { 0,0 }, 0, WHITE);
