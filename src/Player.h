@@ -116,6 +116,7 @@ public:
 	int GetXPos();
 	int GetYPos();
 
+	void GetHurt();
 	void ChangeHP(int value);
 
 	void Update();

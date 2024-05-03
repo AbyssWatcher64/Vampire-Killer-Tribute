@@ -98,7 +98,7 @@ void EnemyManager::Update(const AABB& player_hitbox)
 			enemy->GetShootingPosDir(&p, &d);
 			shots->Add(p, d);
 		}
-	/*	else if (map->TestCollisionWallLeft(box))
+/*	else if (map->TestCollisionWallLeft(box))
 		{
 			if (look == Look::LEFT)
 				look = Look::RIGHT;
@@ -117,14 +117,20 @@ void EnemyManager::Update(const AABB& player_hitbox)
 void EnemyManager::Draw() const
 {
 	for (const Enemy* enemy : enemies)
-		enemy->Draw();
+		if (enemy->IsAlive())
+		{
+			enemy->Draw();
+		}
 }
 void EnemyManager::DrawDebug() const
 {
 	for (const Enemy* enemy : enemies)
 	{
-		enemy->DrawVisibilityArea(DARKGRAY);
-		enemy->DrawHitbox(RED);
+		if (enemy->IsAlive())
+		{
+			enemy->DrawVisibilityArea(DARKGRAY);
+			enemy->DrawHitbox(RED);
+		}
 	}
 }
 void EnemyManager::Release()

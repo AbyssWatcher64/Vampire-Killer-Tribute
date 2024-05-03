@@ -58,8 +58,13 @@ void Zombie::InitPattern()
 	//from appearing rushed or incomplete
 	const int n = ZOMBIE_ANIM_DELAY * 3;
 
-	pattern.push_back({ {ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_RIGHT });
-	pattern.push_back({ {-ZOMBIE_SPEED, 0}, n, (int)ZombieAnim::WALKING_LEFT });
+	if (look == Look::LEFT)
+	{
+		pattern.push_back({ {-ZOMBIE_SPEED, 0}, /*n*/0, (int)ZombieAnim::WALKING_LEFT });
+
+	}
+	else 
+		pattern.push_back({ {ZOMBIE_SPEED, 0}, /*n*/0, (int)ZombieAnim::WALKING_RIGHT });
 
 	current_step = 0;
 	current_frames = 0;
@@ -83,6 +88,14 @@ bool Zombie::Update(const AABB& box)
 		sprite->SetAnimation(anim_id);
 		UpdateLook(anim_id);
 	}
+
+	if (pos.x == -10)
+		//SetAlive(false);
+		pos.x = 299;
+	//delete this;	
+
+	else if (pos.x == 300)
+		pos.x = -9;
 
 	MoveX();
 

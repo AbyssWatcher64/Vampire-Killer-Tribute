@@ -13,6 +13,8 @@ Scene::Scene()
 	font = nullptr;
 	
 	currentLevel = 1;
+	zombieActive1 = false;
+	zombieActive2 = false;
 
 	camera.target = { 0, 0 };				//Center of the screen
 	camera.offset = { 0, MARGIN_GUI_Y };	//Offset from the target (center of the screen)
@@ -354,88 +356,6 @@ AppStatus Scene::LoadLevel(int stage)
 			{
 				LOG("Internal error loading scene: invalid entity or object tile id")
 			}
-			//TESTING OVER
-
-
-
-			//COMMENTING THIS FOR PURPOSES
-
-			//
-			//{
-			//	pos.x = x * TILE_SIZE;
-			//	pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-
-			//	if (tile == Tile::PLAYER)
-			//	{
-			//		player->SetPos(pos);
-			//	}
-			//	else if (tile == Tile::ITEM_SHIELD)
-			//	{
-			//		obj = new Object(pos, ObjectType::SHIELD);
-			//		objects.push_back(obj);
-			//		map[i] = 0;
-			//	}
-
-
-				//tileInteractable = (Tile)mapInteractables[i];
-				//if (tileInteractable == Tile::PLAYER)
-				//{
-				//	player->SetPos(pos);
-				//}
-				//else if (tileInteractable == Tile::ITEM_SHIELD)
-				//{
-				//	obj = new Object(pos, ObjectType::SHIELD);
-				//	objects.push_back(obj);
-				//}
-				//else if (tileInteractable == Tile::ITEM_WHITEBAG)
-				//{
-				//	obj = new Object(pos, ObjectType::WHITEBAG);
-				//	objects.push_back(obj);
-				//}
-				//else if (tileInteractable == Tile::ITEM_BLUEBAG)
-				//{
-				//	obj = new Object(pos, ObjectType::BLUEBAG);
-				//	objects.push_back(obj);
-				//}
-				//else if (tileInteractable == Tile::ITEM_ORB)
-				//{
-				//	obj = new Object(pos, ObjectType::ORB);
-				//	objects.push_back(obj);
-				//}
-				//else if (tile == Tile::ZOMBIE)
-				//{
-				//	pos.x += (ZOMBIE_FRAME_SIZE - ZOMBIE_PHYSICAL_WIDTH) / 2;
-				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
-				//	area = level->GetSweptAreaX(hitbox);
-				//	enemies->Add(pos, EnemyType::ZOMBIE, area);
-				//}
-				//else
-				//{
-				//	LOG("Internal error loading scene: invalid entity or object tile id")
-				//}
-				//COMMENTED
-
-				//Examples enemies
-				//else if (tile == Tile::SLIME)
-				//{
-				//	pos.x += (SLIME_FRAME_SIZE - SLIME_PHYSICAL_WIDTH) / 2;
-				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::SLIME);
-				//	area = level->GetSweptAreaX(hitbox);
-				//	enemies->Add(pos, EnemyType::SLIME, area);
-				//}
-				//else if (tile == Tile::TURRET_LEFT)
-				//{
-				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::TURRET);
-				//	area = level->GetSweptAreaX(hitbox);
-				//	enemies->Add(pos, EnemyType::TURRET, area, Look::LEFT);
-				//}
-				//else if (tile == Tile::TURRET_RIGHT)
-				//{
-				//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::TURRET);
-				//	area = level->GetSweptAreaX(hitbox);
-				//	enemies->Add(pos, EnemyType::TURRET, area, Look::RIGHT);
-				//}
-	
 				++i;
 			}
 		}
@@ -501,8 +421,29 @@ void Scene::Update()
 	//	}*/
 	//	
 	//}
-	
-	
+
+	if (currentLevel == 1)
+	{
+		if (zombieActive1 == false)
+		{
+			Point pos;
+			AABB hitbox, area;
+			pos.x = 101;
+			pos.y = 11;
+			//pos.x = x * TILE_SIZE;
+			//pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+			//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+			hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+			area = level->GetSweptAreaX(hitbox);
+			enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT);
+			zombieActive1 = true;
+			if (pos.x == 1)
+			{
+				pos.x = 100;
+			}
+		}
+
+	}
 
 	if (player->GetXPos() == 0 && currentLevel == 4)
 	{
@@ -549,6 +490,7 @@ void Scene::Update()
 	level->Update();
 	player->Update();
 	CheckObjectCollisions();
+	CheckEnemyCollisions();
 
 	hitbox = player->GetHitbox();
 	enemies->Update(hitbox);
@@ -639,6 +581,18 @@ void Scene::CheckObjectCollisions()
 		}
 	}
 }
+void Scene::CheckEnemyCollisions()
+{
+	//TODO add interaction player - zombie
+	AABB player_box, enemy_box;
+
+	player_box = player->GetHitbox();
+//	enemy_box = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+	if (player_box.TestAABB(enemy_box))
+	{
+		player->GetHurt();
+	}
+}
 void Scene::ClearLevel()
 {
 	for (Object* obj : objects)
@@ -648,6 +602,7 @@ void Scene::ClearLevel()
 	objects.clear();
 	enemies->Release();
 	shots->Clear();
+	zombieActive1 = false;
 }
 void Scene::RenderObjects() const
 {
@@ -666,9 +621,9 @@ void Scene::RenderObjectsDebug(const Color& col) const
 void Scene::RenderGUI() const
 {
 	////Temporal approach
-	//DrawText(TextFormat("SCORE : %d", player->GetScore()), 10, 10, 8, LIGHTGRAY);
-	//DrawText(TextFormat("HP : %d", player->GetHP()), 10, 20, 8, LIGHTGRAY);
-	//DrawText(TextFormat("LIVES : %d", player->GetLives()), 10, 30, 8, LIGHTGRAY);
+	DrawText(TextFormat("SCORE : %d", player->GetScore()), 10, 10, 8, LIGHTGRAY);
+	DrawText(TextFormat("HP : %d", player->GetHP()), 10, 20, 8, LIGHTGRAY);
+	DrawText(TextFormat("LIVES : %d", player->GetLives()), 10, 30, 8, LIGHTGRAY);
 
 	static int frame;
 	frame++;

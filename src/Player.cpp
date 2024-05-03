@@ -336,6 +336,21 @@ int Player::GetYPos()
 {
 	return pos.y;
 }
+void Player::GetHurt()
+{
+	if (!godMode)
+	{
+		hp -= 10;
+		/*hp += value;
+		if (hp > 100)
+			hp = 100;
+		if (hp <= 0)
+		{
+			hp = 0;
+			Death();
+		}*/
+	}
+}
 bool Player::GetIsHoldingShield() const
 {
 	return Player::isHoldingShield;
@@ -1027,6 +1042,14 @@ void Player::LogicClimbing()
 void Player::DrawDebug(const Color& col) const
 {	
 	Entity::DrawHitbox(pos.x, pos.y, width, height, col);
+	if (state == State::ATTACKING && look == Look::RIGHT)
+	{
+		Entity::DrawHitbox(pos.x+width, pos.y-height/2, width * 2, height / 3, col);
+	}
+	else if (state == State::ATTACKING && look == Look::LEFT)
+	{
+		Entity::DrawHitbox(pos.x - (width * 2), pos.y - height / 2, width * 2, height / 3, col);
+	}
 	//TODO Change this so that the width and height are appropriate
 	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), WINDOW_WIDTH-90, 0, 8, LIGHTGRAY);
 	DrawPixel(pos.x, pos.y, WHITE);

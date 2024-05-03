@@ -29,6 +29,7 @@ private:
     AppStatus LoadLevel(int stage);
 
     void CheckObjectCollisions();
+    void CheckEnemyCollisions();
     void ClearLevel();
     void RenderObjects() const;
     void RenderObjectsDebug(const Color& col) const;
@@ -47,6 +48,8 @@ private:
 
     //Enemies present in the level
     EnemyManager* enemies;
+    bool zombieActive1;
+    bool zombieActive2;
 
     //Shots thrown by enemies
     ShotManager* shots;
