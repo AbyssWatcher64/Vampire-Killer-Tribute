@@ -544,7 +544,17 @@ void TileMap::Render()
 				pos.x = (float)j * TILE_SIZE;
 				pos.y = (float)i * TILE_SIZE;
 
+				if ((int)tile == 800) {
+					bool isFire = true;
+				}
+				
 				if (tile != Tile::FIRE)
+				{
+					rc = dict_rect[(int)tile];
+					//DrawTextureRec(*img_items, rc, pos, WHITE);
+					DrawTextureRec(*img_tiles, rc, pos, WHITE);
+				}
+				else if(tile != Tile::FIRE)
 				{
 					rc = dict_rect[(int)tile];
 					//DrawTextureRec(*img_items, rc, pos, WHITE);

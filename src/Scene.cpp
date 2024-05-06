@@ -7,11 +7,12 @@ Scene::Scene()
 {
 	player = nullptr;
 	level = nullptr;
+	levelInteractables = nullptr;
 	enemies = nullptr;
 	shots = nullptr;
 	particles = nullptr;
 	font = nullptr;
-	
+	timer = 0;
 	currentLevel = 1;
 	zombieActive1 = false;
 	zombieActive2 = false;
@@ -36,6 +37,12 @@ Scene::~Scene()
 		level->Release();
 		delete level;
 		level = nullptr;
+	}
+	if (levelInteractables != nullptr)
+	{
+		levelInteractables->Release();
+		delete levelInteractables;
+		levelInteractables = nullptr;
 	}
 	for (Entity* obj : objects)
 	{
@@ -122,12 +129,25 @@ AppStatus Scene::Init()
 		LOG("Failed to initialise Level");
 		return AppStatus::ERROR;
 	}
+	levelInteractables = new TileMap();
+	if (levelInteractables == nullptr)
+	{
+		LOG("Failed to allocate memory for Level");
+		return AppStatus::ERROR;
+	}
+	if (levelInteractables->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Level");
+		return AppStatus::ERROR;
+	}
 	//Load level
 	if (LoadLevel(1) != AppStatus::OK)
 	{
 		LOG("Failed to load Level 1");
 		return AppStatus::ERROR;
 	}
+
+
 
 	//Assign the tile map reference to the player to check collisions while navigating
 	player->SetTileMap(level);
@@ -164,7 +184,7 @@ AppStatus Scene::LoadLevel(int stage)
 	//h = WINDOW_HEIGHT * GAME_SCALE_FACTOR;
 	//src = { 0, 0, WINDOW_WIDTH, -WINDOW_HEIGHT };
 	//dst = { 0, 0, w, h };
-
+	timer = 0;
 	int size;
 	int x, y, i;
 	Tile tile;
@@ -190,7 +210,7 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		139,	140,	7,		5,		7,
-				3,		138,	65,		66,		/*800*/138,	138,	1/*4*/,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
+				3,		138,	65,		66,		138,	138,	1/*4*/,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
 				2,		2,		62,		63,		64,		2,		2,		2,		 2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -204,10 +224,10 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
 				201,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		201,		0,		0,		0/*201*/,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
+				0,		0,		0,		0,		0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
 		player->InitScore();
 	}
@@ -236,7 +256,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0, 800,		0,		0,		0,
 				0,		200,	0,		0,		0,		0,		0,		400,	0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -344,7 +364,9 @@ AppStatus Scene::LoadLevel(int stage)
 
 	//Tile map
 	level->Load(map, LEVEL_WIDTH, LEVEL_HEIGHT); // REVIEW: this wasn't here in the prototype
+	levelInteractables->Load(mapInteractables, LEVEL_WIDTH, LEVEL_HEIGHT); // REVIEW: this wasn't here in the prototype
 
+	
 	//Entities and objects
 	i = 0;
 	for (y = 0; y < LEVEL_HEIGHT; ++y)
@@ -403,6 +425,8 @@ AppStatus Scene::LoadLevel(int stage)
 
 	//Remove initial positions of objects and entities from the map
 	level->ClearObjectEntityPositions();
+	levelInteractables->ClearObjectEntityPositions();
+
 
 	//level->Load(mapInteractables, LEVEL_WIDTH, LEVEL_HEIGHT);
 	delete[] mapInteractables;
@@ -412,6 +436,11 @@ AppStatus Scene::LoadLevel(int stage)
 }
 void Scene::Update()
 {
+	timer++;
+	if (timer == 4294967294)
+	{
+		timer = 0;
+	}
 	Point p1, p2;
 	AABB hitbox;
 	if (fade_transition.IsActive())
@@ -468,6 +497,7 @@ void Scene::Update()
 		//ResetScreen(); // REVIEW: this wasn't commented pre-prototype
 
 		level->Update();
+		levelInteractables->Update();
 		player->Update();
 		CheckObjectCollisions();
 		CheckEnemyCollisions();
@@ -536,28 +566,35 @@ void Scene::Update()
 	}
 
 	//TODO Fix this, as it is obviously creating many MEMORY LEAKS
-	//if (currentLevel == 1)
-	//{
-	//	if (zombieActive1 == false)
-	//	{
-	//		Point pos;
-	//		AABB hitbox, area;
-	//		pos.x = 101;
-	//		pos.y = 11;
-	//		//pos.x = x * TILE_SIZE;
-	//		//pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-	//		//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
-	//		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
-	//		area = level->GetSweptAreaX(hitbox);
-	//		enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT);
-	//		zombieActive1 = true;
-	//		if (pos.x == 1)
-	//		{
-	//			pos.x = 100;
-	//		}
-	//	}
+	if (currentLevel == 1 && ((timer % 400) == 0))
+	{
+		AABB player_box;
+		
+		player_box = player->GetHitbox();
+		//enemy_box = enemies->GetEnemyHitBox(ZOMBIE);
+	//	enemy_box = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
 
-	//}
+
+		Point pos;
+		AABB hitbox, area;
+		pos.x = 101;
+		pos.y = 100;
+		//pos.x = x * TILE_SIZE;
+		//pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+		//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+		area = level->GetSweptAreaX(hitbox);
+		// TODO: Add enemies hitbox check, check how objects do it
+		enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT); 
+		if (pos.x == 1)
+		{
+			pos.x = 100;
+		}
+		if (player_box.TestAABB(hitbox))
+		{
+			player->GetHurt();
+		}
+	}
 
 	
 }
@@ -566,6 +603,7 @@ void Scene::Render()
 	BeginMode2D(camera);
 
 	level->Render();
+	levelInteractables->Render();
 	if (debug == DebugMode::OFF || debug == DebugMode::SPRITES_AND_HITBOXES)
 	{
 		RenderObjects();
@@ -588,6 +626,7 @@ void Scene::Render()
 void Scene::Release()
 {
 	level->Release();
+	levelInteractables->Release();
 	player->Release();
 	ClearLevel();
 }
@@ -652,6 +691,7 @@ void Scene::CheckEnemyCollisions()
 	AABB player_box, enemy_box;
 
 	player_box = player->GetHitbox();
+	//enemy_box = enemies->GetEnemyHitBox(ZOMBIE);
 //	enemy_box = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
 	if (player_box.TestAABB(enemy_box))
 	{

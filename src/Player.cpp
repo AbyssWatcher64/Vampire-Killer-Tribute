@@ -270,9 +270,9 @@ AppStatus Player::Initialise()
 
 
 	// Loads all sounds:
-	timeTallySFX = data[03];
-	heartTallySFX = data[04];
-	whipSFX = data[07];
+	timeTallySFX = data[3];
+	heartTallySFX = data[4];
+	whipSFX = data[7];
 	hitStrongEnemy = data[15];
 	whipHitSFX = data[19];
 	blockBreakingSFX = data[20];

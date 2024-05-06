@@ -261,7 +261,7 @@ void Game::Render()
             // TODO: Change the numbers of the second curly braces to have divisions so that if you make the screen smaller, it will get smaller as well (not hard-coded)
            
             //// This draws the Push Space Key text
-            DrawTexturePro(*img_menu, { 258, 41, 110,7 }, { WINDOW_WIDTH/3,(WINDOW_HEIGHT - (WINDOW_HEIGHT / 3))+20,110,7 }, { 0,0 }, 0, WHITE);
+            //DrawTexturePro(*img_menu, { 258, 41, 110,7 }, { WINDOW_WIDTH/3,(WINDOW_HEIGHT - (WINDOW_HEIGHT / 3))+20,110,7 }, { 0,0 }, 0, WHITE);
 
             DrawTexturePro(*img_menu, { 0, WINDOW_HEIGHT/26, WINDOW_WIDTH,WINDOW_HEIGHT/2 }, { WINDOW_WIDTH / 42 ,WINDOW_WIDTH / 16,WINDOW_WIDTH - WINDOW_WIDTH / 20, WINDOW_HEIGHT / 2.2f }, { 0,0 }, 0, WHITE);
 
@@ -270,7 +270,7 @@ void Game::Render()
             DrawTexturePro(*img_menu, { WINDOW_WIDTH, WINDOW_HEIGHT/13, WINDOW_WIDTH/2.45f,WINDOW_HEIGHT / 26 }, { 4.875f * (WINDOW_WIDTH / 16),WINDOW_HEIGHT - (WINDOW_HEIGHT / 2.5f),WINDOW_WIDTH / 2.45f,WINDOW_HEIGHT / 26 }, { 0,0 }, 0, WHITE);
 
                 // This draws the Push Space Key text
-            DrawTexturePro(*img_menu, { WINDOW_WIDTH, WINDOW_HEIGHT/5, WINDOW_WIDTH / 2.3f ,WINDOW_HEIGHT / 26 }, { 4.875f * (WINDOW_WIDTH / 16),WINDOW_HEIGHT - (WINDOW_HEIGHT / 3.6f),WINDOW_WIDTH/2.3f,WINDOW_HEIGHT / 26 }, { 0,0 }, 0, WHITE);
+            DrawTexturePro(*img_menu, { WINDOW_WIDTH, WINDOW_HEIGHT_OLD_MARGIN /5, WINDOW_WIDTH / 2.3f ,WINDOW_HEIGHT_OLD_MARGIN / 26 }, { 4.875f * (WINDOW_WIDTH / 16),WINDOW_HEIGHT_OLD_MARGIN - (WINDOW_HEIGHT_OLD_MARGIN / 3.6f),WINDOW_WIDTH/2.3f,WINDOW_HEIGHT_OLD_MARGIN / 26 }, { 0,0 }, 0, WHITE);
             break;
 
         case GameState::PLAYING:
@@ -278,10 +278,10 @@ void Game::Render()
             DrawTexturePro(*img_ui, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
             break;
         case GameState::GAME_OVER:
-            DrawTexturePro(*img_menu, { 400,89,73,7 }, { WINDOW_WIDTH/2.75f,WINDOW_HEIGHT/2.25f,73,7 }, { 0,0 }, 0, WHITE);
+            DrawTexturePro(*img_menu, { 400,89,73,7 }, { WINDOW_WIDTH/2.75f,WINDOW_HEIGHT_OLD_MARGIN /2.25f,73,7 }, { 0,0 }, 0, WHITE);
             break;
         case GameState::ENDING:
-            DrawTexturePro(*img_ending, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
+            DrawTexturePro(*img_ending, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT_OLD_MARGIN }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT_OLD_MARGIN }, { 0,0 }, 0, WHITE);
             break;
     }
     

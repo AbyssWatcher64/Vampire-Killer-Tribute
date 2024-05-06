@@ -34,15 +34,17 @@ private:
     void ClearLevel();
     void RenderObjects() const;
     void RenderObjectsDebug(const Color& col) const;
-
+    
     void RenderGUI() const;
 
+    unsigned int timer;
     Player* player;
     Enemy* enemy;
     int currentLevel;
 
     //Level structure that contains all the static tiles
     TileMap* level;
+    TileMap* levelInteractables;
 
     //Dynamic objects of the level: items and collectables
     std::vector<Object*> objects;
