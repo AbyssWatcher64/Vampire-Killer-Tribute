@@ -269,10 +269,25 @@ AppStatus Player::Initialise()
 	sprite->SetAnimation((int)PlayerAnim::IDLE_RIGHT);
 
 
-	shieldSFX = LoadSound("sfx/24.wav");
-	attackSFX = LoadSound("sfx/08.wav");
-	moneyBagSFX = LoadSound("sfx/23.wav");
-	orbSFX = LoadSound("music/test1.mp3");
+	// Loads all sounds:
+	timeTallySFX = data[03];
+	heartTallySFX = data[04];
+	whipSFX = data[07];
+	hitStrongEnemy = data[15];
+	whipHitSFX = data[19];
+	blockBreakingSFX = data[20];
+	heartSFX = data[21];
+	moneyBagSFX = data[22];
+	shieldSFX = data[23];
+	stopWatchSFX = data[25];
+	invisibilityOnSFX = data[26];
+	holyWaterSFX = data[29];
+	cruficixSFX = data[34];
+	oneUpSFX = data[35];
+	
+	
+
+	orbSFX = LoadSound("music/04StageClear.ogg");
 
 	return AppStatus::OK;
 }
@@ -601,7 +616,7 @@ void Player::Attack()
 	//TODO: Add attacking SFX
 	// This works, but it will cause a memory leak.
 	//sfxList[8] = LoadSound("sfx/08.wav");
-	PlaySound(attackSFX);
+	PlaySound(whipSFX);
 	
 	
 }
@@ -1062,9 +1077,9 @@ void Player::Release()
 	//	UnloadSound(shieldSFX);
 
 	//}
-	//if (attackSFX.stream.processor != NULL)
+	//if (whipSFX.stream.processor != NULL)
 	//{
-	//	UnloadSound(attackSFX);
+	//	UnloadSound(whipSFX);
 
 	//}
 	//if (moneyBagSFX.stream.processor != NULL)
@@ -1078,7 +1093,7 @@ void Player::Release()
 	if (!unloadedSounds)
 	{
 		UnloadSound(shieldSFX);
-		UnloadSound(attackSFX);
+		UnloadSound(whipSFX);
 		UnloadSound(moneyBagSFX);
 		UnloadSound(orbSFX);
 		unloadedSounds = true;
@@ -1087,7 +1102,7 @@ void Player::Release()
 
 
 
-	//UnloadSound(attackSFX);
+	//UnloadSound(whipSFX);
 	ResourceManager& data = ResourceManager::Instance();
 	data.ReleaseTexture(Resource::IMG_PLAYER);
 

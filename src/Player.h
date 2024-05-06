@@ -200,10 +200,24 @@ private:
 
 	bool godMode;
 
-	Sound shieldSFX;
-	Sound attackSFX;
+	Sound timeTallySFX;
+	Sound heartTallySFX;
+	Sound whipSFX;
+	Sound hitStrongEnemy;
+	Sound whipHitSFX;
+	Sound blockBreakingSFX;
+	Sound heartSFX;
 	Sound moneyBagSFX;
+	Sound shieldSFX; //24
+	Sound stopWatchSFX;
+	Sound invisibilityOnSFX;
+	Sound holyWaterSFX;
+	Sound cruficixSFX;
+	Sound oneUpSFX;
+
 	Sound orbSFX;
+
+
 	bool unloadedSounds;
 
 

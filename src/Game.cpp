@@ -103,9 +103,9 @@ AppStatus Game::LoadResources()
     }
     img_ending = data.GetTexture(Resource::IMG_ENDING);
 
-    
+    data.LoadSounds();
 
-    Ost2VampireKiller = LoadMusicStream("music/test.mp3");
+    Ost2VampireKiller = LoadMusicStream("music/02VampireKiller.ogg");
     Ost2VampireKiller.looping = true;
     //SetMusicVolume(Ost2VampireKiller, 1.0);
 

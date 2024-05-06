@@ -27,9 +27,13 @@ public:
         return instance;
     }
 
+
     //Load and unload texture
     AppStatus LoadTexture(Resource id, const std::string& file_path);
     void ReleaseTexture(Resource id);
+
+    void LoadSounds();
+    void ReleaseSounds();
 
     //Get texture by key
     const Texture2D* GetTexture(Resource id) const;
@@ -40,7 +44,10 @@ public:
     //Ensure Singleton cannot be copied or assigned
     ResourceManager(const ResourceManager&) = delete;
     ResourceManager& operator=(const ResourceManager&) = delete;
-
+    Sound& operator[](int index)
+    {
+        return sounds[index];
+    }
 
 private:
     //Private constructor to prevent instantiation
@@ -48,7 +55,9 @@ private:
     //Destructor
     ~ResourceManager();
 
-    Sound sounds[36];
+    Sound sounds[37];
+    
+    //sounds[0] = "sfx/24.wav";
     //shieldSFX = LoadSound("sfx/24.wav");
     //attackSFX = LoadSound("sfx/08.wav");
     //moneyBagSFX = LoadSound("sfx/23.wav");

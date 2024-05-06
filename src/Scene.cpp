@@ -485,14 +485,14 @@ void Scene::Update()
 		{
 			player->GodMode();
 		}
-		else if (IsKeyPressed(KEY_KP_1))
+		else if (IsKeyPressed(KEY_KP_1) || IsKeyPressed(KEY_ONE))
 		{
 			fade_transition.SetScene(1, currentLevel, 10, 10);
 			LoadLevel(1);
 			player->SetPos(Point(20, 150));
 			currentLevel = 1;
 		}
-		else if (IsKeyPressed(KEY_KP_2))
+		else if (IsKeyPressed(KEY_KP_2) || IsKeyPressed(KEY_TWO))
 		{
 			//fade_transition.SetScene(1);
 			fade_transition.SetScene(currentLevel, 2, 10, 10);
@@ -500,7 +500,7 @@ void Scene::Update()
 			LoadLevel(2);
 			player->SetPos(Point(20, 150));
 		}
-		else if (IsKeyPressed(KEY_KP_3))
+		else if (IsKeyPressed(KEY_KP_3) || IsKeyPressed(KEY_THREE))
 		{
 			fade_transition.SetScene(currentLevel, 3, 10, 10);
 			currentLevel = 3;
@@ -508,13 +508,20 @@ void Scene::Update()
 			player->SetPos(Point(20, 150));
 
 		}
-		else if (IsKeyPressed(KEY_KP_4))
+		else if (IsKeyPressed(KEY_KP_4) || IsKeyPressed(KEY_FOUR))
 		{
 			//Idk if order is relevant
 			LoadLevel(4);
 			currentLevel = 4;
 			player->SetPos(Point(20, 166));
 			fade_transition.SetScene(currentLevel, 4, 10, 10);
+		}
+		else if (IsKeyPressed(KEY_KP_5) || IsKeyPressed(KEY_FIVE))
+		{
+			fade_transition.SetScene(5, currentLevel, 10, 10);
+			LoadLevel(5);
+			player->SetPos(Point(20, 166));
+			currentLevel = 5;
 		}
 		//This is not going to work from now on
 		//else if (IsKeyPressed(KEY_E))
@@ -527,55 +534,30 @@ void Scene::Update()
 		//	
 		//}
 	}
-<<<<<<< Updated upstream
-=======
-	else if (IsKeyPressed(KEY_KP_4))
-	{
-		LoadLevel(4);
-		currentLevel = 4;
-		player->SetPos(Point(20, 166));
-	}
-	else if (IsKeyPressed(KEY_KP_5))
-	{
-		LoadLevel(5);
-		currentLevel = 5;
-		player->SetPos(Point(20, 166));
-	}
 
-	//This is not going to work from now on
-	//else if (IsKeyPressed(KEY_E))
+	//TODO Fix this, as it is obviously creating many MEMORY LEAKS
+	//if (currentLevel == 1)
 	//{
-	//	/*enemy = new Enemy({ 0,0 }, EnemyState::IDLE, EnemyLook::LEFT);*/
-	//	enemy->SetPos(Point(WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT-TILE_SIZE*4-1));
-	//	/*if (enemy->GetXPos() == 0) {
-	//		delete enemy;
-	//	}*/
-	//	
+	//	if (zombieActive1 == false)
+	//	{
+	//		Point pos;
+	//		AABB hitbox, area;
+	//		pos.x = 101;
+	//		pos.y = 11;
+	//		//pos.x = x * TILE_SIZE;
+	//		//pos.y = y * TILE_SIZE + TILE_SIZE - 1;
+	//		//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+	//		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+	//		area = level->GetSweptAreaX(hitbox);
+	//		enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT);
+	//		zombieActive1 = true;
+	//		if (pos.x == 1)
+	//		{
+	//			pos.x = 100;
+	//		}
+	//	}
+
 	//}
->>>>>>> Stashed changes
-
-	if (currentLevel == 1)
-	{
-		if (zombieActive1 == false)
-		{
-			Point pos;
-			AABB hitbox, area;
-			pos.x = 101;
-			pos.y = 11;
-			//pos.x = x * TILE_SIZE;
-			//pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-			//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
-			hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
-			area = level->GetSweptAreaX(hitbox);
-			enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT);
-			zombieActive1 = true;
-			if (pos.x == 1)
-			{
-				pos.x = 100;
-			}
-		}
-
-	}
 
 	
 }
@@ -704,9 +686,9 @@ void Scene::RenderObjectsDebug(const Color& col) const
 void Scene::RenderGUI() const
 {
 	////Temporal approach
-	DrawText(TextFormat("SCORE : %d", player->GetScore()), 10, 10, 8, LIGHTGRAY);
-	DrawText(TextFormat("HP : %d", player->GetHP()), 10, 20, 8, LIGHTGRAY);
-	DrawText(TextFormat("LIVES : %d", player->GetLives()), 10, 30, 8, LIGHTGRAY);
+	//DrawText(TextFormat("SCORE : %d", player->GetScore()), 10, 10, 8, LIGHTGRAY);
+	//DrawText(TextFormat("HP : %d", player->GetHP()), 10, 20, 8, LIGHTGRAY);
+	//DrawText(TextFormat("LIVES : %d", player->GetLives()), 10, 30, 8, LIGHTGRAY);
 
 	static int frame;
 	frame++;
