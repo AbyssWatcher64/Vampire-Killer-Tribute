@@ -25,6 +25,7 @@ Player::Player(const Point& p, State s, Look view) :
 	godMode = false;
 	gameEnd = false;
 	wasCrouching = false;
+	isInvincible = false;
 	//tmp 
 	unloadedSounds = false;
 }
@@ -355,7 +356,14 @@ void Player::GetHurt()
 {
 	if (!godMode)
 	{
-		hp -= 10;
+		
+		if (hp > 0)
+		{
+			hp -= 10;
+			if (hp < 0)
+				hp = 0;
+			InvisFrames();
+		}
 		/*hp += value;
 		if (hp > 100)
 			hp = 100;
@@ -636,6 +644,34 @@ void Player::ChangeHP(int value)
 	}		
 }
 
+
+void Player::InvisFrames()
+{
+	startingFrame = currentFrame;
+	godMode = true;
+	isInvincible = true;
+	/*if (isInvincible == false)
+	{
+		startingFrame = currentFrame;
+		isInvincible = true;
+	}
+	
+	if (currentFrame - startingFrame  < 100)
+	{
+		godMode = true;
+	}
+	else if (currentFrame - startingFrame >= 100)
+	{
+		godMode = false;
+		isInvincible = false;
+	}*/
+
+	//{
+	//	godMode = true;
+	//}
+	//godMode = false;
+}
+
 void Player::Death()
 {
 	/*Sprite* sprite = dynamic_cast<Sprite*>(render);
@@ -668,9 +704,11 @@ void Player::Death()
 	else
 	{
 		// unsure where the wait time must be
+		// TODO: Fix this shit bro
 		WaitTime(2);
 		//reset screen
 		hasDied = true;
+		hasDied = false;
 	}
 }
 //void Player::finishAnimation()
@@ -747,6 +785,18 @@ void Player::Update()
 {
 	//Player doesn't use the "Entity::Update() { pos += dir; }" default behaviour.
 	//Instead, uses an independent behaviour for each axis.
+	currentFrame++;
+	currentFrame %= 100;
+	if (isInvincible == true)
+	{
+		if (currentFrame == startingFrame)
+		{
+			isInvincible = false;
+			godMode = false;
+
+		}
+	}
+
 	MoveX();
 	MoveY();
 	

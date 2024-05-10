@@ -33,6 +33,7 @@ public:
 
 	//Delete all enemies and clear the enemy vector
 	void Release();
+	bool playerGettingHurt;
 
 private:
 	std::vector<Enemy*> enemies;

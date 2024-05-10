@@ -566,7 +566,7 @@ void Scene::Update()
 	}
 
 	//TODO Fix this, as it is obviously creating many MEMORY LEAKS
-	if (currentLevel == 1 && ((timer % 400) == 0))
+	if (currentLevel == 1 && ((timer % 100) == 0))
 	{
 		AABB player_box;
 		
@@ -584,6 +584,16 @@ void Scene::Update()
 		//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
 		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
 		area = level->GetSweptAreaX(hitbox);
+
+
+		//Enemy* tmpZombie = new Zombie(pos, ZOMBIE_PHYSICAL_WIDTH, ZOMBIE_PHYSICAL_HEIGHT, ZOMBIE_FRAME_SIZE_WIDTH, ZOMBIE_FRAME_SIZE_HEIGHT);
+		//zombiesLeft[0] = tmpZombie;
+		//tmpZombie->Initialise(Look::RIGHT, area);
+		//if (tmpZombie->IsAlive())
+		//{
+		//	tmpZombie->Draw();
+		//}
+		
 		// TODO: Add enemies hitbox check, check how objects do it
 		enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT); 
 		if (pos.x == 1)
@@ -594,6 +604,11 @@ void Scene::Update()
 		{
 			player->GetHurt();
 		}
+	}
+	if (enemies->playerGettingHurt == true)
+	{
+		player->GetHurt();
+		enemies->playerGettingHurt = false;
 	}
 
 	
@@ -687,16 +702,20 @@ void Scene::CheckObjectCollisions()
 }
 void Scene::CheckEnemyCollisions()
 {
-	//TODO add interaction player - zombie
-	AABB player_box, enemy_box;
-
-	player_box = player->GetHitbox();
-	//enemy_box = enemies->GetEnemyHitBox(ZOMBIE);
-//	enemy_box = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
-	if (player_box.TestAABB(enemy_box))
-	{
-		player->GetHurt();
-	}
+//	//TODO add interaction player - zombie
+//	AABB player_box, enemy_box;
+//
+//	player_box = player->GetHitbox();
+//	//enemy_box = enemies->GetEnemyHitBox(ZOMBIE);
+////	enemy_box = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+//	auto monster = enemies[0];
+//	Point pos = { 10,40 };
+//	enemy_box = monster.GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+//	/*while (monster != enemies[sizeof(enemies) - 1])*/
+//	if (player_box.TestAABB(enemy_box))
+//	{
+//		player->GetHurt();
+//	}
 }
 void Scene::ClearLevel()
 {
@@ -739,4 +758,5 @@ void Scene::RenderGUI() const
 	font->Draw(229, 9, TextFormat("%02d", player->GetLives())); // TODO convert numbers into division of screen
 	font->Draw(157, 9, TextFormat("%02d", currentLevel)); // TODO convert numbers into division of screen
 	font->Draw(10, 5, TextFormat("%d", frame), RED);
+	font->Draw(10, 40, TextFormat("%02d", player->GetHP()));
 }

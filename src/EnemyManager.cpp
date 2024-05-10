@@ -3,9 +3,11 @@
 #include "BlackLeopard.h"
 #include "TileMap.h"
 
+
 EnemyManager::EnemyManager()
 {
 	shots = nullptr;
+	playerGettingHurt = false;
 }
 EnemyManager::~EnemyManager()
 {
@@ -13,6 +15,7 @@ EnemyManager::~EnemyManager()
 }
 AppStatus EnemyManager::Initialise()
 {
+	
 	ResourceManager& data = ResourceManager::Instance();
 	if (data.LoadTexture(Resource::IMG_ENEMIES, "img/enemies.png") != AppStatus::OK)
 	{
@@ -90,6 +93,17 @@ void EnemyManager::Update(const AABB& player_hitbox)
 	//TODO: Add enemy collisions.
 	//box = enemy->GetHitbox();
 
+	// TODO: Give tilemap to enemies to give collisions
+	//for (int i=0;i<enemies.size();++i)
+	//{
+	//	shoot = enemies[i]->Update(player_hitbox);
+	//	if (shoot)
+	//	{
+	//		enemies[i]->GetShootingPosDir(&p, &d);
+	//		shots->Add(p, d);
+	//	}
+	//}
+
 	for (Enemy* enemy : enemies)
 	{
 		shoot = enemy->Update(player_hitbox);
@@ -112,6 +126,16 @@ void EnemyManager::Update(const AABB& player_hitbox)
 		{
 
 		}*/
+	}
+
+	for (Enemy* enemy : enemies)
+	{
+		box = enemy->GetHitbox();
+		if (box.TestAABB(player_hitbox))
+		{
+			if (true);
+			playerGettingHurt = true;
+		}
 	}
 }
 void EnemyManager::Draw() const

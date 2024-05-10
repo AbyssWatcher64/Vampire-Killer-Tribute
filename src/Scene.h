@@ -8,6 +8,7 @@
 #include "ParticleManager.h"
 #include "Text.h"
 #include "FadeTransition.h"
+#include "Zombie.h"
 
 enum class DebugMode { OFF, SPRITES_AND_HITBOXES, ONLY_HITBOXES, SIZE };
 
@@ -53,6 +54,7 @@ private:
     EnemyManager* enemies;
     bool zombieActive1;
     bool zombieActive2;
+    Enemy* zombiesLeft[2];
 
     //Shots thrown by enemies
     ShotManager* shots;

@@ -151,6 +151,7 @@ private:
 	void ChangeAnimRight();
 	void ChangeAnimLeft();
 
+	void InvisFrames();
 	void Death();
 
 	void finishAnimation();
@@ -191,12 +192,15 @@ private:
 	int score;
 	int hp;
 	int lives;
+	int currentFrame;
 
 	bool hasDied;
 	bool gameOver;
 	bool gameEnd;
 
 	bool wasCrouching;
+	bool isInvincible;
+	int startingFrame;
 
 	bool godMode;
 
