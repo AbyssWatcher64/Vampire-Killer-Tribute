@@ -165,7 +165,7 @@ AppStatus Scene::Init()
 		return AppStatus::ERROR;
 	}
 	//Initialise text font 1
-	if (font->Initialise(Resource::IMG_FONT, "img/font.png", ' ', 8) != AppStatus::OK)
+	if (font->Initialise(Resource::IMG_FONT, "img/font.png", '0', 8) != AppStatus::OK)
 	{
 		LOG("Failed to initialise font img");
 		return AppStatus::ERROR;
@@ -735,6 +735,8 @@ void Scene::RenderGUI() const
 	frame %= 1000;
 	//DrawTexturePro(*img_ui, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
 
-	font->Draw(10, 5, TextFormat("01234%d", player->GetScore()));
-	font->Draw(10, 20, TextFormat("1231245%d", frame), RED);
+	font->Draw(57, 9, TextFormat("%06d", player->GetScore())); // TODO convert numbers into division of screen
+	font->Draw(229, 9, TextFormat("%02d", player->GetLives())); // TODO convert numbers into division of screen
+	font->Draw(157, 9, TextFormat("%02d", currentLevel)); // TODO convert numbers into division of screen
+	font->Draw(10, 5, TextFormat("%d", frame), RED);
 }

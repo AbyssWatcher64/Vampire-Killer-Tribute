@@ -1093,7 +1093,7 @@ void Player::Release()
 	if (!unloadedSounds)
 	{
 		UnloadSound(shieldSFX);
-		UnloadSound(whipSFX);
+		UnloadSound(whipSFX); // TODO: fix this in case sound is not played
 		UnloadSound(moneyBagSFX);
 		UnloadSound(orbSFX);
 		unloadedSounds = true;
