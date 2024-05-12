@@ -115,6 +115,7 @@ public:
 
 	int GetXPos();
 	int GetYPos();
+	AABB GetWeaponHitBox(); //const
 
 	void GetHurt();
 	void ChangeHP(int value);
@@ -125,6 +126,12 @@ public:
 
 	Equipment SetEquipment(int equipNum);
 	void GrabObject(int object);
+
+	// Repeating these for the weapon
+	bool GetPlayerIsLookingRight() const;
+	bool GetPlayerIsLookingLeft() const;
+
+	bool GetPlayerAttacking() const;
 
 
 private:

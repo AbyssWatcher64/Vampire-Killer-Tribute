@@ -24,6 +24,7 @@ public:
     void Release();
 
     void ResetScreen();
+    void ResetScreenTimer();
     bool GameOver();
     bool GameEnd();
 
@@ -31,7 +32,6 @@ private:
     AppStatus LoadLevel(int stage);
 
     void CheckObjectCollisions();
-    void CheckEnemyCollisions();
     void ClearLevel();
     void RenderObjects() const;
     void RenderObjectsDebug(const Color& col) const;
@@ -39,6 +39,8 @@ private:
     void RenderGUI() const;
 
     unsigned int timer;
+    unsigned int timerComparision;
+    bool dyingTimer;
     Player* player;
     Enemy* enemy;
     int currentLevel;
@@ -52,6 +54,7 @@ private:
 
     //Enemies present in the level
     EnemyManager* enemies;
+    
     bool zombieActive1;
     bool zombieActive2;
     Enemy* zombiesLeft[2];

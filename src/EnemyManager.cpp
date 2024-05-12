@@ -8,6 +8,7 @@ EnemyManager::EnemyManager()
 {
 	shots = nullptr;
 	playerGettingHurt = false;
+	totalEnemies = 0;
 }
 EnemyManager::~EnemyManager()
 {
@@ -85,7 +86,7 @@ AABB EnemyManager::GetEnemyHitBox(const Point& pos, EnemyType type) const
 	AABB hitbox(p, width, height);
 	return hitbox;
 }
-void EnemyManager::Update(const AABB& player_hitbox)
+void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox)
 {
 	AABB box;
 	bool shoot;
@@ -131,10 +132,18 @@ void EnemyManager::Update(const AABB& player_hitbox)
 	for (Enemy* enemy : enemies)
 	{
 		box = enemy->GetHitbox();
-		if (box.TestAABB(player_hitbox))
+		if (box.TestAABB(player_hitbox) && enemy->IsAlive())
 		{
-			if (true);
-			playerGettingHurt = true;
+			if (true)
+				playerGettingHurt = true;
+		}
+
+		if (box.TestAABB(weapon_hitbox))
+		{
+			if (true)
+			{
+				enemy->SetAlive(false);
+			}
 		}
 	}
 }

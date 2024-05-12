@@ -191,19 +191,56 @@ AppStatus Player::Initialise()
 
 	// Death animations
 	sprite->SetAnimationDelay((int)PlayerAnim::DYING_RIGHT, ANIM_DELAY);
-	for (i = 0; i < 2; ++i)
-	{
-		sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)i + 6) * n, 0, n, h });
-	}
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)i + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)0 + 6) * n, 0, n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)0 + 6) * n, 0, n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)1 + 6) * n, 0, n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)1 + 6) * n, 0, n, h });
+	// TODO: Obviously fix this
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
 
 	sprite->SetAnimationDelay((int)PlayerAnim::DYING_LEFT, ANIM_DELAY);
-	for (i = 0; i < 2; ++i)
-	{
-		sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)i + 6) * n, 0, -n, h });
-	}
-	// TOASK: Same problem here, animation goes rightway
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)i + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)0 + 6) * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)0 + 6) * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)1 + 6) * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)1 + 6) * n, 0, -n, h });
+	// TODO: Obviously fix this
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
 
 	// Walking towards front animation
 	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_INTO, ANIM_DELAY);
@@ -352,16 +389,40 @@ int Player::GetYPos()
 {
 	return pos.y;
 }
+AABB Player::GetWeaponHitBox()
+{
+	if (state == State::ATTACKING && look == Look::RIGHT)
+	{
+		Point p(pos.x + width, pos.y - height / 2);
+		AABB hitbox(p, width * 2, height / 3);
+		return hitbox;
+	}
+	else if (state == State::ATTACKING && look == Look::LEFT)
+	{
+		Point p(pos.x - (width * 2), pos.y - height / 2);
+		AABB hitbox(p, width * 2, height / 3);
+		return hitbox;
+	}
+	else
+	{
+		Point p(0, 0);
+		AABB hitbox(p, 0, 0);
+		return hitbox;
+	}
+}
 void Player::GetHurt()
 {
-	if (!godMode)
+	if (!godMode && !isInvincible)
 	{
 		
 		if (hp > 0)
 		{
 			hp -= 10;
-			if (hp < 0)
+			if (hp <= 0)
+			{
 				hp = 0;
+				Death();
+			}
 			InvisFrames();
 		}
 		/*hp += value;
@@ -429,6 +490,21 @@ Equipment Player::EquipCross()
 void Player::SetTileMap(TileMap* tilemap)
 {
 	map = tilemap;
+}
+bool Player::GetPlayerIsLookingRight() const
+{
+	return look == Look::RIGHT;
+}
+bool Player::GetPlayerIsLookingLeft() const
+{
+	return look == Look::LEFT;
+}
+bool Player::GetPlayerAttacking() const
+{
+	if (state == State::ATTACKING)
+		return true;
+	else
+		return false;
 }
 bool Player::IsLookingRight() const
 {
@@ -631,7 +707,7 @@ void Player::Attack()
 
 void Player::ChangeHP(int value)
 {
-	if (!godMode)
+	if (!godMode && !isInvincible)
 	{
 		hp += value;
 		if (hp > 100)
@@ -648,7 +724,6 @@ void Player::ChangeHP(int value)
 void Player::InvisFrames()
 {
 	startingFrame = currentFrame;
-	godMode = true;
 	isInvincible = true;
 	/*if (isInvincible == false)
 	{
@@ -676,6 +751,7 @@ void Player::Death()
 {
 	/*Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->SetPlayOnceMode();*/
+	hasDied = true;
 	state = State::DEAD;
 	lives--;
 	if (look == Look::RIGHT)
@@ -685,7 +761,6 @@ void Player::Death()
 		//while (sprite->GetIsAnimationFinished() == false)
 		//{
 		sprite->SetPlayOnceMode();
-		
 	}
 	else if (look == Look::LEFT)
 	{
@@ -705,10 +780,8 @@ void Player::Death()
 	{
 		// unsure where the wait time must be
 		// TODO: Fix this shit bro
-		WaitTime(2);
 		//reset screen
-		hasDied = true;
-		hasDied = false;
+		
 	}
 }
 //void Player::finishAnimation()
@@ -792,8 +865,6 @@ void Player::Update()
 		if (currentFrame == startingFrame)
 		{
 			isInvincible = false;
-			godMode = false;
-
 		}
 	}
 
@@ -849,6 +920,10 @@ void Player::MoveX()
 
 	//We can only go up and down while climbing
 	//if (state == State::CLIMBING)	return;
+	if (IsKeyPressed(KEY_L))
+	{
+		Death();
+	}
 	if (state == State::CLIMBING) 
 	{
 		LogicClimbing();
@@ -903,7 +978,7 @@ void Player::MoveX()
 void Player::MoveY()
 {
 	AABB box;
-
+	
 	if (state == State::JUMPING)
 	{
 		LogicJumping();
@@ -920,7 +995,7 @@ void Player::MoveY()
 		{
 			if (state == State::FALLING) Stop();
 
-			if (IsKeyDown(KEY_UP) && state != State::ATTACKING)
+			if (IsKeyDown(KEY_UP) && state != State::ATTACKING && hasDied == false)
 			{
 				box = GetHitbox();
 				if (map->TestOnLadder(box, &pos.x))
@@ -930,11 +1005,11 @@ void Player::MoveY()
 					StartJumping();
 				}
 			}
-			else if (IsKeyPressed(KEY_SPACE) && state != State::ATTACKING)
+			else if (IsKeyPressed(KEY_SPACE) && state != State::ATTACKING && hasDied == false)
 			{
 				Attack();
 			}
-			else if (IsKeyDown(KEY_DOWN) && state != State::ATTACKING)
+			else if (IsKeyDown(KEY_DOWN) && state != State::ATTACKING && hasDied == false)
 			{
 				//To climb up the ladder, we need to check the control point (x, y)
 				//To climb down the ladder, we need to check pixel below (x, y+1) instead
@@ -951,10 +1026,6 @@ void Player::MoveY()
 					StartCrouching();
 				}
 					
-			}
-			else if (IsKeyPressed(KEY_L))
-			{
-				Death();
 			}
 		}
 		else
@@ -1143,7 +1214,8 @@ void Player::Release()
 	if (!unloadedSounds)
 	{
 		UnloadSound(shieldSFX);
-		UnloadSound(whipSFX); // TODO: fix this in case sound is not played
+		UnloadSound(whipSFX); // TODO: fix this in case sound is not played 
+		// this happens after the player dies, the sounds will unload somehow?
 		UnloadSound(moneyBagSFX);
 		UnloadSound(orbSFX);
 		unloadedSounds = true;

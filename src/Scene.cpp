@@ -16,6 +16,7 @@ Scene::Scene()
 	currentLevel = 1;
 	zombieActive1 = false;
 	zombieActive2 = false;
+	dyingTimer = false;
 
 	camera.target = { 0, 0 };				//Center of the screen
 	camera.offset = { 0, MARGIN_GUI_Y };	//Offset from the target (center of the screen)
@@ -412,6 +413,7 @@ AppStatus Scene::LoadLevel(int stage)
 				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
 				area = level->GetSweptAreaX(hitbox);
 				enemies->Add(pos, EnemyType::ZOMBIE, area);
+				enemies->totalEnemies++;
 			}
 			else
 			{
@@ -437,12 +439,22 @@ AppStatus Scene::LoadLevel(int stage)
 void Scene::Update()
 {
 	timer++;
-	if (timer == 4294967294)
+	if (timer == 4294967290)
 	{
 		timer = 0;
 	}
+
+	if (player->GetHasDied() == true)
+	{
+		ResetScreenTimer();
+
+		if (timerComparision + 180 == timer)
+			ResetScreen();
+	}
+
 	Point p1, p2;
 	AABB hitbox;
+	AABB weaponHitbox;
 	if (fade_transition.IsActive())
 	{
 		fade_transition.Update();
@@ -500,10 +512,10 @@ void Scene::Update()
 		levelInteractables->Update();
 		player->Update();
 		CheckObjectCollisions();
-		CheckEnemyCollisions();
 
 		hitbox = player->GetHitbox();
-		enemies->Update(hitbox);
+		weaponHitbox = player->GetWeaponHitBox();
+		enemies->Update(hitbox, weaponHitbox);
 		shots->Update(hitbox);
 
 		//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
@@ -553,16 +565,6 @@ void Scene::Update()
 			player->SetPos(Point(20, 166));
 			currentLevel = 5;
 		}
-		//This is not going to work from now on
-		//else if (IsKeyPressed(KEY_E))
-		//{
-		//	/*enemy = new Enemy({ 0,0 }, EnemyState::IDLE, EnemyLook::LEFT);*/
-		//	enemy->SetPos(Point(WINDOW_WIDTH-ENEMY_PHYSICAL_WIDTH,WINDOW_HEIGHT-TILE_SIZE*4-1));
-		//	/*if (enemy->GetXPos() == 0) {
-		//		delete enemy;
-		//	}*/
-		//	
-		//}
 	}
 
 	//TODO Fix this, as it is obviously creating many MEMORY LEAKS
@@ -579,38 +581,27 @@ void Scene::Update()
 		AABB hitbox, area;
 		pos.x = 101;
 		pos.y = 100;
-		//pos.x = x * TILE_SIZE;
-		//pos.y = y * TILE_SIZE + TILE_SIZE - 1;
-		//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+
 		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
 		area = level->GetSweptAreaX(hitbox);
 
-
-		//Enemy* tmpZombie = new Zombie(pos, ZOMBIE_PHYSICAL_WIDTH, ZOMBIE_PHYSICAL_HEIGHT, ZOMBIE_FRAME_SIZE_WIDTH, ZOMBIE_FRAME_SIZE_HEIGHT);
-		//zombiesLeft[0] = tmpZombie;
-		//tmpZombie->Initialise(Look::RIGHT, area);
-		//if (tmpZombie->IsAlive())
-		//{
-		//	tmpZombie->Draw();
-		//}
-		
-		// TODO: Add enemies hitbox check, check how objects do it
-		enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT); 
+		if (enemies->totalEnemies < 3)
+		{
+			enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT);
+			enemies->totalEnemies++;
+		}
 		if (pos.x == 1)
 		{
 			pos.x = 100;
 		}
-		if (player_box.TestAABB(hitbox))
-		{
-			player->GetHurt();
-		}
+
 	}
+	// TODO fix this as it is hurting the player if it still touches the enemy next frame.
 	if (enemies->playerGettingHurt == true)
 	{
 		player->GetHurt();
 		enemies->playerGettingHurt = false;
 	}
-
 	
 }
 void Scene::Render()
@@ -647,12 +638,17 @@ void Scene::Release()
 }
 void Scene::ResetScreen()
 {	
-	if (player->GetHasDied() == true)
-	{
-		//WaitTime(2);
 		LoadLevel(1);
 		player->SetHasDied(false);
 		player->ChangeHP(100);
+		dyingTimer = false;
+}
+void Scene::ResetScreenTimer()
+{
+	if (dyingTimer == false)
+	{
+		dyingTimer = true;
+		timerComparision = timer;
 	}
 }
 bool Scene::GameOver()
@@ -699,23 +695,6 @@ void Scene::CheckObjectCollisions()
 			++it;
 		}
 	}
-}
-void Scene::CheckEnemyCollisions()
-{
-//	//TODO add interaction player - zombie
-//	AABB player_box, enemy_box;
-//
-//	player_box = player->GetHitbox();
-//	//enemy_box = enemies->GetEnemyHitBox(ZOMBIE);
-////	enemy_box = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
-//	auto monster = enemies[0];
-//	Point pos = { 10,40 };
-//	enemy_box = monster.GetEnemyHitBox(pos, EnemyType::ZOMBIE);
-//	/*while (monster != enemies[sizeof(enemies) - 1])*/
-//	if (player_box.TestAABB(enemy_box))
-//	{
-//		player->GetHurt();
-//	}
 }
 void Scene::ClearLevel()
 {

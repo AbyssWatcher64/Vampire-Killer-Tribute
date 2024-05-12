@@ -23,7 +23,7 @@ public:
 
 	//Update enemies according to their logic. If the given player hitbox is visible to them,
 	//they will shoot by adding shots to the ShotManager
-	void Update(const AABB& player_hitbox);
+	void Update(const AABB& player_hitbox, const AABB& weapon_hitbox);
 
 	//Draw all enemies
 	void Draw() const;
@@ -34,6 +34,8 @@ public:
 	//Delete all enemies and clear the enemy vector
 	void Release();
 	bool playerGettingHurt;
+
+	int totalEnemies;
 
 private:
 	std::vector<Enemy*> enemies;

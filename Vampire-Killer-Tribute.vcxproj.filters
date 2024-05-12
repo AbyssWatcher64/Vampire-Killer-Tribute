@@ -99,6 +99,9 @@
     <ClCompile Include="src\FadeTransition.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="src\Weapon.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="src\FadeTransition.h">
       <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Weapon.h">
+      <Filter>Source Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
