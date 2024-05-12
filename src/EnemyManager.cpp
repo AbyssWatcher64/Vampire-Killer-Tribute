@@ -140,8 +140,9 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox)
 
 		if (box.TestAABB(weapon_hitbox))
 		{
-			if (true)
+			if (true && enemy->IsAlive() == true)
 			{
+				totalEnemies--;
 				enemy->SetAlive(false);
 			}
 		}

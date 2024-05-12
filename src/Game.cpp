@@ -197,22 +197,22 @@ AppStatus Game::Update()
             else if (IsKeyPressed(KEY_F3))
             {
                 state = GameState::GAME_OVER;
-                //StopMusicStream(Ost2VampireKiller);
+                StopMusicStream(Ost2VampireKiller);
             }
             else if (scene->GameOver() == true)
             {
                 state = GameState::GAME_OVER;
-                //StopMusicStream(Ost2VampireKiller);
+                StopMusicStream(Ost2VampireKiller);
             }
             else if (IsKeyPressed(KEY_F4))
             {
                 state = GameState::ENDING;
-                //StopMusicStream(Ost2VampireKiller);
+                StopMusicStream(Ost2VampireKiller);
             }
             else if (scene->GameEnd() == true)
             {
                 state = GameState::ENDING;
-                //StopMusicStream(Ost2VampireKiller);
+                StopMusicStream(Ost2VampireKiller);
             }
             else
             {

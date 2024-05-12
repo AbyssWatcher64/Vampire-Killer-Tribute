@@ -185,6 +185,7 @@ AppStatus Scene::LoadLevel(int stage)
 	//h = WINDOW_HEIGHT * GAME_SCALE_FACTOR;
 	//src = { 0, 0, WINDOW_WIDTH, -WINDOW_HEIGHT };
 	//dst = { 0, 0, w, h };
+	enemies->totalEnemies = 0;
 	timer = 0;
 	int size;
 	int x, y, i;
@@ -579,7 +580,7 @@ void Scene::Update()
 
 		Point pos;
 		AABB hitbox, area;
-		pos.x = 101;
+		pos.x = 230;
 		pos.y = 100;
 
 		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
@@ -590,6 +591,7 @@ void Scene::Update()
 			enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT);
 			enemies->totalEnemies++;
 		}
+		// ???? What is this doing
 		if (pos.x == 1)
 		{
 			pos.x = 100;
@@ -638,10 +640,11 @@ void Scene::Release()
 }
 void Scene::ResetScreen()
 {	
-		LoadLevel(1);
-		player->SetHasDied(false);
-		player->ChangeHP(100);
-		dyingTimer = false;
+	//StopMusicStream();
+	LoadLevel(1);
+	player->SetHasDied(false);
+	player->ChangeHP(100);
+	dyingTimer = false;
 }
 void Scene::ResetScreenTimer()
 {
