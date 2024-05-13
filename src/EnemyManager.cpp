@@ -163,6 +163,8 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 			totalEnemies--;
 		}
 		
+		// TODO check collisions from enemies with walls and ground, but with type being ZOMBIE / BAT whatever
+
 		// TODO Fix insane memory leak by zombies spawning indefinitely
 		//if (enemy->IsAlive() == false)
 		//{

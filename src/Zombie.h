@@ -40,6 +40,7 @@ public:
 	//Retrieve the position and direction of the shot to be thrown
 	void GetShootingPosDir(Point* pos, Point* dir) const override;
 
+	// TODO: Check if this has to be done through zombie or enemyManager
 	void SetTileMap(TileMap* tilemap);
 
 private:
