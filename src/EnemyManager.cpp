@@ -1,14 +1,14 @@
 #include "EnemyManager.h"
 #include "Zombie.h"
 #include "BlackLeopard.h"
-#include "TileMap.h"
+//#include "TileMap.h"
 
 
 EnemyManager::EnemyManager()
 {
 	shots = nullptr;
 	playerGettingHurt = false;
-	totalEnemies = 0;
+	//totalEnemies = 0;
 }
 EnemyManager::~EnemyManager()
 {
@@ -86,7 +86,7 @@ AABB EnemyManager::GetEnemyHitBox(const Point& pos, EnemyType type) const
 	AABB hitbox(p, width, height);
 	return hitbox;
 }
-void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox)
+void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, int& score)
 {
 	AABB box;
 	bool shoot;
@@ -142,10 +142,36 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox)
 		{
 			if (true && enemy->IsAlive() == true)
 			{
-				totalEnemies--;
+				if (enemy->type == EnemyType::ZOMBIE)
+				{
+					score += 100;
+				}
 				enemy->SetAlive(false);
+				totalEnemies--;
 			}
 		}
+
+		if (box.pos.x == 0)
+		{
+			enemy->SetAlive(false);
+			totalEnemies--;
+		}
+
+		if (box.pos.x == WINDOW_WIDTH-ZOMBIE_FRAME_SIZE_WIDTH)
+		{
+			enemy->SetAlive(false);
+			totalEnemies--;
+		}
+		
+		// TODO Fix insane memory leak by zombies spawning indefinitely
+		//if (enemy->IsAlive() == false)
+		//{
+		//	if (totalEnemies <= 0)
+		//	{
+		//		delete enemy;
+		//		enemies.clear();
+		//	}
+		//}
 	}
 }
 void EnemyManager::Draw() const

@@ -1,4 +1,4 @@
-Project executed on 12-05-2024 at 20:25:43.
+Project executed on 13-05-2024 at 12:49:39.
 main.cpp(13): Application start
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
@@ -128,15 +128,6 @@ Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
-EnemyManager.cpp(82): Internal error while computing hitbox for an invalid enemy type
-Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
-Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
-Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
-Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
-Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
-Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
-Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
-EnemyManager.cpp(82): Internal error while computing hitbox for an invalid enemy type
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
@@ -172,7 +163,15 @@ Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
-EnemyManager.cpp(82): Internal error while computing hitbox for an invalid enemy type
+Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
+Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
+Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
+Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
+Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
+Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
+Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
+Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
+Scene.cpp(421): Internal error loading scene: invalid entity or object tile id
 EnemyManager.cpp(82): Internal error while computing hitbox for an invalid enemy type
 EnemyManager.cpp(82): Internal error while computing hitbox for an invalid enemy type
 EnemyManager.cpp(82): Internal error while computing hitbox for an invalid enemy type

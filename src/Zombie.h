@@ -1,5 +1,8 @@
 #pragma once
 #include "Enemy.h"
+#include "TileMap.h"
+
+
 
 
 #define ZOMBIE_SPEED			1
@@ -37,6 +40,8 @@ public:
 	//Retrieve the position and direction of the shot to be thrown
 	void GetShootingPosDir(Point* pos, Point* dir) const override;
 
+	void SetTileMap(TileMap* tilemap);
+
 private:
 	//Create the pattern behaviour
 	void InitPattern();
@@ -45,7 +50,7 @@ private:
 	//Update looking direction according to the current step of the pattern
 	void UpdateLook(int anim_id);
 
-	//TileMap* map;
+	TileMap* map;
 
 	int attack_delay;	//delay between attacks
 	ZombieState state;

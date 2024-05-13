@@ -6,10 +6,11 @@ Zombie::Zombie(const Point& p, int width, int height, int frame_width, int frame
 {
 	attack_delay = 0;
 	state = ZombieState::ROAMING;
-	//map = nullptr;
+	map = nullptr;
 
 	current_step = 0;
 	current_frames = 0;
+	type = EnemyType::ZOMBIE;
 }
 Zombie::~Zombie()
 {
@@ -51,6 +52,10 @@ AppStatus Zombie::Initialise(Look look, const AABB& area)
 
 	return AppStatus::OK;
 }
+void Zombie::SetTileMap(TileMap* tilemap)
+{
+	map = tilemap;
+}
 void Zombie::InitPattern()
 {
 	//Multiplying by 3 ensures sufficient time for displaying all 3 frames of the
@@ -89,13 +94,15 @@ bool Zombie::Update(const AABB& box)
 		UpdateLook(anim_id);
 	}
 
-	if (pos.x == -10)
-		//SetAlive(false);
-		pos.x = 299;
-	//delete this;	
+	//if (pos.x == -10)
+	//	alive = false;
+	//pos.x = 299;
+//delete this;	
 
-	else if (pos.x == 300)
-		pos.x = -9;
+	//else if (pos.x == 300)
+	//	alive = false
+		//pos.x = -9;
+		
 
 	MoveX();
 

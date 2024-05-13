@@ -132,6 +132,7 @@ public:
 	bool GetPlayerIsLookingLeft() const;
 
 	bool GetPlayerAttacking() const;
+	int score;
 
 
 private:
@@ -196,7 +197,6 @@ private:
 
 	TileMap *map;
 
-	int score;
 	int hp;
 	int lives;
 	int currentFrame;

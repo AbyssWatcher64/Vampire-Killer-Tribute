@@ -227,7 +227,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
-				201,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		201,		0,		0,		0/*201*/,
+				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		0,		0,		0,		0/*201*/,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -516,7 +516,7 @@ void Scene::Update()
 
 		hitbox = player->GetHitbox();
 		weaponHitbox = player->GetWeaponHitBox();
-		enemies->Update(hitbox, weaponHitbox);
+		enemies->Update(hitbox, weaponHitbox, player->score);
 		shots->Update(hitbox);
 
 		//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
@@ -580,23 +580,35 @@ void Scene::Update()
 
 		Point pos;
 		AABB hitbox, area;
-		pos.x = 230;
-		pos.y = 100;
+
+		if (player->GetPlayerIsLookingRight() == true)
+		{
+			pos.x = WINDOW_WIDTH - ZOMBIE_FRAME_SIZE_WIDTH - 1;
+			pos.y = 100;
+		}
+		else if (player->GetPlayerIsLookingLeft() == true)
+		{
+			pos.x = 1;
+			pos.y = 100;
+		}
+
 
 		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
 		area = level->GetSweptAreaX(hitbox);
 
 		if (enemies->totalEnemies < 3)
 		{
-			enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT);
-			enemies->totalEnemies++;
+			if (player->GetPlayerIsLookingRight() == true)
+			{
+				enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT);
+				enemies->totalEnemies++;
+			}
+			else if (player->GetPlayerIsLookingLeft() == true)
+			{
+				enemies->Add(pos, EnemyType::ZOMBIE, area, Look::RIGHT);
+				enemies->totalEnemies++;
+			}
 		}
-		// ???? What is this doing
-		if (pos.x == 1)
-		{
-			pos.x = 100;
-		}
-
 	}
 	// TODO fix this as it is hurting the player if it still touches the enemy next frame.
 	if (enemies->playerGettingHurt == true)
