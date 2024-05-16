@@ -66,7 +66,7 @@ Scene::~Scene()
 		delete particles;
 		particles = nullptr;
 	}
-	if (font != nullptr)
+	if (font != nullptr) //Lava u Pol <3
 	{
 		delete font;
 		font = nullptr;
