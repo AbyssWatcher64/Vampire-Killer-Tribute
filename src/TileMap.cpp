@@ -256,7 +256,7 @@ AppStatus TileMap::Initialise()
 		return AppStatus::ERROR;
 	}
 	fire->SetNumberAnimations(1);
-	fire->SetAnimationDelay(0, ANIM_DELAY);
+	fire->SetAnimationDelay(0, ANIM_DELAY_FIRE);
 	fire->AddKeyFrame(0, dict_rect[(int)Tile::FIRE_FRAME0]);
 	fire->AddKeyFrame(0, dict_rect[(int)Tile::FIRE_FRAME1]);
 	fire->SetAnimation(0);
@@ -269,7 +269,7 @@ AppStatus TileMap::Initialise()
 		return AppStatus::ERROR;
 	}
 	laser->SetNumberAnimations(1);
-	laser->SetAnimationDelay(0, ANIM_DELAY);
+	laser->SetAnimationDelay(0, ANIM_DELAY_FIRE);
 	laser->AddKeyFrame(0, dict_rect[(int)Tile::LASER_FRAME0]);
 	laser->AddKeyFrame(0, dict_rect[(int)Tile::LASER_FRAME1]);
 	laser->AddKeyFrame(0, dict_rect[(int)Tile::LASER_FRAME2]);
@@ -545,7 +545,8 @@ void TileMap::Render()
 				pos.y = (float)i * TILE_SIZE;
 
 				if ((int)tile == 800) {
-					bool isFire = true;
+					bool is
+						= true;
 				}
 				
 				if (tile != Tile::FIRE)

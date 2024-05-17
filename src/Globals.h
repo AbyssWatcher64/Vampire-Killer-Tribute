@@ -30,6 +30,8 @@ void log(const char file[], int line, const char* text, ...);
 
 //Entities animation delay
 //#define ANIM_DELAY		20 // for testing and checking anims
-#define ANIM_DELAY		8
-
+//#define ANIM_DELAY		8
+#define ANIM_DELAY		4
+#define ANIM_DELAY_FIRE	8
+//#define ANIM_DELAY_WHIP	4
 
