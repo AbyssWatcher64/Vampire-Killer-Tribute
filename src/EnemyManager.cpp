@@ -9,6 +9,7 @@ EnemyManager::EnemyManager()
 {
 	shots = nullptr;
 	playerGettingHurt = false;
+	particles = nullptr;
 	//totalEnemies = 0;
 }
 EnemyManager::~EnemyManager()
@@ -24,7 +25,12 @@ AppStatus EnemyManager::Initialise()
 		LOG("Failed to load enemies sprite texture");
 		return AppStatus::ERROR;
 	}
+	enemyHit = data[19];
 	return AppStatus::OK;
+}
+void EnemyManager::SetParticleManager(ParticleManager* particles)
+{
+	this->particles = particles;
 }
 void EnemyManager::SetTileMap(TileMap* tilemap)
 {
@@ -149,12 +155,18 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 		{
 			if (true && enemy->IsAlive() == true)
 			{
-				if (enemy->type == EnemyType::ZOMBIE)
+				if (enemy->type == EnemyType::ZOMBIE || enemy->type == EnemyType::BAT)
 				{
 					score += 100;
 				}
+				PlaySound(enemyHit);
 				enemy->SetAlive(false);
 				totalEnemies--;
+				// Added for particle management
+				Point p;
+				p.x = box.pos.x - (TILE_SIZE - SHOT_PHYSICAL_WIDTH) / 2;
+				p.y = box.pos.y - (TILE_SIZE - SHOT_PHYSICAL_HEIGHT) / 2;
+				particles->Add(p);
 			}
 		}
 

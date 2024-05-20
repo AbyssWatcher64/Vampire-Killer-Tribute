@@ -1214,12 +1214,13 @@ void Player::Release()
 	//}
 	if (!unloadedSounds)
 	{
-		UnloadSound(shieldSFX);
-		UnloadSound(whipSFX); // TODO: fix this in case sound is not played 
-		// this happens after the player dies, the sounds will unload somehow?
-		UnloadSound(moneyBagSFX);
-		UnloadSound(orbSFX);
-		unloadedSounds = true;
+		// TODO Unload sfx etc
+		//UnloadSound(shieldSFX);
+		//UnloadSound(whipSFX); // TODO: fix this in case sound is not played 
+		//// this happens after the player dies, the sounds will unload somehow?
+		//UnloadSound(moneyBagSFX);
+		//UnloadSound(orbSFX);
+		//unloadedSounds = true;
 	}
 
 

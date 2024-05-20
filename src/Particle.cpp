@@ -11,10 +11,13 @@ Particle::Particle()
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->SetNumberAnimations(1);
 	
+	// TODO Change animation here
 	sprite->SetAnimationDelay(0, PARTICLE_ANIM_DELAY);
-	sprite->AddKeyFrame(0, { 2*n,   n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });
-	sprite->AddKeyFrame(0, { 2*n, 2*n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });
-	sprite->AddKeyFrame(0, { 2*n, 3*n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });
+	sprite->AddKeyFrame(0, { 4 * n, 3 * n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });
+	sprite->AddKeyFrame(0, { 3*n,   3*n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });
+	sprite->AddKeyFrame(0, { 4*n, 3*n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });
+	sprite->AddKeyFrame(0, { 3 * n,   3 * n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });
+	//sprite->AddKeyFrame(0, { 2*n, 4*n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });
 	
 	sprite->SetAnimation(0);
 

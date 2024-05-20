@@ -117,6 +117,20 @@ AppStatus Scene::Init()
 		return AppStatus::ERROR;
 	}
 
+	//Create particle manager 
+	particles = new ParticleManager();
+	if (particles == nullptr)
+	{
+		LOG("Failed to allocate memory for Particle Manager");
+		return AppStatus::ERROR;
+	}
+	//Initialise particle manager
+	if (particles->Initialise() != AppStatus::OK)
+	{
+		LOG("Failed to initialise Particle Manager");
+		return AppStatus::ERROR;
+	}
+
 	//Create level 
     level = new TileMap();
     if (level == nullptr)
@@ -157,6 +171,7 @@ AppStatus Scene::Init()
 	//Assign the shot manager reference to the enemy manager so enemies can add shots
 	enemies->SetShotManager(shots);
 	enemies->SetTileMap(level);
+	enemies->SetParticleManager(particles);
 
 	//Create text font 1
 	font = new Text();
@@ -518,6 +533,8 @@ void Scene::Update()
 		weaponHitbox = player->GetWeaponHitBox();
 		enemies->Update(hitbox, weaponHitbox, player->score);
 		shots->Update(hitbox);
+		particles->Update();
+
 
 		//Switch between the different debug modes: off, on (sprites & hitboxes), on (hitboxes) 
 		if (IsKeyPressed(KEY_F1))
@@ -657,15 +674,6 @@ void Scene::Update()
 		player->GetHurt();
 		enemies->playerGettingHurt = false;
 	}
-	
-	
-	// TODO fix this as it is hurting the player if it still touches the enemy next frame.
-	if (enemies->playerGettingHurt == true)
-	{
-		player->GetHurt();
-		enemies->playerGettingHurt = false;
-	}
-
 }
 void Scene::Render()
 {
@@ -687,6 +695,7 @@ void Scene::Render()
 		player->DrawDebug(GREEN);
 		shots->DrawDebug(GRAY);
 	}
+	particles->Draw();
 
 	EndMode2D();
  	if (fade_transition.IsActive()) fade_transition.Render();
@@ -769,6 +778,7 @@ void Scene::ClearLevel()
 	objects.clear();
 	enemies->Release();
 	shots->Clear();
+	particles->Clear();
 	zombieActive1 = false;
 }
 void Scene::RenderObjects() const
