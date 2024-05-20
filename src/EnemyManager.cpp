@@ -1,5 +1,6 @@
 #include "EnemyManager.h"
 #include "Zombie.h"
+#include "Bat.h"
 #include "BlackLeopard.h"
 //#include "TileMap.h"
 
@@ -41,6 +42,12 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	if (type == EnemyType::ZOMBIE)
 	{
 		enemy = new Zombie(pos, ZOMBIE_PHYSICAL_WIDTH, ZOMBIE_PHYSICAL_HEIGHT, ZOMBIE_FRAME_SIZE_WIDTH, ZOMBIE_FRAME_SIZE_HEIGHT);
+		enemy->map = this->map;
+	}
+	else if (type == EnemyType::BAT)
+	{
+		enemy = new Bat(pos, BAT_PHYSICAL_WIDTH, BAT_PHYSICAL_HEIGHT, BAT_FRAME_SIZE_WIDTH, BAT_FRAME_SIZE_HEIGHT);
+
 	}
 	else
 	{

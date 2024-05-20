@@ -6,6 +6,7 @@ Enemy::Enemy(const Point& p, int width, int height, int frame_width, int frame_h
 {
 	visibility_area = {};
 	look = Look::LEFT;
+
 }
 Enemy::~Enemy()
 {

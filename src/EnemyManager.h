@@ -37,12 +37,15 @@ public:
 
 	int totalEnemies = 0;
 
+protected:
+	TileMap* map;
+
 private:
 	std::vector<Enemy*> enemies;
 
 	//Reference to the ShotManager object
 	//This class does not own the object, it only holds a reference to it
 	ShotManager* shots;
-	TileMap* map;
+	
 };
 

@@ -6,7 +6,6 @@ Zombie::Zombie(const Point& p, int width, int height, int frame_width, int frame
 {
 	attack_delay = 0;
 	state = ZombieState::ROAMING;
-	map = nullptr;
 
 	current_step = 0;
 	current_frames = 0;
@@ -25,7 +24,7 @@ AppStatus Zombie::Initialise(Look look, const AABB& area)
 	render = new Sprite(data.GetTexture(Resource::IMG_ENEMIES));
 	if (render == nullptr)
 	{
-		LOG("Failed to allocate memory for slime sprite");
+		LOG("Failed to allocate memory for zombie sprite");
 		return AppStatus::ERROR;
 	}
 
@@ -52,10 +51,6 @@ AppStatus Zombie::Initialise(Look look, const AABB& area)
 
 	return AppStatus::OK;
 }
-void Zombie::SetTileMap(TileMap* tilemap)
-{
-	map = tilemap;
-}
 void Zombie::InitPattern()
 {
 	//Multiplying by 3 ensures sufficient time for displaying all 3 frames of the
@@ -80,7 +75,7 @@ bool Zombie::Update(const AABB& box)
 	bool shoot = false;
 	int anim_id;
 
-	pos += pattern[current_step].speed;
+	
 	current_frames++;
 
 	if (current_frames == pattern[current_step].frames)
@@ -105,6 +100,7 @@ bool Zombie::Update(const AABB& box)
 		
 
 	MoveX();
+	MoveY();
 
 	sprite->Update();
 
@@ -113,8 +109,38 @@ bool Zombie::Update(const AABB& box)
 void Zombie::MoveX()
 {
 	AABB box;
+	pos += pattern[current_step].speed;
 
+}
+void Zombie::MoveY()
+{
+	pos.y += ZOMBIE_SPEED * 2;
+	AABB box, prev_box;
 
+	box = GetHitbox();
+	int prev_y;
+
+	// For this reason this prevents zombie from going through the floor
+	// even though it has nothing inside...
+	if (map->TestCollisionGround(box, &pos.y))
+	{
+
+	}
+	//{
+
+	//}
+
+		
+		//A ground collision occurs if we were not in a collision state previously.
+		//This prevents scenarios where, after levitating due to a previous jump, we found
+		//ourselves inside a tile, and the entity would otherwise be placed above the tile,
+		//crossing it.
+		//if (!map->TestCollisionGround(prev_box, &prev_y) &&
+		//	map->TestCollisionGround(box, &pos.y))
+		//{
+		//	dir = { 0,0 };
+		//}
+	
 }
 //void Zombie::SetTileMap(TileMap* tilemap)
 //{

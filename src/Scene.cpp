@@ -486,7 +486,7 @@ void Scene::Update()
 			player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
 			currentLevel--;
 		}
-		else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 4)
+		else if (player->GetXPos() == WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH && currentLevel < 5)
 		{
 			fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
 			int tmpYPos = player->GetYPos();
@@ -569,7 +569,7 @@ void Scene::Update()
 	}
 
 	//TODO Fix this, as it is obviously creating many MEMORY LEAKS
-	if (currentLevel == 1 && ((timer % 100) == 0))
+	if ((currentLevel == 4 || currentLevel == 5) && ((timer % 100) == 0))
 	{
 		AABB player_box;
 		
@@ -589,7 +589,7 @@ void Scene::Update()
 		else if (player->GetPlayerIsLookingLeft() == true)
 		{
 			pos.x = 1;
-			pos.y = 100;
+			pos.y = 160;
 		}
 
 
@@ -610,6 +610,47 @@ void Scene::Update()
 			}
 		}
 	}
+	if ((currentLevel == 2 || currentLevel == 3) && ((timer % 150) == 0))
+	{
+		AABB player_box;
+
+		player_box = player->GetHitbox();
+		//enemy_box = enemies->GetEnemyHitBox(ZOMBIE);
+	//	enemy_box = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+
+
+		Point pos;
+		AABB hitbox, area;
+
+		if (player->GetPlayerIsLookingRight() == true)
+		{
+			pos.x = WINDOW_WIDTH - BAT_FRAME_SIZE_WIDTH - 1;
+			pos.y = 100;
+		}
+		else if (player->GetPlayerIsLookingLeft() == true)
+		{
+			pos.x = 1;
+			pos.y = 100;
+		}
+
+
+		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BAT);
+		area = level->GetSweptAreaX(hitbox);
+
+		if (enemies->totalEnemies < 3)
+		{
+			if (player->GetPlayerIsLookingRight() == true)
+			{
+				enemies->Add(pos, EnemyType::BAT, area, Look::LEFT);
+				enemies->totalEnemies++;
+			}
+			else if (player->GetPlayerIsLookingLeft() == true)
+			{
+				enemies->Add(pos, EnemyType::BAT, area, Look::RIGHT);
+				enemies->totalEnemies++;
+			}
+		}
+	}
 	// TODO fix this as it is hurting the player if it still touches the enemy next frame.
 	if (enemies->playerGettingHurt == true)
 	{
@@ -617,6 +658,14 @@ void Scene::Update()
 		enemies->playerGettingHurt = false;
 	}
 	
+	
+	// TODO fix this as it is hurting the player if it still touches the enemy next frame.
+	if (enemies->playerGettingHurt == true)
+	{
+		player->GetHurt();
+		enemies->playerGettingHurt = false;
+	}
+
 }
 void Scene::Render()
 {

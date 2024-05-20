@@ -1,34 +1,25 @@
 #pragma once
 #include "Enemy.h"
-// "TileMap.h"
+//#include "TileMap.h"
 
+#define BAT_SPEED			1
+#define BAT_ANIM_DELAY	(4*ANIM_DELAY)
 
+enum class BatState { ROAMING };
+enum class BatAnim { FLYING_LEFT, FLYING_RIGHT, NUM_ANIMATIONS };
 
-
-#define ZOMBIE_SPEED			1
-#define ZOMBIE_ANIM_DELAY	(4*ANIM_DELAY)
-
-#define ZOMBIE_SHOT_OFFSET_X_LEFT	-14
-#define ZOMBIE_SHOT_OFFSET_X_RIGHT	 26
-#define ZOMBIE_SHOT_OFFSET_Y			-22
-		
-#define ZOMBIE_SHOT_SPEED	4
-
-enum class ZombieState { ROAMING, ATTACK };
-enum class ZombieAnim {	WALKING_LEFT, WALKING_RIGHT, NUM_ANIMATIONS };
-
-struct Step
+struct BatStep
 {
 	Point speed;	//direction
 	int frames;		//duration in number of frames
 	int anim;		//graphical representation
 };
 
-class Zombie : public Enemy
+class Bat : public Enemy
 {
 public:
-	Zombie(const Point& p, int width, int height, int frame_width, int frame_height);
-	~Zombie();
+	Bat(const Point& p, int width, int height, int frame_width, int frame_height);
+	~Bat();
 
 	//Initialize the enemy with the specified look and area
 	AppStatus Initialise(Look look, const AABB& area) override;
@@ -42,18 +33,16 @@ public:
 private:
 	//Create the pattern behaviour
 	void InitPattern();
-	void MoveX();
-	void MoveY();
 
 	//Update looking direction according to the current step of the pattern
 	void UpdateLook(int anim_id);
 
 	int attack_delay;	//delay between attacks
-	ZombieState state;
+	BatState state;
 
 	int current_step;	//current step of the pattern
 	int current_frames;	//number of frames in the current step
-	std::vector<Step> pattern;
+	std::vector<BatStep> pattern;
 };
 
 

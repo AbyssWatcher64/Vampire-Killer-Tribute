@@ -102,6 +102,9 @@
     <ClCompile Include="src\Weapon.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\Bat.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -177,6 +180,9 @@
       <Filter>Source Files\Render</Filter>
     </ClInclude>
     <ClInclude Include="src\Weapon.h">
+      <Filter>Source Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bat.h">
       <Filter>Source Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>

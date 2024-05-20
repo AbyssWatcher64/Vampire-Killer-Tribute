@@ -1,7 +1,6 @@
 
 #include "Player.h"
 #include "Sprite.h"
-#include "TileMap.h"
 #include "Globals.h"
 #include "Weapon.h"
 #include <raymath.h>
@@ -931,13 +930,13 @@ void Player::MoveX()
 	{
 		LogicClimbing();
 	}
-	if (IsKeyDown(KEY_DOWN) && hasDied == false && state != State::ATTACKING)
+	if ((IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) && hasDied == false && state != State::ATTACKING)
 	{
 		if (state == State::IDLE) StartCrouching();
 		else if (state == State::WALKING) StartCrouching();
 		else if (state == State::JUMPING) return;
 	}
-	else if (IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_RIGHT) && hasDied == false && state != State::ATTACKING)
+	else if ((IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) && !IsKeyDown(KEY_RIGHT) && hasDied == false && state != State::ATTACKING)
 	{
 		pos.x += -PLAYER_SPEED;
 		if (state == State::IDLE) StartWalkingLeft();
@@ -954,7 +953,7 @@ void Player::MoveX()
 			if (state == State::WALKING) Stop();
 		}
 	}
-	else if (IsKeyDown(KEY_RIGHT) && hasDied == false && state != State::ATTACKING)
+	else if ((IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) && hasDied == false && state != State::ATTACKING)
 	{
 		pos.x += PLAYER_SPEED;
 		if (state == State::IDLE)
@@ -998,7 +997,7 @@ void Player::MoveY()
 		{
 			if (state == State::FALLING) Stop();
 
-			if (IsKeyDown(KEY_UP) && state != State::ATTACKING && hasDied == false)
+			if ((IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) && state != State::ATTACKING && hasDied == false)
 			{
 				box = GetHitbox();
 				if (map->TestOnLadder(box, &pos.x))
@@ -1012,7 +1011,7 @@ void Player::MoveY()
 			{
 				Attack();
 			}
-			else if (IsKeyDown(KEY_DOWN) && state != State::ATTACKING && hasDied == false)
+			else if ((IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) && state != State::ATTACKING && hasDied == false)
 			{
 				//To climb up the ladder, we need to check the control point (x, y)
 				//To climb down the ladder, we need to check pixel below (x, y+1) instead
@@ -1151,7 +1150,6 @@ void Player::LogicClimbing()
 
 	//It is important to first check LadderTop due to its condition as a collision ground.
 	//By doing so, we ensure that we don't stop climbing down immediately after starting the descent.
-	box = GetHitbox();
 	box = GetHitbox();
 	if (map->TestOnLadderTop(box, &tmp))
 	{

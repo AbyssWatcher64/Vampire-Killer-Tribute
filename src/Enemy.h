@@ -1,5 +1,7 @@
 #pragma once
 #include "Entity.h"
+#include "TileMap.h"
+//#include "EnemyManager.h"
 
 //Representation model size: 32x32
 #define SLIME_FRAME_SIZE		32
@@ -14,6 +16,13 @@
 #define ZOMBIE_PHYSICAL_WIDTH	12
 #define ZOMBIE_PHYSICAL_HEIGHT	28
 
+//Representation model size: 16x32
+#define BAT_FRAME_SIZE_WIDTH	16
+#define BAT_FRAME_SIZE_HEIGHT	16
+//Logical model size: 12x12
+#define BAT_PHYSICAL_WIDTH	12
+#define BAT_PHYSICAL_HEIGHT	12
+
 //Representation model size: 32x32
 #define TURRET_FRAME_SIZE		32
 //Logical model size: 0x0
@@ -22,9 +31,9 @@
 
 
 
-enum class EnemyType { ZOMBIE, SLIME, TURRET };
+enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT };
 
-class Enemy : public Entity
+class Enemy : public Entity //, public EnemyManager
 {
 public:
 	Enemy(const Point& p, int width, int height, int frame_width, int frame_height);
@@ -44,6 +53,7 @@ public:
 	//Retrieve the position and direction of the shot to be thrown
 	virtual void GetShootingPosDir(Point* pos, Point* dir) const = 0;
 	EnemyType type;
+	TileMap* map;
 
 protected:
 	//Return true if the given hitbox is within the visibility area and the enemy is facing it
