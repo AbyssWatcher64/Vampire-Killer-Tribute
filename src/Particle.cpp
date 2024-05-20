@@ -11,7 +11,7 @@ Particle::Particle()
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->SetNumberAnimations(1);
 	
-	// TODO Change animation here
+	// TODO Replace animation from enemies.png with the actual correct one
 	sprite->SetAnimationDelay(0, PARTICLE_ANIM_DELAY);
 	sprite->AddKeyFrame(0, { 4 * n, 3 * n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });
 	sprite->AddKeyFrame(0, { 3*n,   3*n, PARTICLE_FRAME_SIZE, PARTICLE_FRAME_SIZE });

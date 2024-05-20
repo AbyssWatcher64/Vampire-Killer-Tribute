@@ -16,12 +16,19 @@
 #define ZOMBIE_PHYSICAL_WIDTH	12
 #define ZOMBIE_PHYSICAL_HEIGHT	28
 
-//Representation model size: 16x32
+//Representation model size: 16x16
 #define BAT_FRAME_SIZE_WIDTH	16
 #define BAT_FRAME_SIZE_HEIGHT	16
 //Logical model size: 12x12
 #define BAT_PHYSICAL_WIDTH	12
 #define BAT_PHYSICAL_HEIGHT	12
+
+//Representation model size: 16x32
+#define FISHMAN_FRAME_SIZE_WIDTH		16
+#define FISHMAN_FRAME_SIZE_HEIGHT	32
+//Logical model size: 12x28
+#define FISHMAN_PHYSICAL_WIDTH	12
+#define FISHMAN_PHYSICAL_HEIGHT	28
 
 //Representation model size: 32x32
 #define TURRET_FRAME_SIZE		32
@@ -31,7 +38,7 @@
 
 
 
-enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT };
+enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT, FISHMAN };
 
 class Enemy : public Entity //, public EnemyManager
 {

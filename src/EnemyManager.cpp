@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "Zombie.h"
 #include "Bat.h"
+#include "FishMan.h"
 #include "BlackLeopard.h"
 //#include "TileMap.h"
 
@@ -48,6 +49,11 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	if (type == EnemyType::ZOMBIE)
 	{
 		enemy = new Zombie(pos, ZOMBIE_PHYSICAL_WIDTH, ZOMBIE_PHYSICAL_HEIGHT, ZOMBIE_FRAME_SIZE_WIDTH, ZOMBIE_FRAME_SIZE_HEIGHT);
+		enemy->map = this->map;
+	}
+	else if (type == EnemyType::FISHMAN)
+	{
+		enemy = new Fishman(pos, FISHMAN_PHYSICAL_WIDTH, FISHMAN_PHYSICAL_HEIGHT, FISHMAN_FRAME_SIZE_WIDTH, FISHMAN_FRAME_SIZE_HEIGHT);
 		enemy->map = this->map;
 	}
 	else if (type == EnemyType::BAT)

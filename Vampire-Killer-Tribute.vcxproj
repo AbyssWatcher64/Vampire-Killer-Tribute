@@ -26,6 +26,7 @@
     <ClCompile Include="src\EnemyManager.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\FadeTransition.cpp" />
+    <ClCompile Include="src\FishMan.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Globals.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="src\EnemyManager.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\FadeTransition.h" />
+    <ClInclude Include="src\FishMan.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\MemLeaks.h" />

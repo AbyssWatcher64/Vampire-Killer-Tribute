@@ -627,7 +627,7 @@ void Scene::Update()
 			}
 		}
 	}
-	if ((currentLevel == 2 || currentLevel == 3) && ((timer % 150) == 0))
+	if ((/*currentLevel == 2 ||*/ currentLevel == 3) && ((timer % 150) == 0))
 	{
 		AABB player_box;
 
@@ -668,12 +668,54 @@ void Scene::Update()
 			}
 		}
 	}
+	if ((currentLevel == 2 /*|| currentLevel == 3*/) && ((timer % 150) == 0))
+	{
+		AABB player_box;
+
+		player_box = player->GetHitbox();
+		//enemy_box = enemies->GetEnemyHitBox(ZOMBIE);
+	//	enemy_box = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+
+
+		Point pos;
+		AABB hitbox, area;
+
+		if (player->GetPlayerIsLookingRight() == true)
+		{
+			pos.x = WINDOW_WIDTH - FISHMAN_FRAME_SIZE_WIDTH - 1;
+			pos.y = 100;
+		}
+		else if (player->GetPlayerIsLookingLeft() == true)
+		{
+			pos.x = 1;
+			pos.y = 148;
+		}
+
+
+		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::FISHMAN);
+		area = level->GetSweptAreaX(hitbox);
+
+		if (enemies->totalEnemies < 3)
+		{
+			if (player->GetPlayerIsLookingRight() == true)
+			{
+				enemies->Add(pos, EnemyType::FISHMAN, area, Look::LEFT);
+				enemies->totalEnemies++;
+			}
+			else if (player->GetPlayerIsLookingLeft() == true)
+			{
+				enemies->Add(pos, EnemyType::FISHMAN, area, Look::RIGHT);
+				enemies->totalEnemies++;
+			}
+		}
+	}
 	// TODO fix this as it is hurting the player if it still touches the enemy next frame.
 	if (enemies->playerGettingHurt == true)
 	{
 		player->GetHurt();
 		enemies->playerGettingHurt = false;
 	}
+
 }
 void Scene::Render()
 {
