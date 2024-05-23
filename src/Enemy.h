@@ -16,6 +16,14 @@
 #define ZOMBIE_PHYSICAL_WIDTH	12
 #define ZOMBIE_PHYSICAL_HEIGHT	28
 
+// TODO Fix Leopard's hitbox
+//Representation model size: 32x16
+#define BLACKLEOPARD_FRAME_SIZE_WIDTH		32
+#define BLACKLEOPARD_FRAME_SIZE_HEIGHT	16
+//Logical model size: 28x12
+#define BLACKLEOPARD_PHYSICAL_WIDTH	28
+#define BLACKLEOPARD_PHYSICAL_HEIGHT	12
+
 //Representation model size: 16x16
 #define BAT_FRAME_SIZE_WIDTH	16
 #define BAT_FRAME_SIZE_HEIGHT	16
@@ -38,7 +46,7 @@
 
 
 
-enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT, FISHMAN };
+enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT, FISHMAN, BLACKLEOPARD };
 
 class Enemy : public Entity //, public EnemyManager
 {

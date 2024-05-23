@@ -205,12 +205,12 @@ AppStatus Scene::LoadLevel(int stage)
 	int size;
 	int x, y, i;
 	Tile tile;
-	Tile tileInteractable;
 	Point pos;
 	int* map = nullptr;
 	int* mapInteractables = nullptr;
 	Object* obj;
 	AABB hitbox, area;
+	currentLevel = stage;
 
 	ClearLevel();
 	
@@ -227,7 +227,7 @@ AppStatus Scene::LoadLevel(int stage)
 				17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,		17,		18,		19,		20,
 				13,		14,		10,		9,		12,		14,		15,		16,		13,		14,		15,		16,		12,		14,		15,		16,
 				5,		6,		67,		68,		8,		7,		5,		7,		5,		7,		5,		139,	140,	7,		5,		7,
-				3,		138,	65,		66,		138,	138,	1/*4*/,		138,	4,		138,	4,		138,	138/*800*/,		138,	3,		138,
+				3,		138,	65,		66,		138,	138,	4,		138,	4,		138,	4,		138,	138,	138,	3,		138,
 				2,		2,		62,		63,		64,		2,		2,		2,		 2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -242,9 +242,9 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		300,	0,		400,	401,	0,		0,		0,		0,		0/*201*/,
+				0,		200,		0,		211,		0,		0,		0,		300,	0,		400,	401,	0,		210,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
 		player->InitScore();
 	}
@@ -273,8 +273,8 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0, 800,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		400,	0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		400,	0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -305,7 +305,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800, 	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		401,	0,		0,		0,		500,		0,		0,		0,		0,		0,
+				0,		0,	0,		0,		0,		0,		401,	0,		0,		0,		500,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -337,7 +337,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 			};	
 	}
@@ -368,7 +368,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		200,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 			};
 			}
@@ -429,6 +429,22 @@ AppStatus Scene::LoadLevel(int stage)
 				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
 				area = level->GetSweptAreaX(hitbox);
 				enemies->Add(pos, EnemyType::ZOMBIE, area);
+				enemies->totalEnemies++;
+			}
+			else if (tile == Tile::BLACKLEOPARD_LEFT)
+			{
+				pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BLACKLEOPARD);
+				area = level->GetSweptAreaX(hitbox);
+				enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::LEFT);
+				enemies->totalEnemies++;
+			}
+			else if (tile == Tile::BLACKLEOPARD_RIGHT)
+			{
+				pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BLACKLEOPARD);
+				area = level->GetSweptAreaX(hitbox);
+				enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::RIGHT);
 				enemies->totalEnemies++;
 			}
 			else
@@ -727,7 +743,17 @@ void Scene::Render()
 	{
 		RenderObjects();
 		enemies->Draw();
-		player->Draw();
+		// This will make the player blink while invincible
+		if (player->GetPlayerIsInvincible())
+		{
+			if (timer % 4 == 0)
+				player->BlinkInvisible(1);
+			else
+				player->Draw();
+		}
+		else
+			player->Draw();
+		
 		shots->Draw();
 	}
 	if (debug == DebugMode::SPRITES_AND_HITBOXES || debug == DebugMode::ONLY_HITBOXES)

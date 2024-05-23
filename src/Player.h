@@ -132,6 +132,7 @@ public:
 	bool GetPlayerIsLookingLeft() const;
 
 	bool GetPlayerAttacking() const;
+	bool GetPlayerIsInvincible() const;
 	int score;
 
 
@@ -225,9 +226,8 @@ private:
 	Sound holyWaterSFX;
 	Sound cruficixSFX;
 	Sound oneUpSFX;
-
 	Sound orbSFX;
-
+	Sound hurtSFX;
 
 	bool unloadedSounds;
 

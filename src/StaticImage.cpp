@@ -16,6 +16,10 @@ void StaticImage::DrawTint(int x, int y, const Color& col) const
 {
 	DrawTextureRec(*img, rc, { (float)x, (float)y }, col);
 }
+void StaticImage::Transparent(int x, int y) const
+{
+	DrawTint(x, y, { 0,0,0,0 });
+}
 void StaticImage::Release()
 {
 	UnloadTexture(*img); // I made this myself trying to find where the memory leaks are coming from

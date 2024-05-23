@@ -11,6 +11,25 @@ Enemy::Enemy(const Point& p, int width, int height, int frame_width, int frame_h
 Enemy::~Enemy()
 {
 }
+// Teacher version
+//bool Enemy::IsVisible(const AABB& hitbox)
+//{
+//	//Does the enemy's visibility area intersect with the hitbox?
+//	if (visibility_area.TestAABB(hitbox))
+//	{
+//		//Is the enemy facing the hitbox?
+//		//We consider it not visible when the boxes are colliding
+//		if (look == Look::LEFT)
+//		{
+//			if (pos.x > hitbox.pos.x + hitbox.width)	return true;
+//		}
+//		else if (look == Look::RIGHT)
+//		{
+//			if (pos.x + width < hitbox.pos.x)	return true;
+//		}
+//	}
+//	return false;
+//}
 bool Enemy::IsVisible(const AABB& hitbox)
 {
 	//Does the enemy's visibility area intersect with the hitbox?

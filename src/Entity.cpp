@@ -7,16 +7,19 @@ Entity::Entity() :
 	pos({ 0,0 }), dir({ 0,0 }), width(0), height(0), frame_width(0), frame_height(0), render(nullptr)
 {
 	alive = false;
+	frames = 0;
 }
 Entity::Entity(const Point& p, int w, int h) :
 	pos(p), dir({ 0,0 }), width(w), height(h), frame_width(w), frame_height(h), render(nullptr)
 {
 	alive = true;
+	frames = 0;
 }
 Entity::Entity(const Point& p, int w, int h, int frame_w, int frame_h) :
 	pos(p), dir({ 0,0 }), width(w), height(h), frame_width(frame_w), frame_height(frame_h), render(nullptr)
 {
 	alive = true;
+	frames = 0;
 }
 Entity::~Entity()
 {
@@ -74,6 +77,17 @@ void Entity::DrawTint(const Color& col) const
 {
 	Point p = GetRenderingPosition();
 	render->DrawTint(p.x, p.y, col);
+}
+void Entity::BlinkInvisible(int totalFrames) const
+{
+	Point p = GetRenderingPosition();
+	int startingFrame = frames;
+	render->Transparent(p.x, p.y);
+	//while (true)
+	//{
+
+	//}
+
 }
 void Entity::DrawHitbox(const Color& col) const
 {

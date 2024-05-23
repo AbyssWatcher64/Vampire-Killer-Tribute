@@ -153,6 +153,7 @@ void Sprite::Draw(int x, int y) const
 {
     DrawTint(x, y, WHITE);
 }
+
 void Sprite::DrawTint(int x, int y, const Color& col) const
 {
     if (current_anim >= 0 && current_anim < animations.size())
@@ -166,6 +167,11 @@ void Sprite::DrawTint(int x, int y, const Color& col) const
         }
     }
 }
+void Sprite::Transparent(int x, int y) const
+{
+    DrawTint(x, y, {0,0,0,0});
+}
+
 void Sprite::Release()
 {
     //Release each animation's frames

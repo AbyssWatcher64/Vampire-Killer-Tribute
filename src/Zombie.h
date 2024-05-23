@@ -2,9 +2,6 @@
 #include "Enemy.h"
 // "TileMap.h"
 
-
-
-
 #define ZOMBIE_SPEED			1
 #define ZOMBIE_ANIM_DELAY	(4*ANIM_DELAY)
 

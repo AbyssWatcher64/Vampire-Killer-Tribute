@@ -61,6 +61,11 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 		enemy = new Bat(pos, BAT_PHYSICAL_WIDTH, BAT_PHYSICAL_HEIGHT, BAT_FRAME_SIZE_WIDTH, BAT_FRAME_SIZE_HEIGHT);
 
 	}
+	else if (type == EnemyType::BLACKLEOPARD)
+	{
+		enemy = new BlackLeopard(pos, BLACKLEOPARD_PHYSICAL_WIDTH, BLACKLEOPARD_PHYSICAL_HEIGHT, BLACKLEOPARD_FRAME_SIZE_WIDTH, BLACKLEOPARD_FRAME_SIZE_HEIGHT, Look::RIGHT);
+		enemy->map = this->map;
+	}
 	else
 	{
 		LOG("Internal error: trying to add a new enemy with invalid type");

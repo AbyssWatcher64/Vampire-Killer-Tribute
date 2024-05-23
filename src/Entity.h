@@ -27,6 +27,7 @@ public:
 	//Draw representation model
 	void Draw() const;
 	void DrawTint(const Color& col) const;
+	void BlinkInvisible(int frames) const;
 
 	//Draw logical/physical model (hitbox)
 	void DrawHitbox(const Color& col) const;
@@ -38,7 +39,7 @@ protected:
 	//Logical/physical model
 	Point pos, dir;
 	int width, height;
-
+	int frames;
 	//Representation model
 	int frame_width, frame_height;
 

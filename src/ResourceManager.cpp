@@ -83,7 +83,10 @@ void ResourceManager::LoadSounds()
 }
 void ResourceManager::ReleaseSounds()
 {
-
+    for (int i = 0; i < 36; i++)
+    {
+        UnloadSound(sounds[i]);
+    }
 }
 
 //Get a texture by key

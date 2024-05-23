@@ -307,6 +307,7 @@ void Game::UnloadResources()
     data.ReleaseTexture(Resource::IMG_DESC);
     data.ReleaseTexture(Resource::IMG_ENDING);
     data.ReleaseTexture(Resource::IMG_UI);
+    data.ReleaseSounds();
 
 
     UnloadRenderTexture(target);

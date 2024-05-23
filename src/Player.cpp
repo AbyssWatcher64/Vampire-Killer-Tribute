@@ -324,6 +324,7 @@ AppStatus Player::Initialise()
 	holyWaterSFX = data[29];
 	cruficixSFX = data[34];
 	oneUpSFX = data[35];
+	hurtSFX = data[36];
 	
 	
 
@@ -391,6 +392,7 @@ int Player::GetYPos()
 {
 	return pos.y;
 }
+// TODO Delay hitbox to be on the last frame, but I'm not sure how.
 AABB Player::GetWeaponHitBox()
 {
 	if (state == State::ATTACKING && look == Look::RIGHT)
@@ -425,7 +427,12 @@ void Player::GetHurt()
 				hp = 0;
 				Death();
 			}
-			InvisFrames();
+			else
+			{
+				PlaySound(hurtSFX);
+				InvisFrames();
+			}
+			
 		}
 		/*hp += value;
 		if (hp > 100)
@@ -504,6 +511,13 @@ bool Player::GetPlayerIsLookingLeft() const
 bool Player::GetPlayerAttacking() const
 {
 	if (state == State::ATTACKING)
+		return true;
+	else
+		return false;
+}
+bool Player::GetPlayerIsInvincible() const
+{
+	if (isInvincible)
 		return true;
 	else
 		return false;
@@ -723,6 +737,7 @@ void Player::ChangeHP(int value)
 }
 
 
+
 void Player::InvisFrames()
 {
 	startingFrame = currentFrame;
@@ -891,6 +906,9 @@ void Player::Update()
 
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	sprite->Update();
+
+	
+
 	if (sprite->GetIsAnimationFinished())
 	{
 		sprite->SetIsAnimationFinished(false);

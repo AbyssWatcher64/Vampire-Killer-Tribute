@@ -16,7 +16,6 @@ Bat::~Bat()
 }
 AppStatus Bat::Initialise(Look look, const AABB& area)
 {
-	int i;
 	const int n = BAT_FRAME_SIZE_WIDTH;
 	const int h = BAT_FRAME_SIZE_HEIGHT;
 
