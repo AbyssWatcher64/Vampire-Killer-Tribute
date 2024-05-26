@@ -114,6 +114,7 @@ public:
 	void SetGameEnd(bool state);
 
 	void SetShield();
+	void SetMorningStar();
 
 	int GetXPos();
 	int GetYPos();
@@ -196,6 +197,7 @@ private:
 	Look look;
 	int jump_delay;
 	bool isHoldingShield;
+	bool isHoldingMorningStar;
 	Equipment equipment;
 
 	TileMap *map;

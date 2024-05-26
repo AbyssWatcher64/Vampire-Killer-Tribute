@@ -242,7 +242,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
-				0,		200,		0,		211,		0,		405,		404,	300,	0,		400,	401,	0,		210,		0,		0,		0,
+				0,		200,		0,		211,		0,		405,	404,	300,	301,	400,	401,	0,		210,	0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -432,6 +432,12 @@ AppStatus Scene::LoadLevel(int stage)
 			else if (tile == Tile::ITEM_BIGHEART)
 			{
 				obj = new Object(pos, ObjectType::BIGHEART);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ITEM_MORNING_STAR)
+			{
+				obj = new Object(pos, ObjectType::MORNINGSTAR);
 				objects.push_back(obj);
 				map[i] = 0;
 			}

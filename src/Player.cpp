@@ -17,6 +17,7 @@ Player::Player(const Point& p, State s, Look view) :
 	jump_delay = PLAYER_JUMP_DELAY;
 	map = nullptr;
 	isHoldingShield = false;
+	isHoldingMorningStar = false;
 	hp = 32;
 	lives = 3;
 	score = 0;
@@ -255,10 +256,26 @@ AppStatus Player::Initialise()
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)8 * n, n * 6, -(n * 4) , h }, -2 * n);
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_WHIP, { (float)8 * n, n * 6, -(n * 4) , h }, -2 * n);
 
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_LEFT_MORNING_STAR, ANIM_DELAY);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_MORNING_STAR, { (float)14 * n, n * 5, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_MORNING_STAR, { (float)18 * n, n * 5, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_MORNING_STAR, { (float)22 * n, n * 5, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_MORNING_STAR, { (float)22 * n, n * 5, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_LEFT_MORNING_STAR, { (float)22 * n, n * 5, -(n * 4) , h }, -2 * n);
+
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)0 * n, n * 8, -(n * 4) , h }, -2 * n);
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)4 * n, n * 8, -(n * 4) , h }, -2 * n);
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)8 * n, n * 8, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)8 * n, n * 8, -(n * 4) , h }, -2 * n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP, { (float)8 * n, n * 8, -(n * 4) , h }, -2 * n);
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_MORNING_STAR, ANIM_DELAY);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_MORNING_STAR, { (float)14 * n, n * 7 + 7, -(n * 4) , h }, -2 * n, 7);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_MORNING_STAR, { (float)18 * n, n * 7 + 7, -(n * 4) , h }, -2 * n, 7);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_MORNING_STAR, { (float)22 * n, n * 7 + 7, -(n * 4) , h }, -2 * n, 7);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_MORNING_STAR, { (float)22 * n, n * 7 + 7, -(n * 4) , h }, -2 * n, 7);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_MORNING_STAR, { (float)22 * n, n * 7 + 7, -(n * 4) , h }, -2 * n, 7);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_LEFT_WHIP, { (float)0 * n, n * 10, -(n * 2) , h });
@@ -278,11 +295,28 @@ AppStatus Player::Initialise()
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)4 * n, n * 6, n * 3 , h }, -n);
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)8 * n, n * 6, n * 4 , h }, -n);
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)8 * n, n * 6, n * 4 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_WHIP, { (float)8 * n, n * 6, n * 4 , h }, -n);
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_RIGHT_MORNING_STAR, ANIM_DELAY);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_MORNING_STAR, { (float)14 * n, n * 5, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_MORNING_STAR, { (float)18 * n, n * 5, n * 3 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_MORNING_STAR, { (float)22 * n, n * 5, n * 4 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_MORNING_STAR, { (float)22 * n, n * 5, n * 4 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_RIGHT_MORNING_STAR, { (float)22 * n, n * 5, n * 4 , h }, -n);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)0 * n, n * 8, n * 3 , h }, -n);
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)4 * n, n * 8, n * 3 , h }, -n);
 	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)8 * n, n * 8, n * 4 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)8 * n, n * 8, n * 4 , h }, -n);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP, { (float)8 * n, n * 8, n * 4 , h }, -n);
+
+	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_MORNING_STAR, ANIM_DELAY);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_MORNING_STAR, { (float)14 * n, n * 7 + 7, n * 3 , h }, -n, 7);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_MORNING_STAR, { (float)18 * n, n * 7 + 7, n * 3 , h }, -n, 7);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_MORNING_STAR, { (float)22 * n, n * 7 + 7, n * 4 , h }, -n, 7);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_MORNING_STAR, { (float)22 * n, n * 7 + 7, n * 4 , h }, -n, 7);
+	sprite->AddKeyFrameOffset((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_MORNING_STAR, { (float)22 * n, n * 7 + 7, n * 4 , h }, -n, 7);
 
 	sprite->SetAnimationDelay((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::ATTACKING_UPSTAIRS_RIGHT_WHIP, { (float)0 * n, n * 10, -(n * 2) , h });
@@ -395,6 +429,10 @@ void Player::SetShield()
 {
 	isHoldingShield = true;
 }
+void Player::SetMorningStar()
+{
+	isHoldingMorningStar = true;
+}
 int Player::GetXPos()
 {
 	return pos.x;
@@ -406,7 +444,19 @@ int Player::GetYPos()
 // TODO Delay hitbox to be on the last frame, but I'm not sure how.
 AABB Player::GetWeaponHitBox()
 {
-	if (state == State::ATTACKING && look == Look::RIGHT)
+	if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar)
+	{
+		Point p(pos.x + width, pos.y - height / 2);
+		AABB hitbox(p, width * 3, height / 3);
+		return hitbox;
+	}
+	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar)
+	{
+		Point p(pos.x - (width * 3), pos.y - height / 2);
+		AABB hitbox(p, width * 3, height / 3);
+		return hitbox;
+	}
+	else if (state == State::ATTACKING && look == Look::RIGHT)
 	{
 		Point p(pos.x + width, pos.y - height / 2);
 		AABB hitbox(p, width * 2, height / 3);
@@ -466,6 +516,10 @@ Equipment Player::SetEquipment(int equipNum)
 	{
 		return EquipShield();
 	}
+	else if (equipNum == 100)
+	{
+		return EquipMorningStar();
+	}
 }
 void Player::GrabObject(int object)
 {
@@ -485,6 +539,10 @@ Equipment Player::EquipWhip()
 }
 Equipment Player::EquipMorningStar()
 {
+	isHoldingMorningStar = true;
+	Stop();
+
+	PlaySound(shieldSFX);   // temporal approch
 	return equipment = Equipment::MORNINGSTAR;
 }
 Equipment Player::EquipDagger()
@@ -696,15 +754,33 @@ void Player::Attack()
 		state = State::ATTACKING;
 		if (look == Look::RIGHT)
 		{
-			SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP);
-			Sprite* sprite = dynamic_cast<Sprite*>(render);
-			sprite->SetPlayOnceMode();
+			if (isHoldingMorningStar)
+			{
+				SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_MORNING_STAR);
+				Sprite* sprite = dynamic_cast<Sprite*>(render);
+				sprite->SetPlayOnceMode();
+			}
+			else
+			{
+				SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_RIGHT_WHIP);
+				Sprite* sprite = dynamic_cast<Sprite*>(render);
+				sprite->SetPlayOnceMode();
+			}
 		}
 		else if (look == Look::LEFT)
 		{
-			SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP);
-			Sprite* sprite = dynamic_cast<Sprite*>(render);
-			sprite->SetPlayOnceMode();
+			if (isHoldingMorningStar)
+			{
+				SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_MORNING_STAR);
+				Sprite* sprite = dynamic_cast<Sprite*>(render);
+				sprite->SetPlayOnceMode();
+			}
+			else
+			{
+				SetAnimation((int)PlayerAnim::ATTACKING_CROUCHING_LEFT_WHIP);
+				Sprite* sprite = dynamic_cast<Sprite*>(render);
+				sprite->SetPlayOnceMode();
+			}
 		}
 	}
 	else 
@@ -712,15 +788,33 @@ void Player::Attack()
 		state = State::ATTACKING;
 		if (look == Look::RIGHT)
 		{
-			SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
-			Sprite* sprite = dynamic_cast<Sprite*>(render);
-			sprite->SetPlayOnceMode();
+			if (isHoldingMorningStar)
+			{
+				SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_MORNING_STAR);
+				Sprite* sprite = dynamic_cast<Sprite*>(render);
+				sprite->SetPlayOnceMode();
+			}
+			else
+			{
+				SetAnimation((int)PlayerAnim::ATTACKING_RIGHT_WHIP);
+				Sprite* sprite = dynamic_cast<Sprite*>(render);
+				sprite->SetPlayOnceMode();
+			}
 		}
 		else if (look == Look::LEFT)
 		{
-			SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
-			Sprite* sprite = dynamic_cast<Sprite*>(render);
-			sprite->SetPlayOnceMode();
+			if (isHoldingMorningStar)
+			{
+				SetAnimation((int)PlayerAnim::ATTACKING_LEFT_MORNING_STAR);
+				Sprite* sprite = dynamic_cast<Sprite*>(render);
+				sprite->SetPlayOnceMode();
+			}
+			else
+			{
+				SetAnimation((int)PlayerAnim::ATTACKING_LEFT_WHIP);
+				Sprite* sprite = dynamic_cast<Sprite*>(render);
+				sprite->SetPlayOnceMode();
+			}
 		}
 	}
 	
@@ -737,8 +831,8 @@ void Player::ChangeHP(int value)
 	if (!godMode && !isInvincible)
 	{
 		hp += value;
-		if (hp > 100)
-			hp = 100;
+		if (hp > 32)
+			hp = 32;
 		if (hp <= 0)
 		{
 			hp = 0;
@@ -1214,9 +1308,18 @@ void Player::LogicClimbing()
 void Player::DrawDebug(const Color& col) const
 {	
 	Entity::DrawHitbox(pos.x, pos.y, width, height, col);
-	if (state == State::ATTACKING && look == Look::RIGHT)
+	
+	if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar)
 	{
-		Entity::DrawHitbox(pos.x+width, pos.y-height/2, width * 2, height / 3, col);
+		Entity::DrawHitbox(pos.x + width, pos.y - height / 2, width * 3, height / 3, col);
+	}
+	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar)
+	{
+		Entity::DrawHitbox(pos.x - (width * 3), pos.y - height / 2, width * 3, height / 3, col);
+	}
+	else if (state == State::ATTACKING && look == Look::RIGHT)
+	{
+		Entity::DrawHitbox(pos.x + width, pos.y - height / 2, width * 2, height / 3, col);
 	}
 	else if (state == State::ATTACKING && look == Look::LEFT)
 	{

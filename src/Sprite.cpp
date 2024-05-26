@@ -43,6 +43,15 @@ void Sprite::AddKeyFrameOffset(int id, const Rectangle& rect, int offset)
         animations[id].frames.push_back(rect);
     }
 }
+void Sprite::AddKeyFrameOffset(int id, const Rectangle& rect, int offset, int offsetY)
+{
+    if (id >= 0 && id < animations.size())
+    {
+        animations[id].offset = offset;
+        animations[id].offsetY = offsetY;
+        animations[id].frames.push_back(rect);
+    }
+}
 void Sprite::SetAnimation(int id)
 {
     if (id >= 0 && id < animations.size())
@@ -163,7 +172,8 @@ void Sprite::DrawTint(int x, int y, const Color& col) const
         {
             Rectangle rect = animations[current_anim].frames[current_frame];
             int offset = animations[current_anim].offset; // This wasn't in this framework
-            DrawTextureRec(*img, rect, { (float)x + offset, (float)y }, col);
+            int offsetY = animations[current_anim].offsetY; // This wasn't in this framework
+            DrawTextureRec(*img, rect, { (float)x + offset, (float)y + offsetY}, col);
         }
     }
 }

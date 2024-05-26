@@ -9,6 +9,7 @@ enum class AnimMode { AUTOMATIC, MANUAL, PLAYONCE };
 struct Animation
 {
     int offset;
+    int offsetY;
     int delay;
     std::vector<Rectangle> frames;
 };
@@ -23,6 +24,7 @@ public:
     void SetAnimationDelay(int id, int delay);
     void AddKeyFrame(int id, const Rectangle& rect);
     void AddKeyFrameOffset(int id, const Rectangle& rect, int offset);
+    void AddKeyFrameOffset(int id, const Rectangle& rect, int offset, int offsetY);
     void SetAnimation(int id);
     int GetAnimation();
 

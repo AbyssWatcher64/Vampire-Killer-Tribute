@@ -166,9 +166,13 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 		{
 			if (true && enemy->IsAlive() == true)
 			{
-				if (enemy->type == EnemyType::ZOMBIE || enemy->type == EnemyType::BAT)
+				if (enemy->type == EnemyType::ZOMBIE || enemy->type == EnemyType::BAT || enemy->type == EnemyType::BLACKLEOPARD)
 				{
 					score += 100;
+				}
+				else if (enemy->type == EnemyType::FISHMAN)
+				{
+					score += 200;
 				}
 				PlaySound(enemyHit);
 				enemy->SetAlive(false);
