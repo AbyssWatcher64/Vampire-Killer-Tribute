@@ -104,6 +104,8 @@ public:
 
 	int GetHP() const;
 	int GetLives() const;
+	void SetHearts(int heartDifference);
+	int GetHearts() const;
 	bool GetHasDied() const; 
 	void SetHasDied(bool state);
 	bool GetGameOver() const;
@@ -201,6 +203,7 @@ private:
 	int hp;
 	int lives;
 	int currentFrame;
+	int hearts;
 
 	bool hasDied;
 	bool gameOver;

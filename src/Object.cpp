@@ -20,6 +20,11 @@ Object::Object(const Point& p, ObjectType t) : Entity(p, OBJECT_PHYSICAL_SIZE, O
 	case ObjectType::HOLYWATER: rc = { 6 * n, 0 * n, n, n }; break;
 	case ObjectType::MASTERKEY: rc = { 7 * n, 0 * n, n, n }; break;
 	case ObjectType::ORB: rc = { 8 * n, 0 * n, n, n }; break;
+	case ObjectType::CHEST: rc = { 0 * n, 1 * n, n, n }; break;
+	case ObjectType::YELLOWKEY: rc = { 1 * n, 1 * n, n, n }; break;
+	case ObjectType::WHITEKEY: rc = { 2 * n, 1 * n, n, n }; break;
+	case ObjectType::HEART: rc = { 3 * n, 1 * n, n, n }; break;
+	case ObjectType::BIGHEART: rc = { 3 * n, 2 * n, n, n }; break;
 	case ObjectType::WHITEBAG: rc = { 8 * n, 1 * n, n, n }; break;
 	case ObjectType::BLUEBAG: rc = { 9 * n, 1 * n, n, n }; break;
 	
@@ -73,6 +78,10 @@ int Object::ObjectNum() const
 		return 1;
 	else if (type == ObjectType::ORB)
 		return 2;
+	else if (type == ObjectType::HEART)
+		return 3;
+	else if (type == ObjectType::BIGHEART)
+		return 4;
 }
 
 

@@ -17,9 +17,10 @@ Player::Player(const Point& p, State s, Look view) :
 	jump_delay = PLAYER_JUMP_DELAY;
 	map = nullptr;
 	isHoldingShield = false;
-	hp = 100;
+	hp = 32;
 	lives = 3;
 	score = 0;
+	hearts = 0;
 	hasDied = false;
 	godMode = false;
 	gameEnd = false;
@@ -380,6 +381,16 @@ int Player::GetHP() const
 {
 	return hp;
 }
+void Player::SetHearts(int heartDifference)
+{
+	if (heartDifference > 0)
+		PlaySound(heartSFX);
+	hearts += heartDifference;
+}
+int Player::GetHearts() const
+{
+	return hearts;
+}
 void Player::SetShield()
 {
 	isHoldingShield = true;
@@ -421,7 +432,7 @@ void Player::GetHurt()
 		
 		if (hp > 0)
 		{
-			hp -= 10;
+			hp -= 2;
 			if (hp <= 0)
 			{
 				hp = 0;
@@ -885,6 +896,11 @@ void Player::Update()
 		}
 	}
 
+	if (IsKeyPressed(KEY_SPACE) && state != State::ATTACKING && hasDied == false)
+	{
+		Attack();
+	}
+
 	MoveX();
 	MoveY();
 	
@@ -998,24 +1014,29 @@ void Player::MoveX()
 void Player::MoveY()
 {
 	AABB box;
-	
-	if (state == State::JUMPING)
+	if (state == State::JUMPING && state!=State::ATTACKING)
 	{
 		LogicJumping();
 	}
-	else if (state == State::CLIMBING)
+	else if (state == State::CLIMBING && state != State::ATTACKING)
 	{
 		LogicClimbing();
 	}
 	else //idle, walking, falling
 	{
+
 		pos.y += PLAYER_SPEED;
 		box = GetHitbox();
+
+
 		if (map->TestCollisionGround(box, &pos.y))
 		{
-			if (state == State::FALLING) Stop();
 
-			if ((IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) && state != State::ATTACKING && hasDied == false)
+			/*if (state == State::ATTACKING && state != State::ATTACKING)
+				Attack();*/
+
+			if (state == State::FALLING && state != State::ATTACKING) Stop();
+			else if ((IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) && state != State::ATTACKING && hasDied == false)
 			{
 				box = GetHitbox();
 				if (map->TestOnLadder(box, &pos.x))
@@ -1024,10 +1045,6 @@ void Player::MoveY()
 				{
 					StartJumping();
 				}
-			}
-			else if (IsKeyPressed(KEY_SPACE) && state != State::ATTACKING && hasDied == false)
-			{
-				Attack();
 			}
 			else if ((IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) && state != State::ATTACKING && hasDied == false)
 			{
@@ -1050,7 +1067,7 @@ void Player::MoveY()
 		}
 		else
 		{
-			if (state != State::FALLING) StartFalling();
+			if (state != State::FALLING && state != State::ATTACKING) StartFalling();
 		}
 	}
 }

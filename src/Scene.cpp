@@ -242,7 +242,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
-				0,		200,		0,		211,		0,		0,		0,		300,	0,		400,	401,	0,		210,		0,		0,		0,
+				0,		200,		0,		211,		0,		405,		404,	300,	0,		400,	401,	0,		210,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 			};
@@ -420,6 +420,18 @@ AppStatus Scene::LoadLevel(int stage)
 			else if (tile == Tile::ITEM_ORB)
 			{
 				obj = new Object(pos, ObjectType::ORB);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ITEM_HEART)
+			{
+				obj = new Object(pos, ObjectType::HEART);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ITEM_BIGHEART)
+			{
+				obj = new Object(pos, ObjectType::BIGHEART);
 				objects.push_back(obj);
 				map[i] = 0;
 			}
@@ -824,6 +836,10 @@ void Scene::CheckObjectCollisions()
 			player->SetEquipment((*it)->Equip());
 			if ((*it)->Equip() == 1000)
 				player->SetGameEnd(true);
+			else if ((*it)->ObjectNum() == 3)
+				player->SetHearts(1);
+			else if ((*it)->ObjectNum() == 4)
+				player->SetHearts(5);
 			player->GrabObject((*it)->ObjectNum());
 			//Delete the object
 			delete* it;
@@ -877,7 +893,10 @@ void Scene::RenderGUI() const
 
 	font->Draw(57, 9, TextFormat("%06d", player->GetScore())); // TODO convert numbers into division of screen
 	font->Draw(229, 9, TextFormat("%02d", player->GetLives())); // TODO convert numbers into division of screen
+	font->Draw(193, 9, TextFormat("%02d", player->GetHearts())); // TODO convert numbers into division of screen
 	font->Draw(157, 9, TextFormat("%02d", currentLevel)); // TODO convert numbers into division of screen
 	font->Draw(10, 5, TextFormat("%d", frame), RED);
 	font->Draw(10, 40, TextFormat("%02d", player->GetHP()));
+	DrawRectangle(60, 22, ((player->GetHP()*2)), 5, {255, 181, 145, 255}); // HP BAR
+	DrawRectangle(60, 30, 64, 5, RED); // Enemy HP BAR
 }
