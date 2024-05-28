@@ -189,6 +189,11 @@ void TileMap::InitTileDictionary()
 	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_8] = { 12 * n, n * 8, n, n };
 	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_9] = { 13 * n, n * 8, n, n };
 	dict_rect[(int)Tile::BLOCK_WALL_OUTSIDE_10] = { 14 * n, n * 8, n, n };
+	dict_rect[(int)Tile::BLOCK_MOSS_4] = { 15 * n, n * 8, n, n };
+
+	dict_rect[(int)Tile::BLOCK_STAIRS_LEFT_3] = { 0 * n, n * 9, n, n };
+	dict_rect[(int)Tile::BLOCK_WHITE_WALL_2] = { 1 * n, n * 9, n, n };
+
 
 	dict_rect[(int)Tile::FIRE_FRAME0] = { n * 0, 4 * n, 2 * n, n };
 	dict_rect[(int)Tile::FIRE_FRAME1] = { n * 2, 4 * n, 2 * n, n };
