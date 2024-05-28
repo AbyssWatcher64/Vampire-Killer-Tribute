@@ -59,7 +59,7 @@ AppStatus Game::Initialise(float scale)
     }
 
     //Initialise the fade in effect
-    fade_transition.Set(GameState::MAIN_MENU, 5, dst);
+    //fade_transition.Set(GameState::MAIN_MENU, 5, dst); Por culpa de esto no aparecían las pantallas iniciales
 
     //Set the target frame rate for the application
     SetTargetFPS(60);
