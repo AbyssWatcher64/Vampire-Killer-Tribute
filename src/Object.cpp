@@ -83,6 +83,10 @@ int Object::ObjectNum() const
 		return 3;
 	else if (type == ObjectType::BIGHEART)
 		return 4;
+	else if (type == ObjectType::YELLOWKEY)
+		return 10;
+	else if (type == ObjectType::WHITEKEY)
+		return 11;
 }
 
 

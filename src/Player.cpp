@@ -27,6 +27,8 @@ Player::Player(const Point& p, State s, Look view) :
 	gameEnd = false;
 	wasCrouching = false;
 	isInvincible = false;
+	hasYellowKey = false;
+	hasWhiteKey = false;
 	//tmp 
 	unloadedSounds = false;
 }
@@ -509,7 +511,22 @@ bool Player::GetIsHoldingShield() const
 {
 	return Player::isHoldingShield;
 }
-
+void Player::SetHasYellowKey()
+{
+	hasYellowKey = true;
+}
+bool Player::GetHasYellowKey() const
+{
+	return hasYellowKey;
+}
+void Player::SetHasWhiteKey()
+{
+	hasWhiteKey = true;
+}
+bool Player::GetHasWhiteKey() const
+{
+	return hasWhiteKey;
+}
 Equipment Player::SetEquipment(int equipNum)
 {
 	if (equipNum == 0)

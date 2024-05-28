@@ -274,7 +274,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		400,	0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		400,	0,		402,		0,		403,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
@@ -993,6 +993,18 @@ AppStatus Scene::LoadLevel(int stage)
 				objects.push_back(obj);
 				map[i] = 0;
 			}
+			else if (tile == Tile::ITEM_WHITEKEY)
+			{
+				obj = new Object(pos, ObjectType::WHITEKEY);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
+			else if (tile == Tile::ITEM_YELLOWKEY)
+			{
+				obj = new Object(pos, ObjectType::YELLOWKEY);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
 			else if (tile == Tile::ITEM_MORNING_STAR)
 			{
 				obj = new Object(pos, ObjectType::MORNINGSTAR);
@@ -1423,6 +1435,10 @@ void Scene::CheckObjectCollisions()
 				player->SetHearts(1);
 			else if ((*it)->ObjectNum() == 4)
 				player->SetHearts(5);
+			else if ((*it)->ObjectNum() == 10)
+				player->SetHasYellowKey();
+			else if ((*it)->ObjectNum() == 11)
+				player->SetHasWhiteKey();
 			player->GrabObject((*it)->ObjectNum());
 			//Delete the object
 			delete* it;

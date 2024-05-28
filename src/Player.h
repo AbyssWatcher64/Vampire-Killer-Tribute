@@ -136,6 +136,14 @@ public:
 
 	bool GetPlayerAttacking() const;
 	bool GetPlayerIsInvincible() const;
+
+	bool GetIsHoldingShield() const;
+
+	void SetHasYellowKey();
+	bool GetHasYellowKey() const;
+	void SetHasWhiteKey();
+	bool GetHasWhiteKey() const;
+
 	int score;
 
 
@@ -180,7 +188,7 @@ private:
 	//Player Weapons and Items
 	void Attack();
 	void CrouchAttack();
-	bool GetIsHoldingShield() const;
+	
 	//void SetWeapon(Weapon w);
 	////Weapon EquipWhip();
 	////Weapon EquipMorningStar();
@@ -199,6 +207,9 @@ private:
 	bool isHoldingShield;
 	bool isHoldingMorningStar;
 	Equipment equipment;
+
+	bool hasYellowKey;
+	bool hasWhiteKey;
 
 	TileMap *map;
 
