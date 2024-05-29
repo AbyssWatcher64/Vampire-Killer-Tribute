@@ -1499,8 +1499,8 @@ void Scene::RenderGUI() const
 	DrawRectangle(60, 22, ((player->GetHP()*2)), 5, {255, 181, 145, 255}); // HP BAR
 	DrawRectangle(60, 30, 64, 5, RED); // Enemy HP BAR
 	// Draw the keys on top, on the UI
-	if (player->GetHasWhiteKey())
+	if (player->GetHasWhiteKey()){}
 		//DrawTexturePro()
-	if (player->GetHasYellowKey())
+	if (player->GetHasYellowKey()){}
 
 }
