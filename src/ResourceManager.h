@@ -7,6 +7,7 @@
 
 enum class Resource {
     IMG_MENU,
+    IMG_INTRO,
     IMG_INITIAL,
     IMG_DESC,
     IMG_ENDING,

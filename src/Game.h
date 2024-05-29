@@ -26,6 +26,7 @@ private:
     GameState state;
     Scene *scene;
     const Texture2D *img_menu;
+    const Texture2D* img_intro;
     const Texture2D *img_initial;
     const Texture2D *img_desc;
     const Texture2D *img_ending;
@@ -34,7 +35,7 @@ private:
     Music Ost2VampireKiller;
     Sound Ost2VampireKillerSound;
     
-    
+    int introtimer;
 
     //To work with original game units and then scale the result
     RenderTexture2D target;

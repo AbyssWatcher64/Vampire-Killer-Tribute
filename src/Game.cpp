@@ -9,6 +9,7 @@ Game::Game()
     state = GameState::INITIAL_SCREEN;
     scene = nullptr;
     img_menu = nullptr;
+    img_intro = nullptr;
     img_initial = nullptr;
     img_desc = nullptr;
     img_ending = nullptr;
@@ -79,6 +80,12 @@ AppStatus Game::LoadResources()
         return AppStatus::ERROR;
     }
     img_menu = data.GetTexture(Resource::IMG_MENU);
+
+    if (data.LoadTexture(Resource::IMG_INTRO, "img/misc.png") != AppStatus::OK)
+    {
+        return AppStatus::ERROR;
+    }
+    img_intro = data.GetTexture(Resource::IMG_INTRO);
 
     if (data.LoadTexture(Resource::IMG_INITIAL, "img/initial.png") != AppStatus::OK)
     {
@@ -184,6 +191,8 @@ AppStatus Game::Update()
                 //PlayMusicStream(Ost2VampireKiller); //No sé si ponerlo en Game o Scene
             }
             break;
+        case GameState::INTRO:
+            if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
 
         case GameState::PLAYING:
             if (IsKeyPressed(KEY_ESCAPE))

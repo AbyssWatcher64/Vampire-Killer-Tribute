@@ -7,7 +7,7 @@
 enum class AppStatus { OK = 0, ERROR, QUIT };
 
 //Game states - declared in Game.h
-enum class GameState { INITIAL_SCREEN, DESCRIPTION_SCREEN, MAIN_MENU, PLAYING, SETTINGS, CREDITS, GAME_OVER, ENDING };
+enum class GameState { INITIAL_SCREEN, DESCRIPTION_SCREEN, MAIN_MENU,INTRO, PLAYING, SETTINGS, CREDITS, GAME_OVER, ENDING };
 //Main return values
 #define EXIT_SUCCESS	0
 #define EXIT_FAILURE	1
