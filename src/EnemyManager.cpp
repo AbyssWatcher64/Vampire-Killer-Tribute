@@ -4,6 +4,9 @@
 #include "FishMan.h"
 #include "BlackLeopard.h"
 #include "Pyre.h"
+#include "Candle.h"
+
+
 //#include "TileMap.h"
 
 
@@ -70,6 +73,11 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	else if (type == EnemyType::PYRE)
 	{
 		enemy = new Pyre(pos, PYRE_PHYSICAL_SIZE, PYRE_PHYSICAL_SIZE, PYRE_PHYSICAL_SIZE, PYRE_PHYSICAL_SIZE);
+		enemy->map = this->map;
+	}
+	else if (type == EnemyType::CANDLE)
+	{
+		enemy = new Candle(pos, CANDLE_PHYSICAL_SIZE, CANDLE_PHYSICAL_SIZE, CANDLE_PHYSICAL_SIZE, CANDLE_PHYSICAL_SIZE);
 		enemy->map = this->map;
 	}
 	else

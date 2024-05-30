@@ -3,7 +3,6 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "Object.h"
-#include "Fire.h"
 #include "EnemyManager.h"
 #include "ShotManager.h"
 #include "ParticleManager.h"
@@ -52,7 +51,6 @@ private:
 
     //Dynamic objects of the level: items and collectables
     std::vector<Object*> objects;
-    std::vector<Fire*> fire;
 
     //Enemies present in the level
     EnemyManager* enemies;

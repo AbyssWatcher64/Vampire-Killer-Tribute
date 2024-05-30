@@ -273,7 +273,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
+				0,		0,		0,		0,		700,	0,		701,		702,		0,		0,		0,		0,		700,	0,		0,		0,
 				0,		0,		0,		600,		0, 600,		0,		400,	0,		402,		0,		403,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -1047,6 +1047,11 @@ AppStatus Scene::LoadLevel(int stage)
 				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::PYRE);
 				/*area = level->GetSweptAreaX(hitbox);*/
 				enemies->Add(pos, EnemyType::PYRE, area, Look::RIGHT);
+			}
+			else if (tile == Tile::CANDLE)
+			{
+				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::CANDLE);
+				enemies->Add(pos, EnemyType::CANDLE, area, Look::RIGHT);
 			}
 			else
 			{
