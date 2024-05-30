@@ -35,7 +35,6 @@ private:
     Music Ost2VampireKiller;
     Sound Ost2VampireKillerSound;
     
-    int introtimer;
 
     //To work with original game units and then scale the result
     RenderTexture2D target;

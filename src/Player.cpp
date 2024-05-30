@@ -1108,6 +1108,14 @@ void Player::Update()
 		
 	}
 }
+void Player::InitPattern()
+{
+	const int n = ANIM_DELAY * 3;
+	pattern.push_back({ {-PLAYER_SPEED, 0}, /*n*/0, (int)PlayerAnim::WALKING_LEFT });
+	pattern.push_back({ {-PLAYER_SPEED, 0}, /*n*/0, (int)PlayerAnim::WALKING_LEFT });
+	pattern.push_back({ {-PLAYER_SPEED, 0}, /*n*/0, (int)PlayerAnim::WALKING_LEFT });
+
+}
 void Player::MoveX()
 {
 	AABB box;

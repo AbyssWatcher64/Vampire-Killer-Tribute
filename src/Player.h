@@ -87,6 +87,14 @@ ATTACKING_DOWNSTAIRS_LEFT_RANGED, ATTACKING_DOWNSTAIRS_RIGHT_RANGED,*/
 	NUM_ANIMATIONS
 };
 
+struct StepP
+{
+	Point speed;	//direction
+	int frames;		//duration in number of frames
+	int anim;		//graphical representation
+};
+
+
 class Player: public Entity
 {
 public:
@@ -152,6 +160,7 @@ private:
 	bool IsLookingLeft() const;
 
 	//Player mechanics
+	void InitPattern();
 	void MoveX();
 	void MoveY();
 	void LogicJumping();
@@ -248,6 +257,7 @@ private:
 
 	bool unloadedSounds;
 
+	std::vector<StepP> pattern;
 
 };
 

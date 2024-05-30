@@ -185,14 +185,21 @@ AppStatus Game::Update()
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             if (IsKeyPressed(KEY_SPACE))
             {
-                if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
-                state = GameState::PLAYING;
+                state = GameState::INTRO;
                 //fade_transition.Set(GameState::MAIN_MENU, 5, GameState::PLAYING, 5, dst);
                 //PlayMusicStream(Ost2VampireKiller); //No sé si ponerlo en Game o Scene
             }
             break;
+
         case GameState::INTRO:
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            if (IsKeyPressed(KEY_SPACE))
+            {
+                if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
+                state = GameState::PLAYING;
+                fade_transition.Set(GameState::INTRO, 5, GameState::PLAYING, 5, dst);
+            }
+            break;
 
         case GameState::PLAYING:
             if (IsKeyPressed(KEY_ESCAPE))
@@ -281,7 +288,9 @@ void Game::Render()
                 // This draws the Push Space Key text
             DrawTexturePro(*img_menu, { WINDOW_WIDTH, WINDOW_HEIGHT_OLD_MARGIN /5, WINDOW_WIDTH / 2.3f ,WINDOW_HEIGHT_OLD_MARGIN / 26 }, { 4.875f * (WINDOW_WIDTH / 16),WINDOW_HEIGHT_OLD_MARGIN - (WINDOW_HEIGHT_OLD_MARGIN / 3.6f),WINDOW_WIDTH/2.3f,WINDOW_HEIGHT_OLD_MARGIN / 26 }, { 0,0 }, 0, WHITE);
             break;
-
+        case GameState::INTRO:
+            DrawTexturePro(*img_intro, { 8,246,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
+            break;
         case GameState::PLAYING:
             scene->Render();
             DrawTexturePro(*img_ui, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
@@ -312,6 +321,7 @@ void Game::UnloadResources()
 {
     ResourceManager& data = ResourceManager::Instance();
     data.ReleaseTexture(Resource::IMG_MENU);
+    data.ReleaseTexture(Resource::IMG_INTRO);
     data.ReleaseTexture(Resource::IMG_INITIAL);
     data.ReleaseTexture(Resource::IMG_DESC);
     data.ReleaseTexture(Resource::IMG_ENDING);
