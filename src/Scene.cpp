@@ -1498,9 +1498,13 @@ void Scene::RenderGUI() const
 	font->Draw(10, 40, TextFormat("%02d", player->GetHP()));
 	DrawRectangle(60, 22, ((player->GetHP()*2)), 5, {255, 181, 145, 255}); // HP BAR
 	DrawRectangle(60, 30, 64, 5, RED); // Enemy HP BAR
+	
 	// Draw the keys on top, on the UI
+	// TODO: Why is it entering the if?
 	if (player->GetHasWhiteKey()){}
+		DrawRectangle(60, 110, 64, 5, WHITE);
 		//DrawTexturePro()
 	if (player->GetHasYellowKey()){}
+		DrawRectangle(60, 130, 64, 5, YELLOW);
 
 }

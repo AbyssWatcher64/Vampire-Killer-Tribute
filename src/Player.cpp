@@ -1324,23 +1324,42 @@ void Player::LogicClimbing()
 }
 void Player::DrawDebug(const Color& col) const
 {	
-	Entity::DrawHitbox(pos.x, pos.y, width, height, col);
+	if (state == State::CROUCHING || wasCrouching || state == State::JUMPING)
+		Entity::DrawHitbox(pos.x, pos.y, width, height - height / 3, col);
+	else
+		Entity::DrawHitbox(pos.x, pos.y, width, height, col);
 	
-	if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar)
+	if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar && !wasCrouching)
 	{
 		Entity::DrawHitbox(pos.x + width, pos.y - height / 2, width * 3, height / 3, col);
 	}
-	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar)
+	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar && !wasCrouching)
 	{
 		Entity::DrawHitbox(pos.x - (width * 3), pos.y - height / 2, width * 3, height / 3, col);
 	}
-	else if (state == State::ATTACKING && look == Look::RIGHT)
+	else if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar && wasCrouching)
 	{
-		Entity::DrawHitbox(pos.x + width, pos.y - height / 2, width * 2, height / 3, col);
+		Entity::DrawHitbox(pos.x + width, pos.y - height / 3, width * 3, height / 3, col);
 	}
-	else if (state == State::ATTACKING && look == Look::LEFT)
+	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar && wasCrouching)
 	{
-		Entity::DrawHitbox(pos.x - (width * 2), pos.y - height / 2, width * 2, height / 3, col);
+		Entity::DrawHitbox(pos.x - (width * 3), pos.y - height / 3, width * 3, height / 3, col);
+	}
+	else if (state == State::ATTACKING && look == Look::RIGHT && wasCrouching)
+	{
+		Entity::DrawHitbox(pos.x + width, pos.y - height / 3, width * 2.2, height / 3, col);
+	}
+	else if (state == State::ATTACKING && look == Look::LEFT && wasCrouching)
+	{
+		Entity::DrawHitbox(pos.x - (width * 2.1), pos.y - height / 3, width * 2.2, height / 3, col);
+	}
+	else if (state == State::ATTACKING && look == Look::RIGHT && !wasCrouching)
+	{
+		Entity::DrawHitbox(pos.x + width, pos.y - height / 2, width * 2.2, height / 3, col);
+	}
+	else if (state == State::ATTACKING && look == Look::LEFT && !wasCrouching)
+	{
+		Entity::DrawHitbox(pos.x - (width * 2.1), pos.y - height / 2, width * 2.2, height / 3, col);
 	}
 	//TODO Change this so that the width and height are appropriate
 	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), WINDOW_WIDTH-90, 0, 8, LIGHTGRAY);
