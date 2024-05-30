@@ -75,7 +75,7 @@ enum class Tile {
 
 	ITEM_CHEST = 600,
 
-	PYRE = 700, CANDLE,
+	PYRE = 700, CANDLE, BLOCKS,
 
 	FIRE = 800, FIRE_FRAME0, FIRE_FRAME1,
 

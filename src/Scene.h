@@ -10,6 +10,9 @@
 #include "FadeTransition.h"
 #include "Zombie.h"
 
+#define SPAWN_RIGHT_LIMIT   176
+#define SPAWN_LEFT_LIMIT    64
+
 enum class DebugMode { OFF, SPRITES_AND_HITBOXES, ONLY_HITBOXES, SIZE };
 
 class Scene
@@ -48,6 +51,7 @@ private:
     //Level structure that contains all the static tiles
     TileMap* level;
     TileMap* levelInteractables;
+    TileMap* levelHiddenBlocks;
 
     //Dynamic objects of the level: items and collectables
     std::vector<Object*> objects;

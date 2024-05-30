@@ -50,9 +50,11 @@
 #define PYRE_FRAME_SIZE 16
 #define PYRE_PHYSICAL_SIZE 16
 
+#define BLOCKS_FRAME_SIZE 16
 
 
-enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT, FISHMAN, BLACKLEOPARD, PYRE, CANDLE };
+
+enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT, FISHMAN, BLACKLEOPARD, PYRE, CANDLE, BLOCKS };
 
 class Enemy : public Entity //, public EnemyManager
 {

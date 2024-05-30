@@ -5,6 +5,7 @@
 #include "BlackLeopard.h"
 #include "Pyre.h"
 #include "Candle.h"
+#include "DestroyableBlocks.h"
 
 
 //#include "TileMap.h"
@@ -78,6 +79,11 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	else if (type == EnemyType::CANDLE)
 	{
 		enemy = new Candle(pos, CANDLE_PHYSICAL_SIZE, CANDLE_PHYSICAL_SIZE, CANDLE_PHYSICAL_SIZE, CANDLE_PHYSICAL_SIZE);
+		enemy->map = this->map;
+	}
+	else if (type == EnemyType::BLOCKS)
+	{
+		enemy = new DestroyableBlock(pos, BLOCKS_FRAME_SIZE, BLOCKS_FRAME_SIZE, BLOCKS_FRAME_SIZE, BLOCKS_FRAME_SIZE);
 		enemy->map = this->map;
 	}
 	else
@@ -172,7 +178,7 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 		box = enemy->GetHitbox();
 		if (box.TestAABB(player_hitbox) && enemy->IsAlive())
 		{
-			if (true && enemy->type != EnemyType::PYRE)
+			if (true && enemy->type != EnemyType::PYRE && enemy->type != EnemyType::CANDLE && enemy->type != EnemyType::BLOCKS)
 			{
 				playerGettingHurt = true;
 			}	
@@ -182,22 +188,32 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 		{
 			if (true && enemy->IsAlive() == true)
 			{
-				if (enemy->type == EnemyType::ZOMBIE || enemy->type == EnemyType::BAT || enemy->type == EnemyType::BLACKLEOPARD)
-				{
-					score += 100;
-				}
-				else if (enemy->type == EnemyType::FISHMAN)
-				{
-					score += 200;
-				}
-				PlaySound(enemyHit);
-				enemy->SetAlive(false);
-				totalEnemies--;
 				// Added for particle management
 				Point p;
 				p.x = box.pos.x - (TILE_SIZE - SHOT_PHYSICAL_WIDTH) / 2;
 				p.y = box.pos.y - (TILE_SIZE - SHOT_PHYSICAL_HEIGHT) / 2;
-				particles->Add(p);
+				if (enemy->type == EnemyType::ZOMBIE || enemy->type == EnemyType::BAT || enemy->type == EnemyType::BLACKLEOPARD)
+				{
+					score += 100;
+					particles->Add(p);
+					totalEnemies--;
+				}
+				else if (enemy->type == EnemyType::FISHMAN)
+				{
+					score += 200;
+					particles->Add(p);
+					totalEnemies--;
+				}
+				else if (enemy->type == EnemyType::CANDLE || enemy->type == EnemyType::PYRE)
+				{
+					particles->Add(p);
+				}
+				else if (enemy->type == EnemyType::BLOCKS)
+				{
+
+				}
+				PlaySound(enemyHit);
+				enemy->SetAlive(false);
 			}
 		}
 
@@ -238,10 +254,15 @@ void EnemyManager::DrawDebug() const
 {
 	for (const Enemy* enemy : enemies)
 	{
-		if (enemy->IsAlive() && enemy->type == EnemyType::PYRE)
+		if (enemy->IsAlive() && (enemy->type == EnemyType::PYRE || enemy->type == EnemyType::CANDLE))
 		{
 			enemy->DrawVisibilityArea(DARKGRAY);
 			enemy->DrawHitbox(ORANGE);
+		}
+		else if (enemy->IsAlive() && enemy->type == EnemyType::BLOCKS)
+		{
+			enemy->DrawVisibilityArea(DARKGRAY);
+			enemy->DrawHitbox(GREEN);
 		}
 		else if (enemy->IsAlive())
 		{

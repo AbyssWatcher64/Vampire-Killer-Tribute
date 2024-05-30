@@ -114,6 +114,9 @@
     <ClCompile Include="src\Pyre.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\DestroyableBlocks.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -201,6 +204,9 @@
       <Filter>Source Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="src\Pyre.h">
+      <Filter>Source Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DestroyableBlocks.h">
       <Filter>Source Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
