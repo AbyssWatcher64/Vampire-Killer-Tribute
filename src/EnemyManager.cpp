@@ -3,6 +3,7 @@
 #include "Bat.h"
 #include "FishMan.h"
 #include "BlackLeopard.h"
+#include "Pyre.h"
 //#include "TileMap.h"
 
 
@@ -64,6 +65,11 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	else if (type == EnemyType::BLACKLEOPARD)
 	{
 		enemy = new BlackLeopard(pos, BLACKLEOPARD_PHYSICAL_WIDTH, BLACKLEOPARD_PHYSICAL_HEIGHT, BLACKLEOPARD_FRAME_SIZE_WIDTH, BLACKLEOPARD_FRAME_SIZE_HEIGHT, Look::RIGHT);
+		enemy->map = this->map;
+	}
+	else if (type == EnemyType::PYRE)
+	{
+		enemy = new Pyre(pos, PYRE_PHYSICAL_SIZE, PYRE_PHYSICAL_SIZE, PYRE_PHYSICAL_SIZE, PYRE_PHYSICAL_SIZE);
 		enemy->map = this->map;
 	}
 	else
@@ -158,8 +164,10 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 		box = enemy->GetHitbox();
 		if (box.TestAABB(player_hitbox) && enemy->IsAlive())
 		{
-			if (true)
+			if (true && enemy->type != EnemyType::PYRE)
+			{
 				playerGettingHurt = true;
+			}	
 		}
 
 		if (box.TestAABB(weapon_hitbox))
@@ -222,7 +230,12 @@ void EnemyManager::DrawDebug() const
 {
 	for (const Enemy* enemy : enemies)
 	{
-		if (enemy->IsAlive())
+		if (enemy->IsAlive() && enemy->type == EnemyType::PYRE)
+		{
+			enemy->DrawVisibilityArea(DARKGRAY);
+			enemy->DrawHitbox(ORANGE);
+		}
+		else if (enemy->IsAlive())
 		{
 			enemy->DrawVisibilityArea(DARKGRAY);
 			enemy->DrawHitbox(RED);

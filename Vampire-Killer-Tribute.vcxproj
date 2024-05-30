@@ -22,10 +22,12 @@
     <ClCompile Include="src\AABB.cpp" />
     <ClCompile Include="src\Bat.cpp" />
     <ClCompile Include="src\BlackLeopard.cpp" />
+    <ClCompile Include="src\Candle.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\EnemyManager.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\FadeTransition.cpp" />
+    <ClCompile Include="src\Fire.cpp" />
     <ClCompile Include="src\FishMan.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\Globals.cpp" />
@@ -34,6 +36,7 @@
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\ParticleManager.cpp" />
     <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Pyre.cpp" />
     <ClCompile Include="src\RenderComponent.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Scene.cpp" />
@@ -50,10 +53,12 @@
     <ClInclude Include="src\AABB.h" />
     <ClInclude Include="src\Bat.h" />
     <ClInclude Include="src\BlackLeopard.h" />
+    <ClInclude Include="src\Candle.h" />
     <ClInclude Include="src\Enemy.h" />
     <ClInclude Include="src\EnemyManager.h" />
     <ClInclude Include="src\Entity.h" />
     <ClInclude Include="src\FadeTransition.h" />
+    <ClInclude Include="src\Fire.h" />
     <ClInclude Include="src\FishMan.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\Globals.h" />
@@ -63,6 +68,7 @@
     <ClInclude Include="src\ParticleManager.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Point.h" />
+    <ClInclude Include="src\Pyre.h" />
     <ClInclude Include="src\RenderComponent.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Scene.h" />

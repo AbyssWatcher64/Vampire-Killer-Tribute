@@ -44,9 +44,15 @@
 #define TURRET_PHYSICAL_WIDTH	32
 #define TURRET_PHYSICAL_HEIGHT	26
 
+#define CANDLE_FRAME_SIZE 16
+#define CANDLE_PHYSICAL_SIZE 16
+
+#define PYRE_FRAME_SIZE 16
+#define PYRE_PHYSICAL_SIZE 16
 
 
-enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT, FISHMAN, BLACKLEOPARD };
+
+enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT, FISHMAN, BLACKLEOPARD, PYRE, CANDLE };
 
 class Enemy : public Entity //, public EnemyManager
 {

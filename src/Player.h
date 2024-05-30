@@ -120,7 +120,7 @@ public:
 	int GetYPos();
 	AABB GetWeaponHitBox(); //const
 
-	void GetHurt();
+	void GetHurt(int dmg);
 	void ChangeHP(int value);
 
 	void Update();
@@ -139,9 +139,9 @@ public:
 
 	bool GetIsHoldingShield() const;
 
-	void SetHasYellowKey();
+	void SetHasYellowKey(bool boolean);
 	bool GetHasYellowKey() const;
-	void SetHasWhiteKey();
+	void SetHasWhiteKey(bool boolean);
 	bool GetHasWhiteKey() const;
 
 	int score;
@@ -228,6 +228,7 @@ private:
 
 	bool godMode;
 
+	Sound chestPickupSFX;
 	Sound timeTallySFX;
 	Sound heartTallySFX;
 	Sound whipSFX;

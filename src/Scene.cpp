@@ -241,7 +241,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		800,	138,	0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
+				0,		0,		0,		0, 700,	138,	0,		0,		0,		0,		0,		0, 700,	0,		0,		0,
 				0,		200,		0,		211,		0,		405,	404,	300,	301,	400,	401,	0,		210,	0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -274,7 +274,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		800,	0,		0,		0,		0,		0,		0,		0,		800,	0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		400,	0,		402,		0,		403,		0,		0,		0,		0,
+				0,		0,		0,		600,		0, 600,		0,		400,	0,		402,		0,		403,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
@@ -1011,6 +1011,12 @@ AppStatus Scene::LoadLevel(int stage)
 				objects.push_back(obj);
 				map[i] = 0;
 			}
+			else if (tile == Tile::ITEM_CHEST)
+			{
+				obj = new Object(pos, ObjectType::CHEST);
+				objects.push_back(obj);
+				map[i] = 0;
+			}
 			else if (tile == Tile::ZOMBIE)
 			{
 				pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
@@ -1034,6 +1040,13 @@ AppStatus Scene::LoadLevel(int stage)
 				area = level->GetSweptAreaX(hitbox);
 				enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::RIGHT);
 				enemies->totalEnemies++;
+			}
+			else if (tile == Tile::PYRE)
+			{
+				/*pos.x += (PYRE_PHYSICAL_SIZE - PYRE_PHYSICAL_SIZE) / 2;*/
+				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::PYRE);
+				/*area = level->GetSweptAreaX(hitbox);*/
+				enemies->Add(pos, EnemyType::PYRE, area, Look::RIGHT);
 			}
 			else
 			{
@@ -1335,7 +1348,15 @@ void Scene::Update()
 	// TODO fix this as it is hurting the player if it still touches the enemy next frame.
 	if (enemies->playerGettingHurt == true)
 	{
-		player->GetHurt();
+		switch (currentLevel)
+		{
+			case 1:
+				player->GetHurt(4);
+				break;
+			default:
+				player->GetHurt(2);
+				break;
+		}
 		enemies->playerGettingHurt = false;
 	}
 
@@ -1426,6 +1447,7 @@ void Scene::CheckObjectCollisions()
 		obj_box = (*it)->GetHitbox();
 		if (player_box.TestAABB(obj_box))
 		{
+			
 			player->IncrScore((*it)->Points());
 			//player->SetShield((*it)->Points());
 			player->SetEquipment((*it)->Equip());
@@ -1436,10 +1458,25 @@ void Scene::CheckObjectCollisions()
 			else if ((*it)->ObjectNum() == 4)
 				player->SetHearts(5);
 			else if ((*it)->ObjectNum() == 10)
-				player->SetHasYellowKey();
+				player->SetHasYellowKey(true);
 			else if ((*it)->ObjectNum() == 11)
-				player->SetHasWhiteKey();
+				player->SetHasWhiteKey(true);
+			else if ((*it)->ObjectNum() == 20)
+			{
+				if (player->GetHasYellowKey() == false)
+					break;
+				else if (player->GetHasYellowKey() == true)
+				{
+					// Now the question is how to make it create an item that will blink
+					// and after some frames, convert it into another item
+					player->SetHasYellowKey(false);
+					Object* obj;
+					obj = new Object( (*it)->GetHitbox().pos , ObjectType::HEART);
+					objects.push_back(obj);
+				}
+			}
 			player->GrabObject((*it)->ObjectNum());
+
 			//Delete the object
 			delete* it;
 			//Erase the object from the vector and get the iterator to the next valid element
@@ -1502,9 +1539,9 @@ void Scene::RenderGUI() const
 	// Draw the keys on top, on the UI
 	// TODO: Why is it entering the if?
 	if (player->GetHasWhiteKey()){}
-		DrawRectangle(60, 110, 64, 5, WHITE);
+		//DrawRectangle(60, 110, 64, 5, WHITE);
 		//DrawTexturePro()
 	if (player->GetHasYellowKey()){}
-		DrawRectangle(60, 130, 64, 5, YELLOW);
+		//DrawRectangle(60, 130, 64, 5, YELLOW);
 
 }

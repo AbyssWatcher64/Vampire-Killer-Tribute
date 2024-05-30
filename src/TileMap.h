@@ -73,6 +73,10 @@ enum class Tile {
 
 	ITEM_ORB = 500,
 
+	ITEM_CHEST = 600,
+
+	PYRE = 700,
+
 	FIRE = 800, FIRE_FRAME0, FIRE_FRAME1,
 
 	//  0: empty tile

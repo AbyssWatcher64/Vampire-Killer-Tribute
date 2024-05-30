@@ -347,6 +347,7 @@ AppStatus Player::Initialise()
 
 
 	// Loads all sounds:
+	chestPickupSFX = data[0];
 	timeTallySFX = data[3];
 	heartTallySFX = data[4];
 	whipSFX = data[7];
@@ -446,30 +447,71 @@ int Player::GetYPos()
 // TODO Delay hitbox to be on the last frame, but I'm not sure how.
 AABB Player::GetWeaponHitBox()
 {
-	if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar)
+	if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar && !wasCrouching)
 	{
-		Point p(pos.x + width, pos.y - height / 2);
-		AABB hitbox(p, width * 3, height / 3);
+		AABB hitbox({ pos.x + width, pos.y - height / 2 - 8 }, width * 3, height / 3);
 		return hitbox;
 	}
-	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar)
+	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar && !wasCrouching)
 	{
-		Point p(pos.x - (width * 3), pos.y - height / 2);
-		AABB hitbox(p, width * 3, height / 3);
+		AABB hitbox({ pos.x - (width * 3), pos.y - height / 2 - 8 }, width * 3, height / 3);
 		return hitbox;
 	}
-	else if (state == State::ATTACKING && look == Look::RIGHT)
+	else if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar && wasCrouching)
 	{
-		Point p(pos.x + width, pos.y - height / 2);
-		AABB hitbox(p, width * 2, height / 3);
+		AABB hitbox({ pos.x + width, pos.y - height / 3}, width * 3, height / 3);
 		return hitbox;
 	}
-	else if (state == State::ATTACKING && look == Look::LEFT)
+	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar && wasCrouching)
 	{
-		Point p(pos.x - (width * 2), pos.y - height / 2);
-		AABB hitbox(p, width * 2, height / 3);
+		AABB hitbox({ pos.x - (width * 3), pos.y - height / 3 }, width * 3, height / 3);
 		return hitbox;
 	}
+	else if (state == State::ATTACKING && look == Look::RIGHT && wasCrouching)
+	{
+		AABB hitbox({ pos.x + width, pos.y - height / 3 }, width * 2.2, height / 3);
+		return hitbox;
+	}
+	else if (state == State::ATTACKING && look == Look::LEFT && wasCrouching)
+	{
+		AABB hitbox({ pos.x - (width * 2/*.1*/), pos.y - height / 3 }, width * 2.2, height / 3);
+		return hitbox;
+	}
+	else if (state == State::ATTACKING && look == Look::RIGHT && !wasCrouching)
+	{
+		AABB hitbox({ pos.x + width, pos.y - height / 2 - 8}, width * 2.2, height / 3);
+		return hitbox;
+	}
+	else if (state == State::ATTACKING && look == Look::LEFT && !wasCrouching)
+	{
+		AABB hitbox({ pos.x - (width * 2/*.1*/), pos.y - height / 2 - 8 }, width * 2.2, height / 3);
+		return hitbox;
+	}
+	//if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar)
+	//{
+	//	Point p(pos.x + width, pos.y - height / 2);
+	//	AABB hitbox(p, width * 3, height / 3);
+	//	
+	//}
+	//else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar)
+	//{
+	//	Point p(pos.x - (width * 3), pos.y - height / 2);
+	//	AABB hitbox(p, width * 3, height / 3);
+	//	return hitbox;
+	//}
+	//else if (state == State::ATTACKING && look == Look::RIGHT)
+	//{
+	//	Point p(pos.x + width, pos.y - height / 2);
+	//	//AABB hitbox(p, width * 2, height / 3);
+	//	AABB hitbox({ pos.x + width, pos.y - height / 2 }, width * 2.2, height / 3);
+	//	return hitbox;
+	//}
+	//else if (state == State::ATTACKING && look == Look::LEFT)
+	//{
+	//	Point p(pos.x - (width * 2), pos.y - height / 2);
+	//	AABB hitbox(p, width * 2, height / 3);
+	//	return hitbox;
+	//}
 	else
 	{
 		Point p(0, 0);
@@ -477,14 +519,14 @@ AABB Player::GetWeaponHitBox()
 		return hitbox;
 	}
 }
-void Player::GetHurt()
+void Player::GetHurt(int dmg)
 {
 	if (!godMode && !isInvincible)
 	{
 		
 		if (hp > 0)
 		{
-			hp -= 2;
+			hp -= dmg;
 			if (hp <= 0)
 			{
 				hp = 0;
@@ -511,17 +553,17 @@ bool Player::GetIsHoldingShield() const
 {
 	return Player::isHoldingShield;
 }
-void Player::SetHasYellowKey()
+void Player::SetHasYellowKey(bool boolean)
 {
-	hasYellowKey = true;
+	hasYellowKey = boolean;
 }
 bool Player::GetHasYellowKey() const
 {
 	return hasYellowKey;
 }
-void Player::SetHasWhiteKey()
+void Player::SetHasWhiteKey(bool boolean)
 {
-	hasWhiteKey = true;
+	hasWhiteKey = boolean;
 }
 bool Player::GetHasWhiteKey() const
 {
@@ -540,13 +582,20 @@ Equipment Player::SetEquipment(int equipNum)
 }
 void Player::GrabObject(int object)
 {
+	// This case breaks the sfx and makes it play continuously
 	switch (object)
 	{
 	case 1:
 		PlaySound(moneyBagSFX);
 		break;
 	case 2:
+		
 		PlaySound(orbSFX);
+		break;
+	case 20:
+		PlaySound(chestPickupSFX);
+		break;
+	default:
 		break;
 	}
 }
@@ -557,7 +606,6 @@ Equipment Player::EquipWhip()
 Equipment Player::EquipMorningStar()
 {
 	isHoldingMorningStar = true;
-	Stop();
 
 	PlaySound(shieldSFX);   // temporal approch
 	return equipment = Equipment::MORNINGSTAR;

@@ -87,6 +87,8 @@ int Object::ObjectNum() const
 		return 10;
 	else if (type == ObjectType::WHITEKEY)
 		return 11;
+	else if (type == ObjectType::CHEST)
+		return 20;
 }
 
 
