@@ -111,7 +111,7 @@ bool BlackLeopard::Update(const AABB& box)
 	}
 	else if (state == BlackLeopardState::RUNNING)
 	{
-		//MoveX();
+		MoveX();
 	}
 
 	sprite->Update();

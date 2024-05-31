@@ -1123,45 +1123,60 @@ void Player::InitPattern()
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	look = Look::LEFT;
 	sprite->SetAnimationDelay((int)PlayerAnim::CUTSCENE, ANIM_DELAY);
-	for (i = 1; i < 3; ++i)
-		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
+	//for (i = 1; i < 3; ++i)
+	//{
+	//	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
+	//	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
+	//	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
+
+	//}
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)9 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)9 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)9 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	
+
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+
+	sprite->SetAnimation((int)PlayerAnim::CUTSCENE);
 }
 void Player::UpdatePattern()
 {
+	if (pos.x > 128)
+		pos.x = pos.x - 1;
 	/*Sprite* sprite = dynamic_cast<Sprite*>(render);
 	int anim_id;
 
@@ -1172,9 +1187,10 @@ void Player::UpdatePattern()
 	{
 		patternFinished = true;
 	}*/
-	SetAnimation((int)PlayerAnim::CUTSCENE);
+	//SetAnimation((int)PlayerAnim::CUTSCENE);
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
-	sprite->Update();
+	if (pos.x > 128)
+		sprite->Update();
 	if (sprite->GetIsAnimationFinished())
 	{
 		patternFinished = true;

@@ -39,6 +39,7 @@ AppStatus Cutscene::Init()
 	}
 	img_intro = data.GetTexture(Resource::IMG_INTRO);
 	
+	player->SetPos(Point(WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH, 199));
 	return AppStatus::OK;
 }
 AppStatus Cutscene::LoadResources()
@@ -50,7 +51,7 @@ void Cutscene::UpdateCutscene()
 	
 	Point p1, p2;
 	AABB hitbox;
-	player->SetPos(Point(WINDOW_WIDTH-PLAYER_PHYSICAL_WIDTH,199));
+	
 	player->UpdatePattern();
 	hitbox = player->GetHitbox();
 	
