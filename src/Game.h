@@ -1,6 +1,7 @@
 #pragma once
 #include "Globals.h"
 #include "Scene.h"
+#include "Cutscene.h"
 #include "FadeTransition.h"
 
 //enum class GameState { INITIAL_SCREEN, DESCRIPTION_SCREEN, MAIN_MENU, PLAYING, SETTINGS, CREDITS, GAME_OVER, ENDING };
@@ -25,6 +26,7 @@ private:
 
     GameState state;
     Scene *scene;
+    Cutscene* cutscene;
     const Texture2D *img_menu;
     const Texture2D* img_intro;
     const Texture2D *img_initial;

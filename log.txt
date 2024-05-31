@@ -1,4 +1,4 @@
-Project executed on 31-05-2024 at 05:03:47.
+Project executed on 31-05-2024 at 17:30:16.
 main.cpp(13): Application start
 EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
 EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
@@ -8,5 +8,17 @@ Object.cpp(64): Internal error: object type invalid when giving points
 Object.cpp(64): Internal error: object type invalid when giving points
 Object.cpp(64): Internal error: object type invalid when giving points
 Object.cpp(64): Internal error: object type invalid when giving points
+EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
+Object.cpp(64): Internal error: object type invalid when giving points
+Object.cpp(64): Internal error: object type invalid when giving points
+Object.cpp(64): Internal error: object type invalid when giving points
+Object.cpp(64): Internal error: object type invalid when giving points
+EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
 main.cpp(34): Application finish
 main.cpp(37): Bye :)

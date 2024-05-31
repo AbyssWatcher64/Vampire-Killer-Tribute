@@ -41,6 +41,7 @@ enum class Equipment { WHIP, MORNINGSTAR, DAGGER, SHIELD, AXE, CROSS };
 
 //Rendering states
 enum class PlayerAnim {
+	CUTSCENE,
 	LEVITATING_LEFT, LEVITATING_RIGHT,
 	LEVITATING_LEFT_SHIELD, LEVITATING_RIGHT_SHIELD,
 	FALLING_LEFT, FALLING_RIGHT,
@@ -131,6 +132,7 @@ public:
 	void GetHurt(int dmg);
 	void ChangeHP(int value);
 
+	void UpdatePattern();
 	void Update();
 	void DrawDebug(const Color& col) const;
 	void Release();
@@ -154,13 +156,15 @@ public:
 
 	int score;
 
+	void InitPattern();
+	bool patternFinished;
 
 private:
 	bool IsLookingRight() const;
 	bool IsLookingLeft() const;
 
 	//Player mechanics
-	void InitPattern();
+	
 	void MoveX();
 	void MoveY();
 	void LogicJumping();
@@ -261,6 +265,9 @@ private:
 	bool unloadedSounds;
 
 	std::vector<StepP> pattern;
+	int current_frames;
+	int current_step;
+	
 
 };
 

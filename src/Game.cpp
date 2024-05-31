@@ -8,6 +8,7 @@ Game::Game()
 {
     state = GameState::INITIAL_SCREEN;
     scene = nullptr;
+    cutscene = nullptr;
     img_menu = nullptr;
     img_intro = nullptr;
     img_initial = nullptr;
@@ -27,6 +28,12 @@ Game::~Game()
         scene->Release();
         delete scene;
         scene = nullptr;
+    }
+    if (cutscene != nullptr)
+    {
+        cutscene->Release();
+        delete cutscene;
+        cutscene = nullptr;
     }
 }
 AppStatus Game::Initialise(float scale)
@@ -67,7 +74,20 @@ AppStatus Game::Initialise(float scale)
     //Disable the escape key to quit functionality
     SetExitKey(0);
 
-
+    cutscene = new Cutscene();
+    if (cutscene == nullptr)
+    {
+        LOG("Failed to allocate memory for Scene");
+        return AppStatus::ERROR;
+    }
+    if (cutscene->Init() != AppStatus::OK)
+    {
+        LOG("Failed to initialise Scene");
+        return AppStatus::ERROR;
+    }
+    else {
+        cutscene->Init();
+    }
 
     return AppStatus::OK;
 }
@@ -81,11 +101,11 @@ AppStatus Game::LoadResources()
     }
     img_menu = data.GetTexture(Resource::IMG_MENU);
 
-    if (data.LoadTexture(Resource::IMG_INTRO, "img/misc.png") != AppStatus::OK)
+    /*if (data.LoadTexture(Resource::IMG_INTRO, "img/misc.png") != AppStatus::OK)
     {
         return AppStatus::ERROR;
     }
-    img_intro = data.GetTexture(Resource::IMG_INTRO);
+    img_intro = data.GetTexture(Resource::IMG_INTRO);*/
 
     if (data.LoadTexture(Resource::IMG_INITIAL, "img/initial.png") != AppStatus::OK)
     {
@@ -122,6 +142,7 @@ AppStatus Game::LoadResources()
 AppStatus Game::BeginPlay()
 {
     scene = new Scene();
+    
 
     PlayMusicStream(Ost2VampireKiller);
     if (scene == nullptr)
@@ -135,6 +156,7 @@ AppStatus Game::BeginPlay()
         return AppStatus::ERROR;
     }
 
+    
     return AppStatus::OK;
 }
 void Game::FinishPlay()
@@ -193,6 +215,7 @@ AppStatus Game::Update()
 
         case GameState::INTRO:
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
+            cutscene->UpdateCutscene();
             if (IsKeyPressed(KEY_SPACE))
             {
                 if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
@@ -289,7 +312,8 @@ void Game::Render()
             DrawTexturePro(*img_menu, { WINDOW_WIDTH, WINDOW_HEIGHT_OLD_MARGIN /5, WINDOW_WIDTH / 2.3f ,WINDOW_HEIGHT_OLD_MARGIN / 26 }, { 4.875f * (WINDOW_WIDTH / 16),WINDOW_HEIGHT_OLD_MARGIN - (WINDOW_HEIGHT_OLD_MARGIN / 3.6f),WINDOW_WIDTH/2.3f,WINDOW_HEIGHT_OLD_MARGIN / 26 }, { 0,0 }, 0, WHITE);
             break;
         case GameState::INTRO:
-            DrawTexturePro(*img_intro, { 8,246,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
+            /*DrawTexturePro(*img_intro, { 8,246,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);*/
+            cutscene->Render();
             break;
         case GameState::PLAYING:
             scene->Render();
@@ -321,7 +345,7 @@ void Game::UnloadResources()
 {
     ResourceManager& data = ResourceManager::Instance();
     data.ReleaseTexture(Resource::IMG_MENU);
-    data.ReleaseTexture(Resource::IMG_INTRO);
+    /*data.ReleaseTexture(Resource::IMG_INTRO);*/
     data.ReleaseTexture(Resource::IMG_INITIAL);
     data.ReleaseTexture(Resource::IMG_DESC);
     data.ReleaseTexture(Resource::IMG_ENDING);
