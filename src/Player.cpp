@@ -1337,29 +1337,27 @@ void Player::LogicClimbing()
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	int tmp;
 
-	if (IsKeyDown(KEY_UP) && state != State::ATTACKING)
+	if ((IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) && state != State::ATTACKING)
 	{
-		pos.x += PLAYER_LADDER_SPEED / 5;
-		pos.y -= PLAYER_LADDER_SPEED / 5;
+		isClimbingUp = true;
+		isClimbingDown = false;
+		pos.x += PLAYER_LADDER_SPEED;
+		pos.y -= PLAYER_LADDER_SPEED;
 		sprite->NextFrame();
 	}
-	else if (IsKeyDown(KEY_DOWN) && state != State::ATTACKING)
+	else if ((IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) && state != State::ATTACKING)
 	{
-		pos.x -= (PLAYER_LADDER_SPEED / 5);
-		pos.y += (PLAYER_LADDER_SPEED / 5);
+		isClimbingUp = false;
+		isClimbingDown = true;
+		pos.x -= PLAYER_LADDER_SPEED;
+		pos.y += PLAYER_LADDER_SPEED;
 		sprite->PrevFrame();
 	}
 
 	//It is important to first check LadderTop due to its condition as a collision ground.
 	//By doing so, we ensure that we don't stop climbing down immediately after starting the descent.
 	box = GetHitbox();
-	if (map->TestOnLadderTop(box, &tmp))
-	{
-		if (IsInSecondHalfTile())		SetAnimation((int)PlayerAnim::CLIMBING_PRE_TOP);
-		else if (IsInFirstHalfTile())	SetAnimation((int)PlayerAnim::CLIMBING_TOP);
-		else					LOG("Internal error, tile should be a LADDER_TOP, coord: (%d,%d)", box.pos.x, box.pos.y);
-	}
-	else if (map->TestCollisionGround(box, &pos.y))
+	if (map->TestCollisionGround(box, &pos.y))
 	{
 		//Case leaving the ladder descending.
 		Stop();
@@ -1375,8 +1373,37 @@ void Player::LogicClimbing()
 	}
 	else
 	{
-		if (GetAnimation() != PlayerAnim::CLIMBING)	SetAnimation((int)PlayerAnim::CLIMBING);
+		//if (isClimbingUp && GetAnimation() != PlayerAnim::CLIMBING_TOP)	SetAnimation((int)PlayerAnim::CLIMBING_TOP_RIGHT);
+		//else if (!isClimbingUp && GetAnimation() != PlayerAnim::CLIMBING_BOTTOM_LEFT) SetAnimation((int)PlayerAnim::CLIMBING_BOTTOM_LEFT);
 	}
+
+
+
+
+	//if (map->TestOnLadderTop(box, &tmp))
+	//{
+	//	if (IsInSecondHalfTile())		SetAnimation((int)PlayerAnim::CLIMBING_PRE_TOP);
+	//	else if (IsInFirstHalfTile())	SetAnimation((int)PlayerAnim::CLIMBING_TOP);
+	//	else					LOG("Internal error, tile should be a LADDER_TOP, coord: (%d,%d)", box.pos.x, box.pos.y);
+	//}
+	//else if (map->TestCollisionGround(box, &pos.y))
+	//{
+	//	//Case leaving the ladder descending.
+	//	Stop();
+	//	sprite->SetAutomaticMode();
+	//}
+	//else if (!map->TestOnLadder(box, &tmp))
+	//{
+	//	//Case leaving the ladder ascending.
+	//	//If we are not in a LadderTop, colliding ground or in the Ladder it means we are leaving
+	//	//ther ladder ascending.
+	//	Stop();
+	//	sprite->SetAutomaticMode();
+	//}
+	//else
+	//{
+	//	if (GetAnimation() != PlayerAnim::CLIMBING)	SetAnimation((int)PlayerAnim::CLIMBING);
+	//}
 }
 void Player::DrawDebug(const Color& col) const
 {	

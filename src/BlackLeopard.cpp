@@ -34,10 +34,10 @@ AppStatus BlackLeopard::Initialise(Look look, const AABB& area)
 	sprite->SetNumberAnimations((int)BlackLeopardAnim::NUM_ANIMATIONS);
 
 	sprite->SetAnimationDelay((int)BlackLeopardAnim::STANDING_LEFT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)BlackLeopardAnim::STANDING_LEFT, { (float)0 * n, 4 * h, -n, h });
+	sprite->AddKeyFrame((int)BlackLeopardAnim::STANDING_LEFT, { (float)0 * n, 4 * h, n, h });
 
 	sprite->SetAnimationDelay((int)BlackLeopardAnim::STANDING_RIGHT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)BlackLeopardAnim::STANDING_RIGHT, { (float)0 * n, 4 * h, n, h });
+	sprite->AddKeyFrame((int)BlackLeopardAnim::STANDING_RIGHT, { (float)0 * n, 4 * h, -n, h });
 
 	sprite->SetAnimationDelay((int)BlackLeopardAnim::JUMPING_LEFT, ANIM_DELAY);
 	sprite->AddKeyFrame((int)BlackLeopardAnim::JUMPING_LEFT, { (float)2 * n, 4 * h, -n, h });
@@ -46,9 +46,9 @@ AppStatus BlackLeopard::Initialise(Look look, const AABB& area)
 	sprite->AddKeyFrame((int)BlackLeopardAnim::JUMPING_RIGHT, { (float)2 * n, 4 * h, n, h });
 
 	sprite->SetAnimationDelay((int)BlackLeopardAnim::RUNNING_LEFT, ANIM_DELAY);
-	sprite->AddKeyFrame((int)BlackLeopardAnim::RUNNING_LEFT, { (float)1 * n, 4 * h, -n, h });
-	sprite->AddKeyFrame((int)BlackLeopardAnim::RUNNING_LEFT, { (float)2 * n, 4 * h, -n, h });
-	sprite->AddKeyFrame((int)BlackLeopardAnim::RUNNING_LEFT, { (float)3 * n, 4 * h, -n, h });
+	sprite->AddKeyFrame((int)BlackLeopardAnim::RUNNING_LEFT, { (float)1 * n, 4 * h, n, h });
+	sprite->AddKeyFrame((int)BlackLeopardAnim::RUNNING_LEFT, { (float)2 * n, 4 * h, n, h });
+	sprite->AddKeyFrame((int)BlackLeopardAnim::RUNNING_LEFT, { (float)3 * n, 4 * h, n, h });
 
 	sprite->SetAnimationDelay((int)BlackLeopardAnim::RUNNING_RIGHT, ANIM_DELAY);
 	sprite->AddKeyFrame((int)BlackLeopardAnim::RUNNING_RIGHT, { (float)1 * n, 4 * h, -n, h });
@@ -60,28 +60,42 @@ AppStatus BlackLeopard::Initialise(Look look, const AABB& area)
 
 	visibility_area = area;
 
-	//InitPattern();
-
+	InitPattern();
 	return AppStatus::OK;
 }
-//void BlackLeopard::InitPattern()
-//{
-//	//Multiplying by 3 ensures sufficient time for displaying all 3 frames of the
-//	//walking animation, resulting in smoother transitions and preventing the animation
-//	//from appearing rushed or incomplete
-//	const int n = BLACKLEOPARD_ANIM_DELAY * 3;
-//
-//	if (look == Look::LEFT)
-//	{
-//		pattern.push_back({ {-BLACKLEOPARD_SPEED, 0}, /*n*/0, (int)BlackLeopardAnim::STANDING_LEFT });
-//
-//	}
-//	else
-//		pattern.push_back({ {BLACKLEOPARD_SPEED, 0}, /*n*/0, (int)BlackLeopardAnim::STANDING_RIGHT });
-//
-//	current_step = 0;
-//	current_frames = 0;
-//}
+void BlackLeopard::InitPattern()
+{
+	//Multiplying by 3 ensures sufficient time for displaying all 3 frames of the
+	//walking animation, resulting in smoother transitions and preventing the animation
+	//from appearing rushed or incomplete
+	const int n = ANIM_DELAY ;
+
+	if (look == Look::LEFT && state == BlackLeopardState::STANDING)
+	{
+		pattern.push_back({ {0, 0}, /*n*/0, (int)BlackLeopardAnim::RUNNING_LEFT });
+
+	}
+	else if (look == Look::RIGHT && state == BlackLeopardState::STANDING)
+	{
+		pattern.push_back({ {0, 0}, /*n*/0, (int)BlackLeopardAnim::STANDING_RIGHT });
+
+	}
+	else if (look == Look::LEFT && state == BlackLeopardState::RUNNING)
+	{
+		pattern.push_back({ {-BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_LEFT });
+		pattern.push_back({ {-BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_LEFT });
+		pattern.push_back({ {-BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_LEFT });
+	}
+	else if (look == Look::RIGHT && state == BlackLeopardState::RUNNING)
+	{
+		pattern.push_back({ {BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_RIGHT });
+		pattern.push_back({ {BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_RIGHT });
+		pattern.push_back({ {BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_RIGHT });
+	}
+
+	current_step = 0;
+	current_frames = 0;
+}
 bool BlackLeopard::Update(const AABB& box)
 {
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
@@ -90,45 +104,30 @@ bool BlackLeopard::Update(const AABB& box)
 
 	if (state == BlackLeopardState::STANDING)
 	{
+		if (inArea)
+			state = BlackLeopardState::RUNNING;
 		//state = BlackLeopardState::RUNNING;
 
 	}
 	else if (state == BlackLeopardState::RUNNING)
 	{
-		MoveX();
-		if (look == Look::LEFT)
-		{
-			sprite->SetAnimation((int)BlackLeopardAnim::RUNNING_LEFT);
-		}
-		else
-		{
-			sprite->SetAnimation((int)BlackLeopardAnim::RUNNING_RIGHT);
-		}
+		//MoveX();
 	}
 
 	sprite->Update();
 
-	//current_frames++;
+	current_frames++;
 
-	//if (current_frames == pattern[current_step].frames)
-	//{
-	//	current_step++;
-	//	current_step %= pattern.size();
-	//	current_frames = 0;
+	if (current_frames == pattern[current_step].frames)
+	{
+		current_step++;
+		current_step %= pattern.size();
+		current_frames = 0;
 
-	//	anim_id = pattern[current_step].anim;
-	//	sprite->SetAnimation(anim_id);
-	//	UpdateLook(anim_id);
-	//}
-
-	//if (pos.x == -10)
-	//	alive = false;
-	//pos.x = 299;
-//delete this;	
-
-	//else if (pos.x == 300)
-	//	alive = false
-		//pos.x = -9;
+		anim_id = pattern[current_step].anim;
+		sprite->SetAnimation(anim_id);
+		UpdateLook(anim_id);
+	}
 
 
 	
@@ -143,7 +142,7 @@ void BlackLeopard::MoveX()
 {
 	if (look == Look::LEFT)
 		pos.x -= BLACKLEOPARD_SPEED;
-	else
+	else if (look == Look::RIGHT)
 		pos.x += BLACKLEOPARD_SPEED;
 	
 
@@ -159,32 +158,13 @@ void BlackLeopard::MoveY()
 	//box = GetHitbox();
 	//int prev_y;
 
-	// For this reason this prevents zombie from going through the floor
-	// even though it has nothing inside...
+	//// For this reason this prevents zombie from going through the floor
+	//// even though it has nothing inside...
 	//if (map->TestCollisionGround(box, &pos.y))
 	//{
 
 	//}
-	//{
-
-	//}
-
-
-		//A ground collision occurs if we were not in a collision state previously.
-		//This prevents scenarios where, after levitating due to a previous jump, we found
-		//ourselves inside a tile, and the entity would otherwise be placed above the tile,
-		//crossing it.
-		//if (!map->TestCollisionGround(prev_box, &prev_y) &&
-		//	map->TestCollisionGround(box, &pos.y))
-		//{
-		//	dir = { 0,0 };
-		//}
-
 }
-//void Zombie::SetTileMap(TileMap* tilemap)
-//{
-//	map = tilemap;
-//}
 void BlackLeopard::UpdateLook(int anim_id)
 {
 	BlackLeopardAnim anim = (BlackLeopardAnim)anim_id;

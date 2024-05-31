@@ -1355,7 +1355,7 @@ AppStatus Scene::LoadLevel(int stage)
 			}
 			else if (tile == Tile::BLACKLEOPARD_LEFT)
 			{
-				pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+				//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
 				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BLACKLEOPARD);
 				area = level->GetSweptAreaX(hitbox);
 				enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::LEFT);
@@ -1363,7 +1363,7 @@ AppStatus Scene::LoadLevel(int stage)
 			}
 			else if (tile == Tile::BLACKLEOPARD_RIGHT)
 			{
-				pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+				//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
 				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BLACKLEOPARD);
 				area = level->GetSweptAreaX(hitbox);
 				enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::RIGHT);

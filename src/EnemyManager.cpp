@@ -68,7 +68,7 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	}
 	else if (type == EnemyType::BLACKLEOPARD)
 	{
-		enemy = new BlackLeopard(pos, BLACKLEOPARD_PHYSICAL_WIDTH, BLACKLEOPARD_PHYSICAL_HEIGHT, BLACKLEOPARD_FRAME_SIZE_WIDTH, BLACKLEOPARD_FRAME_SIZE_HEIGHT, Look::RIGHT);
+		enemy = new BlackLeopard(pos, BLACKLEOPARD_PHYSICAL_WIDTH, BLACKLEOPARD_PHYSICAL_HEIGHT, BLACKLEOPARD_FRAME_SIZE_WIDTH, BLACKLEOPARD_FRAME_SIZE_HEIGHT, look);
 		enemy->map = this->map;
 	}
 	else if (type == EnemyType::PYRE)
@@ -182,7 +182,11 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 			{
 				playerGettingHurt = true;
 			}	
+
 		}
+
+		if (box.pos.x + 40 == player_hitbox.pos.x || box.pos.x - 40 == player_hitbox.pos.x)
+			enemy->inArea = true;
 
 		if (box.TestAABB(weapon_hitbox))
 		{

@@ -77,11 +77,13 @@ public:
 	virtual void GetShootingPosDir(Point* pos, Point* dir) const = 0;
 	EnemyType type;
 	TileMap* map;
+	bool inArea;
 
 protected:
 	//Return true if the given hitbox is within the visibility area and the enemy is facing it
 	bool IsVisible(const AABB& hitbox);
 
+	
 	Look look;
 	AABB visibility_area;
 	

@@ -235,6 +235,9 @@ private:
 	bool isInvincible;
 	int startingFrame;
 
+	bool isClimbingUp;
+	bool isClimbingDown;
+
 	bool godMode;
 
 	Sound chestPickupSFX;
