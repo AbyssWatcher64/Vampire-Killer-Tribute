@@ -207,6 +207,7 @@ AppStatus Game::Update()
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             if (IsKeyPressed(KEY_SPACE))
             {
+                cutscene->Init();
                 state = GameState::INTRO;
                 //fade_transition.Set(GameState::MAIN_MENU, 5, GameState::PLAYING, 5, dst);
                 //PlayMusicStream(Ost2VampireKiller); //No sé si ponerlo en Game o Scene
@@ -216,7 +217,7 @@ AppStatus Game::Update()
         case GameState::INTRO:
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             cutscene->UpdateCutscene();
-            if (IsKeyPressed(KEY_SPACE))
+            if (cutscene->cutsceneFinished==true)
             {
                 if (BeginPlay() != AppStatus::OK) return AppStatus::ERROR;
                 state = GameState::PLAYING;
