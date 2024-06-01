@@ -1198,33 +1198,33 @@ void Player::InitPattern()
 	//	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
 
 	//}
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h});
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
+	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
 	
 
@@ -1238,8 +1238,10 @@ void Player::InitPattern()
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	
 
 	sprite->SetAnimation((int)PlayerAnim::CUTSCENE);
+
 }
 void Player::UpdatePattern()
 {
@@ -1259,10 +1261,7 @@ void Player::UpdatePattern()
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	if (pos.x > 128)
 		sprite->Update();
-	if (sprite->GetIsAnimationFinished())
-	{
-		patternFinished = true;
-	}
+	
 }
 void Player::MoveX()
 {

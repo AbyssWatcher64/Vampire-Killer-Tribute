@@ -14,11 +14,13 @@ public:
 	void UpdateCutscene();
 	void Render();
 	void Release();
-
+	bool cutsceneFinished;
 private:
 	unsigned int timer;
 	Player* player;
 	Sprite* bat;
-	Sprite* cloud;
+	const Texture2D* cloud;
 	const Texture2D* img_intro;
+	float posx;
+	
 };

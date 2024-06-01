@@ -7,6 +7,9 @@ Cutscene::Cutscene()
 	player = nullptr;
 	timer = 0;
 	img_intro = nullptr;
+	cloud = nullptr;
+	cutsceneFinished = false;
+	posx = WINDOW_WIDTH - 70;
 }
 Cutscene::~Cutscene()
 {
@@ -19,7 +22,7 @@ Cutscene::~Cutscene()
 }
 AppStatus Cutscene::Init()
 {
-	
+	timer = 0;
 	player = new Player({ 0,0 }, State::IDLE, Look::RIGHT);
 	if (player == nullptr)
 	{
@@ -37,28 +40,40 @@ AppStatus Cutscene::Init()
 	{
 		return AppStatus::ERROR;
 	}
-	img_intro = data.GetTexture(Resource::IMG_INTRO);
-	
+	img_intro = data.GetTexture(Resource::IMG_CLOUD);
+	if (data.LoadTexture(Resource::IMG_CLOUD, "img/misc.png") != AppStatus::OK)
+	{
+		return AppStatus::ERROR;
+	}
+	cloud = data.GetTexture(Resource::IMG_CLOUD);
 	player->SetPos(Point(WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH, 199));
 	return AppStatus::OK;
 }
-AppStatus Cutscene::LoadResources()
-{
-	
-}
 void Cutscene::UpdateCutscene()
 {
+	timer++;
 	
 	Point p1, p2;
 	AABB hitbox;
 	
 	player->UpdatePattern();
 	hitbox = player->GetHitbox();
+	if ((timer % 10) == 0)
+	{
+		posx--;
+	}
+	if (timer==280)
+	{
+		timer = 0;
+		cutsceneFinished = true;
+		
+	}
 	
 }
 void Cutscene::Render()
 {
 	DrawTexturePro(*img_intro, { 8,246,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
+	DrawTexturePro(*cloud, { 272,240,59,16 }, { posx,64,59,16 }, { 0,0 }, 0, WHITE);
 	player->Draw();
 }
 void Cutscene::Release()
@@ -66,4 +81,5 @@ void Cutscene::Release()
 	player->Release();
 	ResourceManager& data = ResourceManager::Instance();
 	data.ReleaseTexture(Resource::IMG_INTRO);
+	data.ReleaseTexture(Resource::IMG_CLOUD);
 }
