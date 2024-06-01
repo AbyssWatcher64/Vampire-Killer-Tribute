@@ -25,6 +25,7 @@
     <ClCompile Include="src\Candle.cpp" />
     <ClCompile Include="src\Cutscene.cpp" />
     <ClCompile Include="src\DestroyableBlocks.cpp" />
+    <ClCompile Include="src\Door.cpp" />
     <ClCompile Include="src\Enemy.cpp" />
     <ClCompile Include="src\EnemyManager.cpp" />
     <ClCompile Include="src\Entity.cpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="src\Candle.h" />
     <ClInclude Include="src\Cutscene.h" />
     <ClInclude Include="src\DestroyableBlocks.h" />
+    <ClInclude Include="src\Door.h" />
     <ClInclude Include="src\Enemy.h" />
     <ClInclude Include="src\EnemyManager.h" />
     <ClInclude Include="src\Entity.h" />

@@ -120,6 +120,9 @@
     <ClCompile Include="src\Cutscene.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Door.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="src\Cutscene.h">
       <Filter>Source Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Door.h">
+      <Filter>Source Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -37,6 +37,7 @@ public:
 	//Delete all enemies and clear the enemy vector
 	void Release();
 	bool playerGettingHurt;
+	bool playerHasWhiteKey;
 
 	int totalEnemies = 0;
 

@@ -80,18 +80,6 @@ void BlackLeopard::InitPattern()
 		pattern.push_back({ {0, 0}, /*n*/0, (int)BlackLeopardAnim::STANDING_RIGHT });
 
 	}
-	else if (look == Look::LEFT && state == BlackLeopardState::RUNNING)
-	{
-		pattern.push_back({ {-BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_LEFT });
-		pattern.push_back({ {-BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_LEFT });
-		pattern.push_back({ {-BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_LEFT });
-	}
-	else if (look == Look::RIGHT && state == BlackLeopardState::RUNNING)
-	{
-		pattern.push_back({ {BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_RIGHT });
-		pattern.push_back({ {BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_RIGHT });
-		pattern.push_back({ {BLACKLEOPARD_SPEED, 0}, /*n*/n, (int)BlackLeopardAnim::RUNNING_RIGHT });
-	}
 
 	current_step = 0;
 	current_frames = 0;
@@ -105,12 +93,19 @@ bool BlackLeopard::Update(const AABB& box)
 	if (state == BlackLeopardState::STANDING)
 	{
 		if (inArea)
+		{
 			state = BlackLeopardState::RUNNING;
+			if (look == Look::LEFT)
+				sprite->SetAnimation((int)BlackLeopardAnim::RUNNING_LEFT);
+			else if (look == Look::RIGHT)
+				sprite->SetAnimation((int)BlackLeopardAnim::RUNNING_RIGHT);
+		}
 		//state = BlackLeopardState::RUNNING;
 
 	}
 	else if (state == BlackLeopardState::RUNNING)
 	{
+
 		MoveX();
 	}
 

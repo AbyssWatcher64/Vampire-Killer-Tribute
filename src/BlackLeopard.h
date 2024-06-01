@@ -2,7 +2,7 @@
 #include "Enemy.h"
 //#include "TileMap.h"
 
-#define BLACKLEOPARD_SPEED			2
+#define BLACKLEOPARD_SPEED			3
 #define BLACKLEOPARD_ANIM_DELAY	(ANIM_DELAY)
 
 enum class BlackLeopardState { STANDING, JUMPING, RUNNING };

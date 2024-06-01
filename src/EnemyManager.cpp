@@ -6,10 +6,7 @@
 #include "Pyre.h"
 #include "Candle.h"
 #include "DestroyableBlocks.h"
-
-
-//#include "TileMap.h"
-
+#include "Door.h"
 
 EnemyManager::EnemyManager()
 {
@@ -17,6 +14,7 @@ EnemyManager::EnemyManager()
 	playerGettingHurt = false;
 	particles = nullptr;
 	solidEnemy = false;
+	playerHasWhiteKey = false;
 	//totalEnemies = 0;
 }
 EnemyManager::~EnemyManager()
@@ -85,6 +83,11 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	else if (type == EnemyType::BLOCKS)
 	{
 		enemy = new DestroyableBlock(pos, BLOCKS_FRAME_SIZE, BLOCKS_FRAME_SIZE, BLOCKS_FRAME_SIZE, BLOCKS_FRAME_SIZE);
+		enemy->map = this->map;
+	}
+	else if (type == EnemyType::DOOR)
+	{
+		enemy = new Door(pos, DOOR_FRAME_SIZE_WIDTH, DOOR_FRAME_SIZE_HEIGHT, DOOR_FRAME_SIZE_WIDTH, DOOR_FRAME_SIZE_HEIGHT);
 		enemy->map = this->map;
 	}
 	else
@@ -156,6 +159,11 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 
 	for (Enemy* enemy : enemies)
 	{
+		if (playerHasWhiteKey)
+			enemy->playerHasWhiteKey = true;
+		else
+			enemy->playerHasWhiteKey = false;
+		
 		shoot = enemy->Update(player_hitbox);
 		if (shoot)
 		{
@@ -184,19 +192,24 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 		solidEnemy = false;
 		if (box.TestAABB(player_hitbox) && enemy->IsAlive())
 		{
-			if (true && enemy->type != EnemyType::PYRE && enemy->type != EnemyType::CANDLE && enemy->type != EnemyType::BLOCKS)
+			if (enemy->type != EnemyType::PYRE && enemy->type != EnemyType::CANDLE && enemy->type != EnemyType::BLOCKS && enemy->type != EnemyType::DOOR)
 			{
 				playerGettingHurt = true;
 			}
-			else if (enemy->type == EnemyType::BLOCKS)
+			if (enemy->type == EnemyType::BLOCKS || enemy->type == EnemyType::DOOR)
 			{
 				solidEnemy = true;
+			}
+			if (enemy->type == EnemyType::DOOR)
+			{
+				if (playerHasWhiteKey)
+					enemy->openDoor = true;
 			}
 
 
 		}
 
-		if (box.pos.x + 40 == player_hitbox.pos.x || box.pos.x - 40 == player_hitbox.pos.x)
+		if (box.pos.x + 70 == player_hitbox.pos.x || box.pos.x - 70 == player_hitbox.pos.x)
 			enemy->inArea = true;
 
 		if (box.TestAABB(weapon_hitbox))
@@ -223,12 +236,11 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 				{
 					particles->Add(p);
 				}
-				else if (enemy->type == EnemyType::BLOCKS)
+				if (enemy->type != EnemyType::DOOR)
 				{
-
+					PlaySound(enemyHit);
+					enemy->SetAlive(false);
 				}
-				PlaySound(enemyHit);
-				enemy->SetAlive(false);
 			}
 		}
 
@@ -238,7 +250,7 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 			totalEnemies--;
 		}
 
-		if (box.pos.x == WINDOW_WIDTH-ZOMBIE_FRAME_SIZE_WIDTH)
+		if (box.pos.x == WINDOW_WIDTH-ZOMBIE_FRAME_SIZE_WIDTH && enemy->type != EnemyType::DOOR)
 		{
 			enemy->SetAlive(false);
 			totalEnemies--;
@@ -274,10 +286,10 @@ void EnemyManager::DrawDebug() const
 			enemy->DrawVisibilityArea(DARKGRAY);
 			enemy->DrawHitbox(ORANGE);
 		}
-		else if (enemy->IsAlive() && enemy->type == EnemyType::BLOCKS)
+		else if (enemy->IsAlive() && (enemy->type == EnemyType::BLOCKS || enemy->type == EnemyType::DOOR))
 		{
 			enemy->DrawVisibilityArea(DARKGRAY);
-			enemy->DrawHitbox(GREEN);
+			enemy->DrawHitbox(BLUE);
 		}
 		else if (enemy->IsAlive())
 		{

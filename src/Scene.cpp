@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include <stdio.h>
 #include "Globals.h"
+#include "StaticImage.h"
 
 
 Scene::Scene()
@@ -24,6 +25,7 @@ Scene::Scene()
 	camera.rotation = 0.0f;					//No rotation
 	camera.zoom = 1.0f;						//Default zoom
 
+	playerHasWhiteKey = false;
 	setGameOver = false;
 	debug = DebugMode::OFF;
 }
@@ -58,6 +60,11 @@ Scene::~Scene()
 		delete obj;
 	}
 	objects.clear();
+	for (Entity* obj : UIobjects)
+	{
+		delete obj;
+	}
+	UIobjects.clear();
 	if (enemies != nullptr)
 	{
 		enemies->Release();
@@ -208,7 +215,6 @@ AppStatus Scene::Init()
 
 	fade_transition.SetScene(1, 10, 10);
 
-
     return AppStatus::OK;
 }
 AppStatus Scene::LoadLevel(int stage)
@@ -219,6 +225,7 @@ AppStatus Scene::LoadLevel(int stage)
 	//h = WINDOW_HEIGHT * GAME_SCALE_FACTOR;
 	//src = { 0, 0, WINDOW_WIDTH, -WINDOW_HEIGHT };
 	//dst = { 0, 0, w, h };
+
 	enemies->totalEnemies = 0;
 	timer = 0;
 	int size;
@@ -228,6 +235,9 @@ AppStatus Scene::LoadLevel(int stage)
 	int* map = nullptr;
 	int* mapInteractables = nullptr;
 	int* mapHiddenBlocks = nullptr;
+
+
+	Object* UIObj;
 	Object* obj;
 	AABB hitbox, area;
 	currentLevel = stage;
@@ -262,7 +272,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0, 700,	138,	0,		0,		0,		0,		0,		0, 700,	0,		0,		0,
-				0,		200,		0,		211,		0,		405,	404,	300,	301,	400,	401,	0,		210,	0,		0,		0,
+				0,		200,		0,		703,		0,		405,	404,	300,	301,	400,	401,	0,		210,	0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
@@ -708,7 +718,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,	 210,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,	 210,		0, 0, 703,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		402,	0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
@@ -1284,7 +1294,12 @@ AppStatus Scene::LoadLevel(int stage)
 	levelInteractables->Load(mapInteractables, LEVEL_WIDTH, LEVEL_HEIGHT); // REVIEW: this wasn't here in the prototype
 	levelHiddenBlocks->Load(mapHiddenBlocks, LEVEL_WIDTH, LEVEL_HEIGHT); // REVIEW: this wasn't here in the prototype
 
-	
+
+	UIObj = new Object({ 165,-5 }, ObjectType::WHITEKEY);
+	UIobjects.push_back(UIObj);
+	UIObj = new Object({ 150,-5 }, ObjectType::YELLOWKEY);
+	UIobjects.push_back(UIObj);
+
 	//Entities and objects
 	i = 0;
 	for (y = 0; y < LEVEL_HEIGHT; ++y)
@@ -1396,6 +1411,11 @@ AppStatus Scene::LoadLevel(int stage)
 				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::CANDLE);
 				enemies->Add(pos, EnemyType::CANDLE, area, Look::RIGHT);
 			}
+			else if (tile == Tile::DOOR_OPENABLE)
+			{
+				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::DOOR);
+				enemies->Add(pos, EnemyType::DOOR, area, Look::RIGHT);
+			}
 			//else if (tile == Tile::BLOCKS)
 			//{
 			//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BLOCKS);
@@ -1437,7 +1457,6 @@ AppStatus Scene::LoadLevel(int stage)
 	levelInteractables->ClearObjectEntityPositions();
 	levelHiddenBlocks->ClearObjectEntityPositions();
 
-
 	//level->Load(mapInteractables, LEVEL_WIDTH, LEVEL_HEIGHT);
 	delete[] mapInteractables;
 	delete[] map;
@@ -1447,6 +1466,7 @@ AppStatus Scene::LoadLevel(int stage)
 }
 void Scene::Update()
 {
+	enemies->playerHasWhiteKey = player->GetHasWhiteKey();
 	timer++;
 	if (timer == 4294967290)
 	{
@@ -1539,8 +1559,16 @@ void Scene::Update()
 			case 8:
 			case 9:
 			case 10:
+			{
+				fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+				int tmpYPos = player->GetYPos();
+				LoadLevel(++currentLevel);
+				player->SetPos(Point(10, tmpYPos));
+				break;
+			}
 			case 11:
 			{
+				player->SetHasWhiteKey(false);
 				fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
 				int tmpYPos = player->GetYPos();
 				LoadLevel(++currentLevel);
@@ -1955,6 +1983,14 @@ void Scene::RenderObjects() const
 	{
 		obj->Draw();
 	}
+	//for (Object* obj : UIobjects)
+	//{
+	//	obj->Draw();
+	//}
+	if (player->GetHasWhiteKey())
+		UIobjects[0]->Draw();
+	if (player->GetHasYellowKey())
+		UIobjects[1]->Draw();
 }
 void Scene::RenderObjectsDebug(const Color& col) const
 {
@@ -1962,18 +1998,13 @@ void Scene::RenderObjectsDebug(const Color& col) const
 	{
 		obj->DrawDebug(col);
 	}
+
 }
 void Scene::RenderGUI() const
 {
-	////Temporal approach
-	//DrawText(TextFormat("SCORE : %d", player->GetScore()), 10, 10, 8, LIGHTGRAY);
-	//DrawText(TextFormat("HP : %d", player->GetHP()), 10, 20, 8, LIGHTGRAY);
-	//DrawText(TextFormat("LIVES : %d", player->GetLives()), 10, 30, 8, LIGHTGRAY);
-
 	static int frame;
 	frame++;
 	frame %= 1000;
-	//DrawTexturePro(*img_ui, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT }, { 0,0 }, 0, WHITE);
 
 	font->Draw(57, 9, TextFormat("%06d", player->GetScore())); // TODO convert numbers into division of screen
 	font->Draw(229, 9, TextFormat("%02d", player->GetLives())); // TODO convert numbers into division of screen
@@ -1984,12 +2015,6 @@ void Scene::RenderGUI() const
 	DrawRectangle(60, 22, ((player->GetHP()*2)), 5, {255, 181, 145, 255}); // HP BAR
 	DrawRectangle(60, 30, 64, 5, RED); // Enemy HP BAR
 	
-	// Draw the keys on top, on the UI
-	// TODO: Why is it entering the if?
-	if (player->GetHasWhiteKey()){}
-		//DrawRectangle(60, 110, 64, 5, WHITE);
-		//DrawTexturePro()
-	if (player->GetHasYellowKey()){}
-		//DrawRectangle(60, 130, 64, 5, YELLOW);
+
 
 }

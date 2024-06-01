@@ -52,9 +52,13 @@
 
 #define BLOCKS_FRAME_SIZE 32
 
+#define DOOR_FRAME_SIZE_HEIGHT 48
+#define DOOR_FRAME_SIZE_WIDTH 6
 
 
-enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT, FISHMAN, BLACKLEOPARD, PYRE, CANDLE, BLOCKS };
+
+
+enum class EnemyType { ZOMBIE, SLIME, TURRET, BAT, FISHMAN, BLACKLEOPARD, PYRE, CANDLE, BLOCKS, DOOR };
 
 class Enemy : public Entity //, public EnemyManager
 {
@@ -78,6 +82,8 @@ public:
 	EnemyType type;
 	TileMap* map;
 	bool inArea;
+	bool playerHasWhiteKey;
+	bool openDoor;
 
 protected:
 	//Return true if the given hitbox is within the visibility area and the enemy is facing it

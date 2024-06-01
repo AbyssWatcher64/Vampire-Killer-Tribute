@@ -53,6 +53,7 @@ private:
     int currentLevel;
 
     bool setGameOver;
+    bool playerHasWhiteKey;
 
     //Level structure that contains all the static tiles
     TileMap* level;
@@ -61,6 +62,7 @@ private:
 
     //Dynamic objects of the level: items and collectables
     std::vector<Object*> objects;
+    std::vector<Object*> UIobjects;
 
     //Enemies present in the level
     EnemyManager* enemies;

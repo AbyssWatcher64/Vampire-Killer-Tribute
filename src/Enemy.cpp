@@ -7,6 +7,8 @@ Enemy::Enemy(const Point& p, int width, int height, int frame_width, int frame_h
 	visibility_area = {};
 	look = Look::LEFT;
 	inArea = false;
+	playerHasWhiteKey = false;
+	openDoor = false;
 }
 Enemy::~Enemy()
 {
