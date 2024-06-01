@@ -130,6 +130,12 @@ AppStatus Game::LoadResources()
     }
     img_ending = data.GetTexture(Resource::IMG_ENDING);
 
+    if (data.LoadTexture(Resource::IMG_MISC, "img/misc.png") != AppStatus::OK)
+    {
+        return AppStatus::ERROR;
+    }
+    
+
     data.LoadSounds();
 
     

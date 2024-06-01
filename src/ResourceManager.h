@@ -17,7 +17,8 @@ enum class Resource {
     IMG_TILES,
     IMG_ITEMS,
     IMG_FONT,
-    IMG_CLOUD
+    IMG_CLOUD,
+    IMG_MISC
 };
 
 class ResourceManager {
