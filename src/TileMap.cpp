@@ -194,46 +194,18 @@ void TileMap::InitTileDictionary()
 	dict_rect[(int)Tile::BLOCK_STAIRS_LEFT_3] = { 0 * n, n * 9, n, n };
 	dict_rect[(int)Tile::BLOCK_WHITE_WALL_2] = { 1 * n, n * 9, n, n };
 
+	dict_rect[(int)Tile::BLOCK_STAIRS_LEFT_1_TOP] = { 4 * n, n * 5, n, n };
+	dict_rect[(int)Tile::BLOCK_STAIRS_RIGHT_1_TOP] = { 2 * n, n * 5, n, n };
+	dict_rect[(int)Tile::BLOCK_STAIRS_LEFT_2_TOP] = { 7 * n, n * 7, n, n };
+	dict_rect[(int)Tile::BLOCK_STAIRS_RIGHT_2_TOP] = { 6 * n, n * 7, n, n };
+	dict_rect[(int)Tile::BLOCK_STAIRS_LEFT_3_TOP] = { 0 * n, n * 9, n, n };
 
-	dict_rect[(int)Tile::FIRE_FRAME0] = { n * 0, 4 * n, 2 * n, n };
-	dict_rect[(int)Tile::FIRE_FRAME1] = { n * 2, 4 * n, 2 * n, n };
-
-
-
-
-	dict_rect[(int)Tile::BLOCK_SQUARE1_TL] = { 0,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE1_TR] = { n,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE1_BL] = { 0, n, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE1_BR] = { n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE2_TL] = { 2 * n,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE2_TR] = { 3 * n,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE2_BL] = { 2 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_SQUARE2_BR] = { 3 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_VERT2_T] = { 4 * n,  0, n, n };
-	dict_rect[(int)Tile::BLOCK_VERT2_B] = { 4 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ2_L] = { 5 * n, 0, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ2_R] = { 6 * n, 0, n, n };
-	dict_rect[(int)Tile::BLOCK_BLUE] = { 7 * n, 0, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ3_L] = { 5 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ3_M] = { 6 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_HORIZ3_R] = { 7 * n, n, n, n };
-	dict_rect[(int)Tile::BLOCK_BEAM_L] = { 0, 2 * n, n, n };
-	dict_rect[(int)Tile::BLOCK_BEAM_R] = { n, 2 * n, n, n };
-
-	dict_rect[(int)Tile::LADDER_L] = { 2 * n, 2 * n, n, n };
-	dict_rect[(int)Tile::LADDER_R] = { 3 * n, 2 * n, n, n };
-	dict_rect[(int)Tile::LADDER_TOP_L] = { 4 * n, 2 * n, n, n };
-	dict_rect[(int)Tile::LADDER_TOP_R] = { 5 * n, 2 * n, n, n };
-
-	dict_rect[(int)Tile::LOCK_RED] = { 6 * n, 2 * n, n, n };
-	dict_rect[(int)Tile::LOCK_YELLOW] = { 7 * n, 2 * n, n, n };
-
-	dict_rect[(int)Tile::LASER_L] = { 0, 6 * n, n, n };
-	dict_rect[(int)Tile::LASER_R] = { 4 * n, 6 * n, n, n };
+	dict_rect[(int)Tile::BLOCK_STAIRS_LEFT_1_BOT] = { 4 * n, n * 5, n, n };
+	dict_rect[(int)Tile::BLOCK_STAIRS_RIGHT_1_BOT] = { 2 * n, n * 5, n, n };
+	dict_rect[(int)Tile::BLOCK_STAIRS_LEFT_2_BOT] = { 7 * n, n * 7, n, n };
+	dict_rect[(int)Tile::BLOCK_STAIRS_RIGHT_2_BOT] = { 6 * n, n * 7, n, n };
+	dict_rect[(int)Tile::BLOCK_STAIRS_LEFT_3_BOT] = { 0 * n, n * 9, n, n };
 	
-	dict_rect[(int)Tile::LASER_FRAME0] = { 1 * n, 6 * n, n, n };
-	dict_rect[(int)Tile::LASER_FRAME1] = { 2 * n, 6 * n, n, n };
-	dict_rect[(int)Tile::LASER_FRAME2] = { 3 * n, 6 * n, n, n };
 
 }
 AppStatus TileMap::Initialise()
@@ -339,13 +311,17 @@ bool TileMap::IsTileSolid(Tile tile) const
 	//return (Tile::SOLID_FIRST <= tile && tile <= Tile::SOLID_LAST);
 	return (Tile::SOLID_FIRST <= tile && tile <= Tile::SOLID_LAST || (tile == Tile::BLOCK_PLATFORM_1 || tile == Tile::BLOCK_PLATFORM_2 || tile == Tile::BLOCK_PLATFORM_3));
 }
-bool TileMap::IsTileLadderTop(Tile tile) const
-{
-	return tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1;
-}
 bool TileMap::IsTileLadder(Tile tile) const
 {
-	return tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1;
+	return tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1 || tile == Tile::BLOCK_STAIRS_LEFT_2 || tile == Tile::BLOCK_STAIRS_RIGHT_2 || tile == Tile::BLOCK_STAIRS_LEFT_3 ;
+}
+bool TileMap::IsTileLadderTop(Tile tile) const
+{
+	return tile == Tile::BLOCK_STAIRS_LEFT_1_TOP || tile == Tile::BLOCK_STAIRS_RIGHT_1_TOP || tile == Tile::BLOCK_STAIRS_LEFT_2_TOP || tile == Tile::BLOCK_STAIRS_RIGHT_2_TOP || tile == Tile::BLOCK_STAIRS_LEFT_3_TOP;
+}
+bool TileMap::IsTileLadderBot(Tile tile) const
+{
+	return tile == Tile::BLOCK_STAIRS_LEFT_1_BOT || tile == Tile::BLOCK_STAIRS_RIGHT_1_BOT || tile == Tile::BLOCK_STAIRS_LEFT_2_BOT || tile == Tile::BLOCK_STAIRS_RIGHT_2_BOT || tile == Tile::BLOCK_STAIRS_LEFT_3_BOT;
 }
 bool TileMap::TestCollisionWallLeft(const AABB& box) const
 {
@@ -414,60 +390,150 @@ bool TileMap::CollisionY(const Point& p, int distance) const
 }
 bool TileMap::TestOnLadder(const AABB& box, int* px) const
 {
-	int left, right, bottom;
-	int tx1, tx2, ty;
+	//int left, right, bottom;
+	//int tx1, tx2, ty;
+	//Tile tile1, tile2;
+	//
+	////Control points
+	//left = box.pos.x;
+	//right = box.pos.x + box.width-1;
+	//bottom = box.pos.y + box.height-1;
+
+	////Calculate the tile coordinates
+	//tx1 = left / TILE_SIZE;
+	//tx2 = right / TILE_SIZE;
+	//ty = bottom / TILE_SIZE;
+
+	////To be able to climb up or down, both control points must be on ladder
+	//tile1 = GetTileIndex(tx1, ty);
+	//tile2 = GetTileIndex(tx2, ty);
+	////if (IsTileLadder(tile1) && IsTileLadder(tile2))
+	////{
+	////	*px = GetLadderCenterPos(left, bottom) - box.width/2;
+	////	return true;
+	////}
+	////return false;
+	//if (IsTileLadder(tile2))
+	//{
+	//	*px = GetLadderCenterPos(right, bottom) - (box.width / 2) + 1;
+	//	return true;
+	//}
+	//else if (IsTileLadder(tile1))
+	//{
+	//	*px = GetLadderCenterPos(left, bottom) - (box.width / 2) + 1;
+	//	return true;
+	//}
+	//return false;
+	int right, left, bottom2, bottom1;
+	int tx1, tx2, ty1, ty2;
 	Tile tile1, tile2;
-	
+
 	//Control points
-	left = box.pos.x;
-	right = box.pos.x + box.width-1;
-	bottom = box.pos.y + box.height-1;
+	left = box.pos.x + box.width - 8;
+	right = box.pos.x + box.width;
+	bottom2 = box.pos.y + box.height - 8;
+	bottom1 = box.pos.y + box.height;
 
 	//Calculate the tile coordinates
 	tx1 = left / TILE_SIZE;
 	tx2 = right / TILE_SIZE;
-	ty = bottom / TILE_SIZE;
+	ty2 = bottom2 / TILE_SIZE;
+	ty1 = bottom1 / TILE_SIZE;
 
 	//To be able to climb up or down, both control points must be on ladder
-	tile1 = GetTileIndex(tx1, ty);
-	tile2 = GetTileIndex(tx2, ty);
-	if (IsTileLadder(tile1) && IsTileLadder(tile2))
+
+	tile2 = GetTileIndex(tx2, ty2);
+	tile1 = GetTileIndex(tx1, ty1);
+	if (IsTileLadder(tile2))
 	{
-		*px = GetLadderCenterPos(left, bottom) - box.width/2;
+		*px = GetLadderCenterPos(right, bottom2) - (box.width / 2) + 1;
+		return true;
+	}
+	else if (IsTileLadder(tile1))
+	{
+		*px = GetLadderCenterPos(left, bottom1) - (box.width / 2) + 1;
 		return true;
 	}
 	return false;
 }
 bool TileMap::TestOnLadderTop(const AABB& box, int* px) const
 {
-	int left, right, bottom;
-	int tx1, tx2, ty;
+	//int left, right, bottom;
+	//int tx1, tx2, ty;
+	//Tile tile1, tile2;
+
+	////Control points
+	//left = box.pos.x;
+	//right = box.pos.x + box.width - 1;
+	//bottom = box.pos.y + box.height - 1;
+
+	////Calculate the tile coordinates
+	//tx1 = left / TILE_SIZE;
+	//tx2 = right / TILE_SIZE;
+	//ty = bottom / TILE_SIZE;
+
+	////To be able to climb up or down, both control points must be on ladder
+	//tile1 = GetTileIndex(tx1, ty);
+	//tile2 = GetTileIndex(tx2, ty);
+	//if (IsTileLadderTop(tile2))
+	//{
+	//	*px = GetLadderCenterPos(right, bottom) - (box.width / 2) + 1;
+	//	return true;
+	//}
+	//else if (IsTileLadderTop(tile1))
+	//{
+	//	*px = GetLadderCenterPos(left, bottom) - (box.width / 2) + 1;
+	//	return true;
+	//}
+	//return false;
+	int right, left, bottom2, bottom1;
+	int tx1, tx2, ty1, ty2;
 	Tile tile1, tile2;
 
 	//Control points
-	left = box.pos.x;
-	right = box.pos.x + box.width - 1;
-	bottom = box.pos.y + box.height - 1;
+	left = box.pos.x + box.width - 8;
+	right = box.pos.x + box.width;
+	bottom2 = box.pos.y + box.height - 8;
+	bottom1 = box.pos.y + box.height;
 
 	//Calculate the tile coordinates
 	tx1 = left / TILE_SIZE;
 	tx2 = right / TILE_SIZE;
-	ty = bottom / TILE_SIZE;
+	ty2 = bottom2 / TILE_SIZE;
+	ty1 = bottom1 / TILE_SIZE;
 
 	//To be able to climb up or down, both control points must be on ladder
-	tile1 = GetTileIndex(tx1, ty);
-	tile2 = GetTileIndex(tx2, ty);
-	if (IsTileLadderTop(tile1) && IsTileLadderTop(tile2))
+	tile2 = GetTileIndex(tx2, ty2);
+	tile1 = GetTileIndex(tx1, ty1);
+	if (IsTileLadderTop(tile2))
 	{
-		*px = GetLadderCenterPos(left, bottom) - box.width / 2;
+		*px = GetLadderCenterPos(right, bottom2) - (box.width / 2) + 1;
+		return true;
+	}
+	else if (IsTileLadderTop(tile1))
+	{
+		*px = GetLadderCenterPos(left, bottom1) - (box.width / 2) + 1;
 		return true;
 	}
 	return false;
 }
 int TileMap::GetLadderCenterPos(int pixel_x, int pixel_y) const
 {
+	//int tx, ty;
+	//
+	//tx = pixel_x / TILE_SIZE;
+	//ty = pixel_y / TILE_SIZE;
+	//Tile tile = GetTileIndex(tx, ty);
+
+	//if (tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1)		return tx * TILE_SIZE + TILE_SIZE;
+	//else if (tile == Tile::BLOCK_STAIRS_LEFT_1 || tile == Tile::BLOCK_STAIRS_RIGHT_1)	return tx * TILE_SIZE;
+	//else
+	//{
+	//	LOG("Internal error, tile should be a LADDER, coord: (%d,%d), tile type: %d", pixel_x, pixel_y, (int)tile);
+	//	return 0;
+	//}
 	int tx, ty;
-	
+
 	tx = pixel_x / TILE_SIZE;
 	ty = pixel_y / TILE_SIZE;
 	Tile tile = GetTileIndex(tx, ty);
@@ -479,6 +545,7 @@ int TileMap::GetLadderCenterPos(int pixel_x, int pixel_y) const
 		LOG("Internal error, tile should be a LADDER, coord: (%d,%d), tile type: %d", pixel_x, pixel_y, (int)tile);
 		return 0;
 	}
+
 }
 AABB TileMap::GetSweptAreaX(const AABB& hitbox) const
 {
