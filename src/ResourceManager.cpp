@@ -89,6 +89,79 @@ void ResourceManager::ReleaseSounds()
     }
 }
 
+void ResourceManager::LoadMusic(int songNumber)
+{
+    if (songNumber != currentSongIndex)
+    {
+        if (currentSongIndex != NULL)
+            UnloadMusicStream(currentSong);
+        StopMusicStream(currentSong);
+        switch (songNumber)
+        {
+        case 1:
+            currentSongIndex = 1;
+            currentSong = LoadMusicStream("music/01Prologue.ogg");
+            currentSong.looping = false;
+            break;
+        case 2:
+            currentSongIndex = 2;
+            currentSong = LoadMusicStream("music/02VampireKiller.ogg");
+            currentSong.looping = true;
+            break;
+        case 3:
+            currentSongIndex = 3;
+            currentSong = LoadMusicStream("music/03PoisonMind.ogg");
+            currentSong.looping = true;
+            break;
+        case 4:
+            currentSongIndex = 4;
+            currentSong = LoadMusicStream("music/04StageClear.ogg");
+            currentSong.looping = false;
+            break;
+        case 6:
+            currentSongIndex = 6;
+            currentSong.looping = false;
+            currentSong = LoadMusicStream("music/06GameOver.ogg");
+            
+            break;
+        case 7:
+            currentSongIndex = 7;
+            currentSong = LoadMusicStream("music/07AllClear.ogg");
+            currentSong.looping = false;
+            break;
+        case 8:
+            currentSongIndex = 8;
+            currentSong = LoadMusicStream("music/08Unused.ogg");
+            currentSong.looping = false;
+            break;
+        case 9:
+            currentSongIndex = 9;
+            currentSong = LoadMusicStream("music/09PlayerMiss.ogg");
+            currentSong.looping = false;
+            break;
+        }
+    }
+}
+
+void ResourceManager::StopCurrentSong()
+{
+    StopMusicStream(currentSong);
+}
+
+void ResourceManager::UpdateCurrentSong()
+{
+    UpdateMusicStream(currentSong);
+}
+void ResourceManager::PlayCurrentSong()
+{
+    PlayMusicStream(currentSong);
+}
+void ResourceManager::ReleaseSong()
+{
+    PlayMusicStream(currentSong);
+}
+
+
 //Get a texture by key
 const Texture2D* ResourceManager::GetTexture(Resource id) const
 {

@@ -132,19 +132,16 @@ AppStatus Game::LoadResources()
 
     data.LoadSounds();
 
-    Ost2VampireKiller = LoadMusicStream("music/02VampireKiller.ogg");
-    Ost2VampireKiller.looping = true;
-    //SetMusicVolume(Ost2VampireKiller, 1.0);
-
     
     return AppStatus::OK;
 }
 AppStatus Game::BeginPlay()
 {
+    ResourceManager& data = ResourceManager::Instance();
     scene = new Scene();
     
 
-    PlayMusicStream(Ost2VampireKiller);
+    //PlayMusicStream(Ost2VampireKiller);
     if (scene == nullptr)
     {
         LOG("Failed to allocate memory for Scene");
@@ -161,13 +158,17 @@ AppStatus Game::BeginPlay()
 }
 void Game::FinishPlay()
 {
+    ResourceManager& data = ResourceManager::Instance();
     scene->Release();
-    StopMusicStream(Ost2VampireKiller);
     delete scene;
     scene = nullptr;
 }
 AppStatus Game::Update()
 {
+
+    ResourceManager& data = ResourceManager::Instance();
+    data.UpdateCurrentSong();
+
     //Check if user attempts to close the window, either by clicking the close button or by pressing Alt+F4
     if(WindowShouldClose()) return AppStatus::QUIT;
 
@@ -204,6 +205,7 @@ AppStatus Game::Update()
             }
             break;
         case GameState::MAIN_MENU:
+            data.StopCurrentSong();
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             if (IsKeyPressed(KEY_SPACE))
             {
@@ -214,6 +216,8 @@ AppStatus Game::Update()
             break;
 
         case GameState::INTRO:
+            data.LoadMusic(1);
+            data.PlayCurrentSong();
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             cutscene->UpdateCutscene();
             if (IsKeyPressed(KEY_SPACE))
@@ -225,6 +229,22 @@ AppStatus Game::Update()
             break;
 
         case GameState::PLAYING:
+            if (scene->GetIsCurrentlyResetting() == true)
+            {
+                data.LoadMusic(9);
+                data.PlayCurrentSong();
+            }
+            else if (scene->GetCurrentLevel() < 23)
+            {
+                data.LoadMusic(2);
+                data.PlayCurrentSong();
+            }
+            else if (scene->GetCurrentLevel() == 23)
+            {
+                data.LoadMusic(3);
+                data.PlayCurrentSong();
+            }
+           
             if (IsKeyPressed(KEY_ESCAPE))
             {
                 //FinishPlay();
@@ -236,40 +256,39 @@ AppStatus Game::Update()
             else if (IsKeyPressed(KEY_F3))
             {
                 state = GameState::GAME_OVER;
-                StopMusicStream(Ost2VampireKiller);
+                
             }
             else if (scene->GameOver() == true)
             {
                 state = GameState::GAME_OVER;
-                StopMusicStream(Ost2VampireKiller);
             }
             else if (IsKeyPressed(KEY_F4))
             {
                 state = GameState::ENDING;
-                StopMusicStream(Ost2VampireKiller);
             }
             else if (scene->GameEnd() == true)
             {
                 state = GameState::ENDING;
-                StopMusicStream(Ost2VampireKiller);
             }
             else
             {
-                //Game logic
                 scene->Update();
-                UpdateMusicStream(Ost2VampireKiller);
                 return AppStatus::OK;
 
             }
             break;
 
         case GameState::GAME_OVER:
+            data.LoadMusic(6);
+            data.PlayCurrentSong();
             if (IsKeyPressed(KEY_ESCAPE))
                 return AppStatus::QUIT;
             else if (IsKeyPressed(KEY_SPACE))
                 state = GameState::MAIN_MENU;
             break;
         case GameState::ENDING:
+            data.LoadMusic(8);
+            data.PlayCurrentSong();
             if (IsKeyPressed(KEY_ESCAPE)) return AppStatus::QUIT;
             if (IsKeyPressed(KEY_SPACE)) {
                 state = GameState::MAIN_MENU;
@@ -350,9 +369,10 @@ void Game::UnloadResources()
     data.ReleaseTexture(Resource::IMG_DESC);
     data.ReleaseTexture(Resource::IMG_ENDING);
     data.ReleaseTexture(Resource::IMG_UI);
+    data.ReleaseSong();
     data.ReleaseSounds();
 
 
     UnloadRenderTexture(target);
-    UnloadMusicStream(Ost2VampireKiller);
+    //UnloadMusicStream(Ost2VampireKiller);
 }

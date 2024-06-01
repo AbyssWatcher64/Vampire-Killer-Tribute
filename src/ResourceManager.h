@@ -36,6 +36,12 @@ public:
     void LoadSounds();
     void ReleaseSounds();
 
+    void LoadMusic(int songNumber);
+    void StopCurrentSong();
+    void UpdateCurrentSong();
+    void PlayCurrentSong();
+    void ReleaseSong();
+
     //Get texture by key
     const Texture2D* GetTexture(Resource id) const;
 
@@ -50,12 +56,15 @@ public:
         return sounds[index];
     }
 
+    Music currentSong;
+
 private:
     //Private constructor to prevent instantiation
     ResourceManager();
     //Destructor
     ~ResourceManager();
 
+    int currentSongIndex;
     Sound sounds[37];
     
     //sounds[0] = "sfx/24.wav";

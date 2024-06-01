@@ -26,11 +26,15 @@ Player::Player(const Point& p, State s, Look view) :
 	godMode = false;
 	gameEnd = false;
 	wasCrouching = false;
+	gameOver = false;
 	isInvincible = false;
 	hasYellowKey = false;
 	hasWhiteKey = false;
 	//tmp 
 	unloadedSounds = false;
+	playerTimer = 0;
+	startingHitTimer = 0;
+	startingHit = false;
 }
 Player::~Player()
 {
@@ -198,52 +202,22 @@ AppStatus Player::Initialise()
 	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)0 + 6) * n, 0, n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)1 + 6) * n, 0, n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)1 + 6) * n, 0, n, h });
-	// TODO: Obviously fix this
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+	for (int i = 0; i < 38; i++)
+	{
+		sprite->AddKeyFrame((int)PlayerAnim::DYING_RIGHT, { ((float)2 + 6) * n, 0, n * 2, h });
+
+	}
 
 	sprite->SetAnimationDelay((int)PlayerAnim::DYING_LEFT, ANIM_DELAY);
 	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)0 + 6) * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)0 + 6) * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)1 + 6) * n, 0, -n, h });
 	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)1 + 6) * n, 0, -n, h });
-	// TODO: Obviously fix this
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
-	sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	for (int i = 0; i < 38; i++)
+	{
+		sprite->AddKeyFrame((int)PlayerAnim::DYING_LEFT, { ((float)2 + 6) * n, 0, -n * 2 , h });
+	}
+
 
 	// Walking towards front animation
 	sprite->SetAnimationDelay((int)PlayerAnim::WALKING_INTO, ANIM_DELAY);
@@ -363,10 +337,7 @@ AppStatus Player::Initialise()
 	cruficixSFX = data[34];
 	oneUpSFX = data[35];
 	hurtSFX = data[36];
-	
-	
 
-	orbSFX = LoadSound("music/04StageClear.ogg");
 
 	return AppStatus::OK;
 }
@@ -449,42 +420,138 @@ AABB Player::GetWeaponHitBox()
 {
 	if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar && !wasCrouching)
 	{
-		AABB hitbox({ pos.x + width, pos.y - height / 2 - 8 }, width * 3, height / 3);
+		if (startingHit == false)
+		{
+			startingHit = true;
+			startingHitTimer = playerTimer;
+		}
+		else if (startingHit == true && startingHitTimer == playerTimer)
+		{
+			startingHit = true;
+			AABB hitbox({ pos.x + width, pos.y - height / 2 - 8 }, width * 3, height / 3);
+			return hitbox;
+		}
+		Point p(0, 0);
+		AABB hitbox(p, 0, 0);
 		return hitbox;
 	}
 	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar && !wasCrouching)
 	{
-		AABB hitbox({ pos.x - (width * 3), pos.y - height / 2 - 8 }, width * 3, height / 3);
+		if (startingHit == false)
+		{
+			startingHit = true;
+			startingHitTimer = playerTimer;
+		}
+		else if (startingHit == true && startingHitTimer == playerTimer)
+		{
+			startingHit = true;
+			AABB hitbox({ pos.x - (width * 3), pos.y - height / 2 - 8 }, width * 3, height / 3);
+			return hitbox;
+		}
+		Point p(0, 0);
+		AABB hitbox(p, 0, 0);
 		return hitbox;
 	}
 	else if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar && wasCrouching)
 	{
-		AABB hitbox({ pos.x + width, pos.y - height / 3}, width * 3, height / 3);
+		if (startingHit == false)
+		{
+			startingHit = true;
+			startingHitTimer = playerTimer;
+		}
+		else if (startingHit == true && startingHitTimer == playerTimer)
+		{
+			startingHit = true;
+			AABB hitbox({ pos.x + width, pos.y - height / 3 }, width * 3, height / 3);
+			return hitbox;
+		}
+		Point p(0, 0);
+		AABB hitbox(p, 0, 0);
 		return hitbox;
 	}
 	else if (state == State::ATTACKING && look == Look::LEFT && isHoldingMorningStar && wasCrouching)
 	{
-		AABB hitbox({ pos.x - (width * 3), pos.y - height / 3 }, width * 3, height / 3);
+		if (startingHit == false)
+		{
+			startingHit = true;
+			startingHitTimer = playerTimer;
+		}
+		else if (startingHit == true && startingHitTimer == playerTimer)
+		{
+			startingHit = true;
+			AABB hitbox({ pos.x - (width * 3), pos.y - height / 3 }, width * 3, height / 3);
+			return hitbox;
+		}
+		Point p(0, 0);
+		AABB hitbox(p, 0, 0);
 		return hitbox;
 	}
 	else if (state == State::ATTACKING && look == Look::RIGHT && wasCrouching)
 	{
-		AABB hitbox({ pos.x + width, pos.y - height / 3 }, width * 2.2, height / 3);
+		if (startingHit == false)
+		{
+			startingHit = true;
+			startingHitTimer = playerTimer;
+		}
+		else if (startingHit == true && startingHitTimer == playerTimer)
+		{
+			startingHit = true;
+			AABB hitbox({ pos.x + width, pos.y - height / 3 }, width * 2.2, height / 3);
+			return hitbox;
+		}
+		Point p(0, 0);
+		AABB hitbox(p, 0, 0);
 		return hitbox;
 	}
 	else if (state == State::ATTACKING && look == Look::LEFT && wasCrouching)
 	{
-		AABB hitbox({ pos.x - (width * 2/*.1*/), pos.y - height / 3 }, width * 2.2, height / 3);
+		if (startingHit == false)
+		{
+			startingHit = true;
+			startingHitTimer = playerTimer;
+		}
+		else if (startingHit == true && startingHitTimer == playerTimer)
+		{
+			startingHit = true;
+			AABB hitbox({ pos.x - (width * 2/*.1*/), pos.y - height / 3 }, width * 2.2, height / 3);
+			return hitbox;
+		}
+		Point p(0, 0);
+		AABB hitbox(p, 0, 0);
 		return hitbox;
 	}
 	else if (state == State::ATTACKING && look == Look::RIGHT && !wasCrouching)
 	{
-		AABB hitbox({ pos.x + width, pos.y - height / 2 - 8}, width * 2.2, height / 3);
+		if (startingHit == false)
+		{
+			startingHit = true;
+			startingHitTimer = playerTimer;
+		}
+		else if (startingHit == true && startingHitTimer == playerTimer)
+		{
+			startingHit = true;
+			AABB hitbox({ pos.x + width, pos.y - height / 2 - 8 }, width * 2.2, height / 3);
+			return hitbox;
+		}
+		Point p(0, 0);
+		AABB hitbox(p, 0, 0);
 		return hitbox;
 	}
 	else if (state == State::ATTACKING && look == Look::LEFT && !wasCrouching)
 	{
-		AABB hitbox({ pos.x - (width * 2/*.1*/), pos.y - height / 2 - 8 }, width * 2.2, height / 3);
+		if (startingHit == false)
+		{
+			startingHit = true;
+			startingHitTimer = playerTimer;
+		}
+		else if (startingHit == true && startingHitTimer == playerTimer)
+		{
+			startingHit = true;
+			AABB hitbox({ pos.x - (width * 2/*.1*/), pos.y - height / 2 - 8 }, width * 2.2, height / 3);
+			return hitbox;
+		}
+		Point p(0, 0);
+		AABB hitbox(p, 0, 0);
 		return hitbox;
 	}
 	//if (state == State::ATTACKING && look == Look::RIGHT && isHoldingMorningStar)
@@ -521,7 +588,7 @@ AABB Player::GetWeaponHitBox()
 }
 void Player::GetHurt(int dmg)
 {
-	if (!godMode && !isInvincible)
+	if (!godMode && !isInvincible && hp > 0)
 	{
 		
 		if (hp > 0)
@@ -588,10 +655,10 @@ void Player::GrabObject(int object)
 	case 1:
 		PlaySound(moneyBagSFX);
 		break;
-	case 2:
-		
-		PlaySound(orbSFX);
-		break;
+	//case 2:
+	//	
+	//	PlaySound(orbSFX);
+	//	break;
 	case 20:
 		PlaySound(chestPickupSFX);
 		break;
@@ -901,7 +968,6 @@ void Player::ChangeHP(int value)
 		if (hp <= 0)
 		{
 			hp = 0;
-			Death();
 		}
 	}		
 }
@@ -1043,6 +1109,8 @@ void Player::ChangeAnimLeft()
 }
 void Player::Update()
 {
+	playerTimer++;
+	playerTimer %= 7;
 	//Player doesn't use the "Entity::Update() { pos += dir; }" default behaviour.
 	//Instead, uses an independent behaviour for each axis.
 	currentFrame++;
@@ -1205,7 +1273,7 @@ void Player::MoveX()
 	//if (state == State::CLIMBING)	return;
 	if (IsKeyPressed(KEY_L))
 	{
-		Death();
+		GetHurt(32);
 	}
 	if (state == State::CLIMBING) 
 	{

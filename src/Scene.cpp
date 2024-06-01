@@ -18,12 +18,13 @@ Scene::Scene()
 	zombieActive1 = false;
 	zombieActive2 = false;
 	dyingTimer = false;
-
+	isCurrentlyResetting = false;
 	camera.target = { 0, 0 };				//Center of the screen
 	camera.offset = { 0, MARGIN_GUI_Y };	//Offset from the target (center of the screen)
 	camera.rotation = 0.0f;					//No rotation
 	camera.zoom = 1.0f;						//Default zoom
 
+	setGameOver = false;
 	debug = DebugMode::OFF;
 }
 Scene::~Scene()
@@ -1454,10 +1455,19 @@ void Scene::Update()
 
 	if (player->GetHasDied() == true)
 	{
+		isCurrentlyResetting = true;
 		ResetScreenTimer();
 
-		if (timerComparision + 180 == timer)
-			ResetScreen();
+		if (timerComparision + 165 == timer)
+		{
+			isCurrentlyResetting = false;
+			if (player->GetGameOver() == true)
+				setGameOver = true;
+			else
+			{
+				ResetScreen();
+			}
+		}
 	}
 
 	Point p1, p2;
@@ -1822,7 +1832,6 @@ void Scene::Release()
 }
 void Scene::ResetScreen()
 {	
-	//StopMusicStream();
 	LoadLevel(1);
 	player->SetHasDied(false);
 	player->ChangeHP(100);
@@ -1838,10 +1847,15 @@ void Scene::ResetScreenTimer()
 }
 bool Scene::GameOver()
 {
-	if (player->GetGameOver() == true)
+	if (setGameOver == true)
 	{
-		player->SetGameOver(false);
-		return true;
+			player->SetGameOver(false);
+			return true;
+
+	}
+	else
+	{
+		return false;
 	}
 }
 bool Scene::GameEnd()
@@ -1851,6 +1865,16 @@ bool Scene::GameEnd()
 		player->SetGameEnd(false);
 		return true;
 	}
+	else
+		return false;
+}
+int Scene::GetCurrentLevel() const
+{
+	return currentLevel;
+}
+bool Scene::GetIsCurrentlyResetting() const
+{
+	return isCurrentlyResetting;
 }
 void Scene::CheckObjectCollisions()
 {

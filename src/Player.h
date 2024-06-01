@@ -226,6 +226,10 @@ private:
 
 	TileMap *map;
 
+	int playerTimer;
+	int startingHitTimer;
+	bool startingHit;
+
 	int hp;
 	int lives;
 	int currentFrame;

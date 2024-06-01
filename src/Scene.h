@@ -31,6 +31,9 @@ public:
     bool GameOver();
     bool GameEnd();
 
+    int GetCurrentLevel() const;
+    bool GetIsCurrentlyResetting() const;
+
 private:
     AppStatus LoadLevel(int stage);
 
@@ -41,12 +44,15 @@ private:
     
     void RenderGUI() const;
 
+    bool isCurrentlyResetting;
     unsigned int timer;
     unsigned int timerComparision;
     bool dyingTimer;
     Player* player;
     Enemy* enemy;
     int currentLevel;
+
+    bool setGameOver;
 
     //Level structure that contains all the static tiles
     TileMap* level;
