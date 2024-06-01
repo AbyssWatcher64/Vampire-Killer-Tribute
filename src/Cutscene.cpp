@@ -62,7 +62,7 @@ void Cutscene::UpdateCutscene()
 	{
 		posx--;
 	}
-	if (timer==280)
+	if (timer==440 || IsKeyPressed(KEY_SPACE))
 	{
 		timer = 0;
 		cutsceneFinished = true;

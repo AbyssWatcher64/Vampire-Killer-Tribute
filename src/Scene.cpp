@@ -457,7 +457,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		702,	0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		702,	0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 			};
@@ -708,7 +708,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,	 211,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,	 210,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		402,	0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
@@ -1479,7 +1479,15 @@ void Scene::Update()
 	}
 	else
 	{
-		if (player->GetXPos() <= 0)
+		// currentLevel 3 receives a different teleport since it has the door before the end of the screen
+		if (currentLevel == 3 && player->GetXPos() >= 210)
+		{
+			fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+			int tmpYPos = player->GetYPos() + 16;
+			LoadLevel(++currentLevel);
+			player->SetPos(Point(10, tmpYPos));
+		}
+		else if (player->GetXPos() <= 0)
 		{
 			switch (currentLevel)
 			{
@@ -1535,14 +1543,6 @@ void Scene::Update()
 			{
 				fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
 				int tmpYPos = player->GetYPos();
-				LoadLevel(++currentLevel);
-				player->SetPos(Point(10, tmpYPos));
-				break;
-			}
-			case 3:
-			{
-				fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
-				int tmpYPos = player->GetYPos() + 16;
 				LoadLevel(++currentLevel);
 				player->SetPos(Point(10, tmpYPos));
 				break;
@@ -1770,6 +1770,14 @@ void Scene::Update()
 		}
 	}
 	// TODO fix this as it is hurting the player if it still touches the enemy next frame.
+	if (enemies->GetIsSolidEnemy() == true)
+	{
+		player->SetTouchingSolidEnemy(true);
+	}
+	else if (enemies->GetIsSolidEnemy() == false)
+	{
+		player->SetTouchingSolidEnemy(false);
+	}
 	if (enemies->playerGettingHurt == true)
 	{
 		switch (currentLevel)

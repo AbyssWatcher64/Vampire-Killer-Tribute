@@ -35,7 +35,7 @@ AppStatus DestroyableBlock::Initialise(Look look, const AABB& area)
 	sprite->SetAnimationDelay((int)DestroyableBlockAnim::STATIC, ANIM_DELAY + 8);
 	/*for (i = 1; i < 2; ++i)
 		sprite->AddKeyFrame((int)BatAnim::FLYING_RIGHT, { (float)i * n, 7 * n, -n, h });*/
-	sprite->AddKeyFrame((int)DestroyableBlockAnim::STATIC, { (float)4 * n, 4 * h, n * 2, h });
+	sprite->AddKeyFrame((int)DestroyableBlockAnim::STATIC, { (float)4 * (n/2), 9 * (h/2), n, h });
 
 	this->look = look;
 	sprite->SetAnimation((int)DestroyableBlockAnim::STATIC);

@@ -152,14 +152,13 @@ void BlackLeopard::MoveX()
 }
 void BlackLeopard::MoveY()
 {
-	//pos.y += BLACKLEOPARD_SPEED * 2;
-	//AABB box, prev_box;
 
-	//box = GetHitbox();
-	//int prev_y;
+	pos.y += BLACKLEOPARD_SPEED * 0;
+	AABB box, prev_box;
 
-	//// For this reason this prevents zombie from going through the floor
-	//// even though it has nothing inside...
+	box = GetHitbox();
+	int prev_y;
+
 	//if (map->TestCollisionGround(box, &pos.y))
 	//{
 

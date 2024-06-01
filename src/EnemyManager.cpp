@@ -16,6 +16,7 @@ EnemyManager::EnemyManager()
 	shots = nullptr;
 	playerGettingHurt = false;
 	particles = nullptr;
+	solidEnemy = false;
 	//totalEnemies = 0;
 }
 EnemyManager::~EnemyManager()
@@ -108,6 +109,10 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	enemy->Initialise(look, area);
 	enemies.push_back(enemy);
 }
+bool EnemyManager::GetIsSolidEnemy() const
+{
+	return solidEnemy;
+}
 AABB EnemyManager::GetEnemyHitBox(const Point& pos, EnemyType type) const
 {
 	int width, height;
@@ -176,12 +181,18 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 	for (Enemy* enemy : enemies)
 	{
 		box = enemy->GetHitbox();
+		solidEnemy = false;
 		if (box.TestAABB(player_hitbox) && enemy->IsAlive())
 		{
 			if (true && enemy->type != EnemyType::PYRE && enemy->type != EnemyType::CANDLE && enemy->type != EnemyType::BLOCKS)
 			{
 				playerGettingHurt = true;
-			}	
+			}
+			else if (enemy->type == EnemyType::BLOCKS)
+			{
+				solidEnemy = true;
+			}
+
 
 		}
 

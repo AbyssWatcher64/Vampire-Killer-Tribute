@@ -149,6 +149,9 @@ public:
 
 	bool GetIsHoldingShield() const;
 
+	bool GetTouchingSolidEnemy() const;
+	void SetTouchingSolidEnemy(bool setter);
+
 	void SetHasYellowKey(bool boolean);
 	bool GetHasYellowKey() const;
 	void SetHasWhiteKey(bool boolean);
@@ -234,6 +237,10 @@ private:
 	int lives;
 	int currentFrame;
 	int hearts;
+
+	int patternCounter;
+
+	bool touchingSolidEnemy;
 
 	bool hasDied;
 	bool gameOver;

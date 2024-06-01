@@ -1,8 +1,52 @@
-Project executed on 01-06-2024 at 00:09:40.
+Project executed on 01-06-2024 at 05:18:42.
 main.cpp(13): Application start
-EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
-EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
-EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
-EnemyManager.cpp(126): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+TileMap.cpp(324): Error: Index out of bounds. Tile map dimensions: 16x11. Given index: (1, 11)
+TileMap.cpp(324): Error: Index out of bounds. Tile map dimensions: 16x11. Given index: (1, 11)
+TileMap.cpp(324): Error: Index out of bounds. Tile map dimensions: 16x11. Given index: (1, 11)
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+TileMap.cpp(324): Error: Index out of bounds. Tile map dimensions: 16x11. Given index: (1, 11)
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+Object.cpp(64): Internal error: object type invalid when giving points
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+EnemyManager.cpp(131): Internal error while computing hitbox for an invalid enemy type
+Object.cpp(64): Internal error: object type invalid when giving points
 main.cpp(34): Application finish
 main.cpp(37): Bye :)

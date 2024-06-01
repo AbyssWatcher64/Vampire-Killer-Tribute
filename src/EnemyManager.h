@@ -23,6 +23,7 @@ public:
 	AABB GetEnemyHitBox(const Point& pos, EnemyType type) const;
 	void SetParticleManager(ParticleManager* particles);
 
+	bool GetIsSolidEnemy() const;
 	//Update enemies according to their logic. If the given player hitbox is visible to them,
 	//they will shoot by adding shots to the ShotManager
 	void Update(const AABB& player_hitbox, const AABB& weapon_hitbox, int &score);
@@ -50,5 +51,6 @@ private:
 	ShotManager* shots;
 	ParticleManager* particles;
 	Sound enemyHit;
+	bool solidEnemy;
 };
 

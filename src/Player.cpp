@@ -35,6 +35,8 @@ Player::Player(const Point& p, State s, Look view) :
 	playerTimer = 0;
 	startingHitTimer = 0;
 	startingHit = false;
+	patternCounter = 0;
+	touchingSolidEnemy = false;
 }
 Player::~Player()
 {
@@ -620,6 +622,14 @@ bool Player::GetIsHoldingShield() const
 {
 	return Player::isHoldingShield;
 }
+bool Player::GetTouchingSolidEnemy() const
+{
+	return touchingSolidEnemy;
+}
+void Player::SetTouchingSolidEnemy(bool setter)
+{
+	touchingSolidEnemy = setter;
+}
 void Player::SetHasYellowKey(bool boolean)
 {
 	hasYellowKey = boolean;
@@ -1178,75 +1188,42 @@ void Player::Update()
 }
 void Player::InitPattern()
 {
-	//const int n = ANIM_DELAY * 3;
-	//pattern.push_back({ {-PLAYER_SPEED, 0}, /*n*/0, (int)PlayerAnim::WALKING_LEFT });
-	//pattern.push_back({ {-PLAYER_SPEED, 0}, /*n*/0, (int)PlayerAnim::WALKING_LEFT });
-	//pattern.push_back({ {-PLAYER_SPEED, 0}, /*n*/0, (int)PlayerAnim::WALKING_LEFT });
-	//current_step = 0;
-	//current_frames = 0;
-	//patternFinished = false;
+
 	int i;
 	const int n = PLAYER_FRAME_SIZE_WIDTH;
 	const int h = PLAYER_FRAME_SIZE_HEIGHT;
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	look = Look::LEFT;
 	sprite->SetAnimationDelay((int)PlayerAnim::CUTSCENE, ANIM_DELAY);
-	//for (i = 1; i < 3; ++i)
-	//{
-	//	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
-	//	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
-	//	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)i * n, 0, -n, h });
 
-	//}
+	//Times for the walking animation to be repeated
+	for (int i = 0; i < 7; i++)
+	{
+		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
+		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
+		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
+		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
+	}
 	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)2 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h});
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)0 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)1 * n, 0, -n, h });
-	
 
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
-	
+	for (int i = 0; i < 11; i++)
+	{
+		sprite->AddKeyFrame((int)PlayerAnim::CUTSCENE, { (float)10 * n, 0, -n, h });
+	}
 
 	sprite->SetAnimation((int)PlayerAnim::CUTSCENE);
 
 }
 void Player::UpdatePattern()
 {
+	patternCounter++;
 	if (pos.x > 128)
-		pos.x = pos.x - 1;
+		if (patternCounter % 2 == 0)
+			pos.x = pos.x - 1;
 	/*Sprite* sprite = dynamic_cast<Sprite*>(render);
 	int anim_id;
 
@@ -1295,10 +1272,16 @@ void Player::MoveX()
 		}
 
 		box = GetHitbox();
-		if (map->TestCollisionWallLeft(box))
+		if (map->TestCollisionWallLeft(box) || pos.x < 0 || touchingSolidEnemy)
 		{
+			
 			pos.x = prev_x;
 			if (state == State::WALKING) Stop();
+			if (touchingSolidEnemy)
+			{
+				pos.x+=2;
+				touchingSolidEnemy = false;
+			}
 		}
 	}
 	else if ((IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) && hasDied == false && state != State::ATTACKING)
@@ -1313,10 +1296,16 @@ void Player::MoveX()
 		}
 
 		box = GetHitbox();
-		if (map->TestCollisionWallRight(box))
+		if (map->TestCollisionWallRight(box) || pos.x > (WINDOW_WIDTH - width + 1) || touchingSolidEnemy)
 		{
+			
 			pos.x = prev_x;
 			if (state == State::WALKING) Stop();
+			if (touchingSolidEnemy)
+			{
+				pos.x-=2;
+				touchingSolidEnemy = false;
+			}
 		}
 	}
 	else
