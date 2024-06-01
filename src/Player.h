@@ -254,6 +254,9 @@ private:
 	bool isClimbingDown;
 	bool startedClimbing;
 
+	bool leftLadder;
+	bool rightLadder;
+
 	bool godMode;
 
 	Sound chestPickupSFX;

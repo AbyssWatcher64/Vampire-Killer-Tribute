@@ -247,7 +247,21 @@ AppStatus Scene::LoadLevel(int stage)
 	size = LEVEL_WIDTH * LEVEL_HEIGHT;
 	if(stage == 1)
 	{
-		map = new int[size] 
+		map = new int[size]
+		{
+				94,		95,		102,	103,	72,		72,		78,		79,		72,		82,		86,		151,	72,		72,		74,		75,
+				96,		97,		104,	105,	93,		93,		93,		93,		72,		72,		72,		86,		151,	72,		72,		72,
+				96,		97,		106,	107,	93,		93,		93,		93,		72,		72,		72,		82,		86,		151,	72,		72,
+				96,		97,		108,	72,		93,		93,		93,		93,		72,		72,		72,		72,		72,		86,		150,	72,
+				96,		97,		109,	72,		93,		93,		93,		93,		72,		72,		72,	70,		69,		70,		69,		70,
+				96,		97,		110,	72,		76,		77,		72,		72,		72,		72,	84,		72, 72, 72,		80,		81,
+				96,		97,		110,	72,		74,		75,		162,	70,		69,		70,		152,		72, 72, 72,		78,		79,
+				96,		97,		111,	72,		72,		161,	84,		72,		72,		72,		72,		151, 72, 72,		76,		77,
+				98,		97,		112,	72,		161,	84,		73,		72,		72,		72,		72,		72,		151,		72,		74,		75,
+				100,	101,	72,		160,	84,		72,		72,		72,		72,		72,		72,		72, 72,		150,		72,		72,
+				69,		70,		69,		70,		69,		70,		69,		70,		69,		70,		69,		70,		69,		70,		69,		70,
+		};
+		/*map = new int[size] 
 		{
 			
 				33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,  
@@ -261,8 +275,21 @@ AppStatus Scene::LoadLevel(int stage)
 				2,		2,		62,		63,		64,		2,		2,		2,		2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
-		};
+		};*/
 		mapInteractables = new int[size]
+		//{
+		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+		//		0,		0,		0,		0, 700,	138,	0,		0,		0,		0,		0,		0, 700,	0,		0,		0,
+		//		0,		200,		0,		703,		0,		405,	404,	300,	301,	400,	401,	0,		210,	0,		0,		0,
+		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
+		//};
 		{
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
@@ -271,8 +298,8 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0, 700,	138,	0,		0,		0,		0,		0,		0, 700,	0,		0,		0,
-				0,		200,		0,		703,		0,		405,	404,	300,	301,	400,	401,	0,		210,	0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		200,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
@@ -1388,17 +1415,21 @@ AppStatus Scene::LoadLevel(int stage)
 				//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
 				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BLACKLEOPARD);
 				area = level->GetSweptAreaX(hitbox);
-				enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::LEFT);
+				if (player->GetPlayerIsLookingLeft())
+					enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::RIGHT);
+				else
+					enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::LEFT);
 				enemies->totalEnemies++;
 			}
-			else if (tile == Tile::BLACKLEOPARD_RIGHT)
-			{
-				//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
-				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BLACKLEOPARD);
-				area = level->GetSweptAreaX(hitbox);
-				enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::RIGHT);
-				enemies->totalEnemies++;
-			}
+			// Uneeded, it depends on the player look
+			//else if (tile == Tile::BLACKLEOPARD_RIGHT)
+			//{
+			//	//pos.x += (ZOMBIE_FRAME_SIZE_WIDTH - ZOMBIE_PHYSICAL_WIDTH) / 2;
+			//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BLACKLEOPARD);
+			//	area = level->GetSweptAreaX(hitbox);
+			//	enemies->Add(pos, EnemyType::BLACKLEOPARD, area, Look::RIGHT);
+			//	enemies->totalEnemies++;
+			//}
 			else if (tile == Tile::PYRE)
 			{
 				/*pos.x += (PYRE_PHYSICAL_SIZE - PYRE_PHYSICAL_SIZE) / 2;*/
@@ -1416,11 +1447,6 @@ AppStatus Scene::LoadLevel(int stage)
 				hitbox = enemies->GetEnemyHitBox(pos, EnemyType::DOOR);
 				enemies->Add(pos, EnemyType::DOOR, area, Look::RIGHT);
 			}
-			//else if (tile == Tile::BLOCKS)
-			//{
-			//	hitbox = enemies->GetEnemyHitBox(pos, EnemyType::BLOCKS);
-			//	enemies->Add(pos, EnemyType::BLOCKS, area, Look::RIGHT);
-			//}
 			else
 			{
 				//LOG("Internal error loading scene: invalid entity or object tile id")
@@ -1663,7 +1689,13 @@ void Scene::Update()
 		{
 			fade_transition.SetScene(5, currentLevel, 10, 10);
 			LoadLevel(++currentLevel);
-			player->SetPos(Point(20, 166));
+			if (currentLevel == 8)
+				player->SetPos(Point(50, 166));
+			else if (currentLevel > 1 && currentLevel < 4)
+				player->SetPos(Point(20, 150));
+			
+			else
+				player->SetPos(Point(20, 166));
 		}
 		else if (IsKeyPressed(KEY_O))
 		{
@@ -1868,7 +1900,12 @@ void Scene::Release()
 }
 void Scene::ResetScreen()
 {	
-	LoadLevel(1);
+	if (currentLevel < 12)
+		LoadLevel(1);
+	else if (currentLevel < 18)
+		LoadLevel(12);
+	else if (currentLevel < 24)
+		LoadLevel(18);
 	player->SetHasDied(false);
 	player->ChangeHP(100);
 	dyingTimer = false;

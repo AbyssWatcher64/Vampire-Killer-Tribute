@@ -149,7 +149,12 @@ public:
 	bool TestOnLadder(const AABB& box, int* px) const;
 	
 	//Test if box is on ladder top and update 'px' with the x-center position of the ladder
+	bool TestOnLadderTopRight(const AABB& box, int* px) const;
+	bool TestOnLadderTopLeft(const AABB& box, int* px) const;
 	bool TestOnLadderTop(const AABB& box, int* px) const;
+
+	bool TestOnLadderBotRight(const AABB& box, int* px) const;
+	bool TestOnLadderBotLeft(const AABB& box, int* px) const;
 
 	//Given a hitbox, computes the maximum swept box model along the X-axis without solid tiles
 	AABB GetSweptAreaX(const AABB& hitboxbox) const;
@@ -160,8 +165,11 @@ private:
 	Tile GetTileIndex(int x, int y) const;
 	bool IsTileSolid(Tile tile) const;
 	bool IsTileLadderTop(Tile tile) const;
+	bool IsTileLadderTopLeft(Tile tile) const;
+	bool IsTileLadderTopRight(Tile tile) const;
 	bool IsTileLadder(Tile tile) const;
-	bool IsTileLadderBot(Tile tile) const;
+	bool IsTileLadderBotLeft(Tile tile) const;
+	bool IsTileLadderBotRight(Tile tile) const;
 	bool CollisionX(const Point& p, int distance) const;
 	bool CollisionY(const Point& p, int distance) const;
 	int GetLadderCenterPos(int pixel_x, int pixel_y) const;
