@@ -47,6 +47,8 @@ public:
     //Get texture by key
     const Texture2D* GetTexture(Resource id) const;
 
+    void PlaySFX(int sfxInt) const;
+
     //Release resources
     void Release();
 

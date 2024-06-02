@@ -50,6 +50,7 @@ AppStatus Fishman::Initialise(Look look, const AABB& area)
 
 	InitPattern();
 	timer = 0;
+	data.PlaySFX(14);
 	return AppStatus::OK;
 }
 void Fishman::InitPattern()
@@ -111,6 +112,7 @@ bool Fishman::Update(const AABB& box)
 
 	return shoot;
 }
+
 void Fishman::MoveX()
 {
 	AABB box;

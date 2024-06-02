@@ -2021,12 +2021,12 @@ void Scene::Update()
 
 		if (enemies->totalEnemies < 3)
 		{
-			if (player->GetPlayerIsLookingRight() == true < SPAWN_RIGHT_LIMIT)
+			if (player->GetPlayerIsLookingRight() == true && player->GetXPos() < SPAWN_RIGHT_LIMIT)
 			{
 				enemies->Add(pos, EnemyType::BAT, area, Look::LEFT);
 				enemies->totalEnemies++;
 			}
-			else if (player->GetPlayerIsLookingLeft() == true > SPAWN_LEFT_LIMIT)
+			else if (player->GetPlayerIsLookingLeft() == true && player->GetXPos() > SPAWN_LEFT_LIMIT)
 			{
 				enemies->Add(pos, EnemyType::BAT, area, Look::RIGHT);
 				enemies->totalEnemies++;

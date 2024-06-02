@@ -161,6 +161,10 @@ void ResourceManager::ReleaseSong()
     PlayMusicStream(currentSong);
 }
 
+void ResourceManager::PlaySFX(int sfxInt) const
+{
+    PlaySound(sounds[sfxInt]);
+}
 
 //Get a texture by key
 const Texture2D* ResourceManager::GetTexture(Resource id) const
