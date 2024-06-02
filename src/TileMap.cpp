@@ -328,7 +328,7 @@ bool TileMap::IsTileLadder(Tile tile) const
 	return tile == Tile::BLOCK_STAIRS_RIGHT_1_BOT || tile == Tile::BLOCK_STAIRS_RIGHT_2_BOT || tile == Tile::BLOCK_STAIRS_LEFT_1_BOT || 
 		tile == Tile::BLOCK_STAIRS_LEFT_2_BOT || tile == Tile::BLOCK_STAIRS_LEFT_3_BOT || tile == Tile::BLOCK_STAIRS_LEFT_1 || 
 		tile == Tile::BLOCK_STAIRS_RIGHT_1 || tile == Tile::BLOCK_STAIRS_LEFT_2 || tile == Tile::BLOCK_STAIRS_RIGHT_2 || 
-		tile == Tile::BLOCK_STAIRS_LEFT_3 ;
+		tile == Tile::BLOCK_STAIRS_LEFT_3 || tile == Tile::BLOCK_STAIRS_RIGHT_1_TOP || tile == Tile::BLOCK_STAIRS_LEFT_1_TOP;
 }
 bool TileMap::IsTileLadderBotLeft(Tile tile) const
 {

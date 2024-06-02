@@ -1562,13 +1562,14 @@ void Player::LogicClimbing()
 	//By doing so, we ensure that we don't stop climbing down immediately after starting the descent.
 	box = GetHitbox();
 
-	if (map->TestCollisionGround(box, &pos.y))
-	{
-		//Case leaving the ladder descending.
-		Stop();
-		sprite->SetAutomaticMode();
-	}
-	else if (!map->TestOnLadder(box, &tmp) && !map->TestOnLadderTop(box, &tmp))
+	//if (map->TestCollisionGround(box, &pos.y))
+	//{
+	//	//Case leaving the ladder descending.
+	//	Stop();
+	//	sprite->SetAutomaticMode();
+	//}
+	//else 
+		if (!map->TestOnLadder(box, &tmp) /*&& !map->TestOnLadderTop(box, &tmp)*/)
 	{
 		//Case leaving the ladder ascending.
 		//If we are not in a LadderTop, colliding ground or in the Ladder it means we are leaving
@@ -1595,7 +1596,6 @@ void Player::LogicClimbing()
 		else if (isClimbingDown && look == Look::LEFT && GetAnimation() != PlayerAnim::CLIMBING_DOWN_LEFT && !isHoldingShield)
 			SetAnimation((int)PlayerAnim::CLIMBING_DOWN_LEFT);
 	}
-
 }
 void Player::DrawDebug(const Color& col) const
 {	
