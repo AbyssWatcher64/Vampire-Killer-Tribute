@@ -9,6 +9,7 @@ Enemy::Enemy(const Point& p, int width, int height, int frame_width, int frame_h
 	inArea = false;
 	playerHasWhiteKey = false;
 	openDoor = false;
+	isSolid = false;
 }
 Enemy::~Enemy()
 {

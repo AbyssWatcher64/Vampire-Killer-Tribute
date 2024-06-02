@@ -39,9 +39,12 @@ private:
 	//Update looking direction according to the current step of the pattern
 	void UpdateLook(int anim_id);
 
+	int totalJumps;
+	int jumpingFrames;
 	int attack_delay;	//delay between attacks
 	BlackLeopardState state;
 
+	bool setAnimation;
 	int current_step;	//current step of the pattern
 	int current_frames;	//number of frames in the current step
 	std::vector<BlackLeopardStep> pattern;

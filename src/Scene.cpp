@@ -1875,7 +1875,7 @@ void Scene::Update()
 	}
 
 	//TODO Fix this, as it is obviously creating many MEMORY LEAKS
-	if ((currentLevel == 4 || currentLevel == 7 || currentLevel == 9 || currentLevel == 10 || currentLevel == 13
+	if (( currentLevel == 7 || currentLevel == 9 || currentLevel == 10 || currentLevel == 13
 		|| currentLevel == 21 ) && ((timer % 100) == 0))
 	{
 		AABB player_box;
@@ -1903,6 +1903,55 @@ void Scene::Update()
 				pos.y = 127;
 			else
 				pos.y = 172;
+		}
+
+
+		hitbox = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+		area = level->GetSweptAreaX(hitbox);
+
+		if (enemies->totalEnemies < 3)
+		{
+			if (player->GetPlayerIsLookingRight() == true && player->GetXPos() < SPAWN_RIGHT_LIMIT)
+			{
+				enemies->Add(pos, EnemyType::ZOMBIE, area, Look::LEFT);
+				enemies->totalEnemies++;
+			}
+			else if (player->GetPlayerIsLookingLeft() == true && player->GetXPos() > SPAWN_LEFT_LIMIT)
+			{
+				enemies->Add(pos, EnemyType::ZOMBIE, area, Look::RIGHT);
+				enemies->totalEnemies++;
+			}
+		}
+	}
+	if ((currentLevel == 4) && ((timer % 100) == 0))
+	{
+		AABB player_box;
+
+		player_box = player->GetHitbox();
+		//enemy_box = enemies->GetEnemyHitBox(ZOMBIE);
+	//	enemy_box = enemies->GetEnemyHitBox(pos, EnemyType::ZOMBIE);
+
+
+		Point pos;
+		AABB hitbox, area;
+
+		if (player->GetPlayerIsLookingRight() == true && player->GetYPos() > 95)
+		{
+			pos.x = WINDOW_WIDTH - ZOMBIE_FRAME_SIZE_WIDTH - 1;
+			if (currentLevel == 13)
+				pos.y = 127;
+			else
+				pos.y = 172;
+		}
+		else if (player->GetPlayerIsLookingRight() == true && player->GetYPos() >= 95)
+		{
+			pos.x = WINDOW_WIDTH - ZOMBIE_FRAME_SIZE_WIDTH - 1;
+			pos.y = 63;
+		}
+		else if (player->GetPlayerIsLookingLeft() == true)
+		{
+			pos.x = 1;
+			pos.y = 172;
 		}
 
 
@@ -2036,15 +2085,7 @@ void Scene::Update()
 	}
 	if (enemies->playerGettingHurt == true)
 	{
-		switch (currentLevel)
-		{
-			case 1:
-				player->GetHurt(4);
-				break;
-			default:
-				player->GetHurt(2);
-				break;
-		}
+		player->GetHurt(enemies->damageToDo);
 		enemies->playerGettingHurt = false;
 	}
 

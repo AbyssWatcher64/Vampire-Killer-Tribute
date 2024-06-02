@@ -12,6 +12,10 @@ BlackLeopard::BlackLeopard(const Point& p, int width, int height, int frame_widt
 	current_frames = 0;
 	type = EnemyType::BLACKLEOPARD;
 	this->look = look;
+	damage = 6;
+	setAnimation = false;
+	jumpingFrames = 0;
+	totalJumps = 2;
 }
 BlackLeopard::~BlackLeopard()
 {
@@ -99,14 +103,37 @@ bool BlackLeopard::Update(const AABB& box)
 				sprite->SetAnimation((int)BlackLeopardAnim::RUNNING_LEFT);
 			else if (look == Look::RIGHT)
 				sprite->SetAnimation((int)BlackLeopardAnim::RUNNING_RIGHT);
+			setAnimation = true;
 		}
 		//state = BlackLeopardState::RUNNING;
 
 	}
 	else if (state == BlackLeopardState::RUNNING)
 	{
-
+		if (setAnimation == false)
+		{
+			if (look == Look::LEFT)
+				sprite->SetAnimation((int)BlackLeopardAnim::RUNNING_LEFT);
+			else if (look == Look::RIGHT)
+				sprite->SetAnimation((int)BlackLeopardAnim::RUNNING_RIGHT);
+			setAnimation = true;
+		}
 		MoveX();
+		MoveY();
+	}
+
+	else if (state == BlackLeopardState::JUMPING)
+	{
+		if (setAnimation == false)
+		{
+			if (look == Look::LEFT)
+				sprite->SetAnimation((int)BlackLeopardAnim::JUMPING_LEFT);
+			else if (look == Look::RIGHT)
+				sprite->SetAnimation((int)BlackLeopardAnim::JUMPING_RIGHT);
+			setAnimation = true;
+		}
+		MoveX();
+		MoveY();
 	}
 
 	sprite->Update();
@@ -126,7 +153,7 @@ bool BlackLeopard::Update(const AABB& box)
 
 
 	
-	MoveY();
+	
 
 
 
@@ -147,17 +174,44 @@ void BlackLeopard::MoveX()
 }
 void BlackLeopard::MoveY()
 {
+	if (jumpingFrames < 0)
+		jumpingFrames+=2;
+	pos.y += BLACKLEOPARD_SPEED + jumpingFrames;
+	
 
-	pos.y += BLACKLEOPARD_SPEED * 0;
-	AABB box, prev_box;
-
-	box = GetHitbox();
+	
 	int prev_y;
+	AABB box, prev_box;
+	box = GetHitbox();
+	if (map->TestCollisionGround(box, &pos.y))
+	{
+		if (state != BlackLeopardState::RUNNING)
+		{
+			
+			state = BlackLeopardState::RUNNING;
+			setAnimation = false;
+			if (totalJumps >= 0)
+			{
+				if (look == Look::RIGHT)
+					look = Look::LEFT;
+				else if (look == Look::LEFT)
+					look = Look::RIGHT;
+				totalJumps--;
+			}
 
-	//if (map->TestCollisionGround(box, &pos.y))
-	//{
-
-	//}
+		}
+			
+	}
+	else
+	{
+		if (state != BlackLeopardState::JUMPING)
+		{
+			jumpingFrames = -8;
+			state = BlackLeopardState::JUMPING;
+			setAnimation = false;
+		}
+			
+	}
 }
 void BlackLeopard::UpdateLook(int anim_id)
 {

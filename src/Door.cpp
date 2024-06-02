@@ -13,13 +13,14 @@ Door::Door(const Point& p, int width, int height, int frame_width, int frame_hei
 	width = 32;
 	height = 16;
 	doorFrames = 0;
+	isSolid = true;
 }
 Door::~Door()
 {
 }
 AppStatus Door::Initialise(Look look, const AABB& area)
 {
-	const int n = DOOR_FRAME_SIZE_WIDTH;
+	const int n = DOOR_FRAME_SIZE_WIDTH - 4;
 	const int h = DOOR_FRAME_SIZE_HEIGHT;
 
 	ResourceManager& data = ResourceManager::Instance();

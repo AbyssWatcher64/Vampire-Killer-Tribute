@@ -12,6 +12,7 @@ Fishman::Fishman(const Point& p, int width, int height, int frame_width, int fra
 	type = EnemyType::FISHMAN;
 	canWalk = false;
 	hasSpawned = false;
+	damage = 4;
 }
 Fishman::~Fishman()
 {

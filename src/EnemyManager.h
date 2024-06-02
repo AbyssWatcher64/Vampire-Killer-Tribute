@@ -39,7 +39,10 @@ public:
 	bool playerGettingHurt;
 	bool playerHasWhiteKey;
 
+	int damageToDo;
 	int totalEnemies = 0;
+
+
 
 protected:
 	TileMap* map;

@@ -53,7 +53,7 @@
 #define BLOCKS_FRAME_SIZE 32
 
 #define DOOR_FRAME_SIZE_HEIGHT 48
-#define DOOR_FRAME_SIZE_WIDTH 6
+#define DOOR_FRAME_SIZE_WIDTH 10
 
 
 
@@ -84,7 +84,8 @@ public:
 	bool inArea;
 	bool playerHasWhiteKey;
 	bool openDoor;
-
+	bool isSolid;
+	int damage;
 protected:
 	//Return true if the given hitbox is within the visibility area and the enemy is facing it
 	bool IsVisible(const AABB& hitbox);

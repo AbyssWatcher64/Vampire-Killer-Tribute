@@ -10,6 +10,7 @@ Bat::Bat(const Point& p, int width, int height, int frame_width, int frame_heigh
 	current_step = 0;
 	current_frames = 0;
 	type = EnemyType::BAT;
+	damage = 2;
 }
 Bat::~Bat()
 {

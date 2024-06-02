@@ -10,6 +10,7 @@ Zombie::Zombie(const Point& p, int width, int height, int frame_width, int frame
 	current_step = 0;
 	current_frames = 0;
 	type = EnemyType::ZOMBIE;
+	damage = 2;
 }
 Zombie::~Zombie()
 {

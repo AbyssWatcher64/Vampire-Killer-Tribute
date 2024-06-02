@@ -921,6 +921,7 @@ void Player::Attack()
 			}
 		}
 	}
+
 	else 
 	{
 		state = State::ATTACKING;

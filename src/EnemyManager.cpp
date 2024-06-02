@@ -15,6 +15,7 @@ EnemyManager::EnemyManager()
 	particles = nullptr;
 	solidEnemy = false;
 	playerHasWhiteKey = false;
+	damageToDo = 0;
 	//totalEnemies = 0;
 }
 EnemyManager::~EnemyManager()
@@ -170,6 +171,11 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 			enemy->GetShootingPosDir(&p, &d);
 			shots->Add(p, d);
 		}
+
+		if (enemy->type == EnemyType::DOOR || enemy->type == EnemyType::BLOCKS)
+		{
+			solidEnemy = true;
+		}
 /*	else if (map->TestCollisionWallLeft(box))
 		{
 			if (look == Look::LEFT)
@@ -194,19 +200,14 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 		{
 			if (enemy->type != EnemyType::PYRE && enemy->type != EnemyType::CANDLE && enemy->type != EnemyType::BLOCKS && enemy->type != EnemyType::DOOR)
 			{
+				damageToDo = enemy->damage;
 				playerGettingHurt = true;
-			}
-			if (enemy->type == EnemyType::BLOCKS || enemy->type == EnemyType::DOOR)
-			{
-				solidEnemy = true;
 			}
 			if (enemy->type == EnemyType::DOOR)
 			{
 				if (playerHasWhiteKey)
 					enemy->openDoor = true;
 			}
-
-
 		}
 
 		if (box.pos.x + 70 == player_hitbox.pos.x || box.pos.x - 70 == player_hitbox.pos.x)
@@ -250,6 +251,11 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 			totalEnemies--;
 		}
 
+		if ((box.pos.x < 0 - BLACKLEOPARD_FRAME_SIZE_WIDTH || box.pos.x > WINDOW_WIDTH - BLACKLEOPARD_FRAME_SIZE_WIDTH) && enemy->type == EnemyType::BLACKLEOPARD )
+		{
+			enemy->SetAlive(false);
+			totalEnemies--;
+		}
 		if (box.pos.x == WINDOW_WIDTH-ZOMBIE_FRAME_SIZE_WIDTH && enemy->type != EnemyType::DOOR)
 		{
 			enemy->SetAlive(false);
