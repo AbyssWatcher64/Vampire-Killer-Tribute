@@ -46,6 +46,9 @@ Player::Player(const Point& p, State s, Look view) :
 
 	leftLadder = false;
 	rightLadder = false;
+
+	isClimbingRight = false;
+	isClimbingLeft = false;
 }
 Player::~Player()
 {
@@ -1351,24 +1354,18 @@ void Player::MoveY()
 			else if ((IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) && state != State::ATTACKING && hasDied == false)
 			{
 				box = GetHitbox();
-				if (map->TestOnLadder(box, &pos.x))
+				if (map->TestOnLadder(box, &pos.x) && !(map->TestOnLadderTopRight(box, &pos.x)))
 				{
-					/*if (map->TestOnLadderBotLeft(box, &pos.x))
-					{
-						leftLadder = true;
-						rightLadder = false;
-					}
-					else if (map->TestOnLadderBotRight(box, &pos.x))
-					{
-						rightLadder = true;
-
-					}*/
+					isClimbingLeft = false;
+					isClimbingRight = true;
 					StartClimbingUp();
 				}
-				//else if ()
-				//{
-				//	StartJumping();
-				//}
+				else if (map->TestOnLadderLeft(box, &pos.x) && !(map->TestOnLadderTopLeft(box, &pos.x)))
+				{
+					isClimbingRight = false;
+					isClimbingLeft = true;
+					StartClimbingUp();
+				}
 			}
 			else if ((IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) && state != State::ATTACKING && hasDied == false)
 			{
@@ -1383,13 +1380,18 @@ void Player::MoveY()
 						look = Look::LEFT;
 						//pos.y += 16;
 						//pos.x -= 16;
+						isClimbingRight = true;
+						isClimbingLeft = false;
 					}
 					else if (map->TestOnLadderTopLeft(box, &pos.x))
 					{
 						look = Look::RIGHT;
 						//pos.y += 16;
 						//pos.x += 16;
+						isClimbingRight = false;
+						isClimbingLeft = true;
 					}
+
 					StartClimbingDown();
 				}
 				else
@@ -1490,10 +1492,11 @@ void Player::LogicJumping()
 			//This prevents scenarios where, after levitating due to a previous jump, we found
 			//ourselves inside a tile, and the entity would otherwise be placed above the tile,
 			//crossing it.
-			if (!map->TestCollisionGround(prev_box, &prev_y) &&
-				map->TestCollisionGround(box, &pos.y))
+			if (!map->TestCollisionGround(prev_box, &prev_y) && map->TestCollisionGround(box, &pos.y))
 			{
 				Stop();
+				isClimbingUp = false;
+				isClimbingDown = false;
 			}
 		}
 	}
@@ -1505,26 +1508,54 @@ void Player::LogicClimbing()
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	int tmp;
 
-	if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W))
+	if (isClimbingRight)
 	{
-		isClimbingUp = true;
-		isClimbingDown = false;
-		look = Look::RIGHT;
-		pos.y -= PLAYER_LADDER_SPEED;
-		pos.x += PLAYER_LADDER_SPEED;
-		//pos.x -= PLAYER_LADDER_SPEED;
-		sprite->NextFrame();
+		if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W))
+		{
+			isClimbingUp = true;
+			isClimbingDown = false;
+			look = Look::RIGHT;
+			pos.y -= PLAYER_LADDER_SPEED;
+			pos.x += PLAYER_LADDER_SPEED;
+			//pos.x -= PLAYER_LADDER_SPEED;
+			sprite->NextFrame();
+		}
+		else if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
+		{
+			isClimbingUp = false;
+			isClimbingDown = true;
+			look = Look::LEFT;
+			pos.y += PLAYER_LADDER_SPEED;
+			pos.x -= PLAYER_LADDER_SPEED;
+			//pos.x += PLAYER_LADDER_SPEED;
+			sprite->NextFrame(); // Change the sprite to go downwards, check what sprite is
+		}
 	}
-	else if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
+	else if (isClimbingLeft)
 	{
-		isClimbingUp = false;
-		isClimbingDown = true;
-		look = Look::LEFT;
-		pos.y += PLAYER_LADDER_SPEED;
-		pos.x -= PLAYER_LADDER_SPEED;
-		//pos.x += PLAYER_LADDER_SPEED;
-		sprite->NextFrame(); // Change the sprite to go downwards, check what sprite is
+
+		if (IsKeyDown(KEY_UP) || IsKeyDown(KEY_W))
+		{
+			isClimbingUp = true;
+			isClimbingDown = false;
+			look = Look::LEFT;
+			pos.y -= PLAYER_LADDER_SPEED;
+			pos.x -= PLAYER_LADDER_SPEED;
+			//pos.x -= PLAYER_LADDER_SPEED;
+			sprite->NextFrame();
+		}
+		else if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S))
+		{
+			isClimbingUp = false;
+			isClimbingDown = true;
+			look = Look::RIGHT;
+			pos.y += PLAYER_LADDER_SPEED;
+			pos.x += PLAYER_LADDER_SPEED;
+			//pos.x += PLAYER_LADDER_SPEED;
+			sprite->NextFrame(); // Change the sprite to go downwards, check what sprite is
+		}
 	}
+
 	//if ((IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) && state != State::ATTACKING && look == Look::RIGHT)
 	//{
 	//	isClimbingUp = true;
@@ -1569,7 +1600,8 @@ void Player::LogicClimbing()
 	//	sprite->SetAutomaticMode();
 	//}
 	//else 
-		if (!map->TestOnLadder(box, &tmp) /*&& !map->TestOnLadderTop(box, &tmp)*/)
+		//if (!map->TestOnLadder(box, &tmp) /*&& !map->TestOnLadderTop(box, &tmp)*/)
+	if (!map->TestOnLadderLeft(box, &tmp) && !map->TestOnLadder(box, &tmp)) /*&& !map->TestOnLadderTop(box, &tmp)*/
 	{
 		//Case leaving the ladder ascending.
 		//If we are not in a LadderTop, colliding ground or in the Ladder it means we are leaving
@@ -1637,8 +1669,8 @@ void Player::DrawDebug(const Color& col) const
 		Entity::DrawHitbox(pos.x - (width * 2.1), pos.y - height / 2, width * 2.2, height / 3, col);
 	}
 	//TODO Change this so that the width and height are appropriate
-	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), WINDOW_WIDTH-90, 0, 8, LIGHTGRAY);
-	DrawPixel(pos.x, pos.y, WHITE);
+	DrawText(TextFormat("Position: (%d,%d)\nSize: %dx%d\nFrame: %dx%d", pos.x, pos.y, width, height, frame_width, frame_height), WINDOW_WIDTH-90, 0, 8, RED);
+	DrawPixel(pos.x, pos.y, RED);
 
 }
 void Player::Release()

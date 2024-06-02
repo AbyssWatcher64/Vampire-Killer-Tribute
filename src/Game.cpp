@@ -171,7 +171,26 @@ void Game::FinishPlay()
 }
 AppStatus Game::Update()
 {
+    if (IsKeyPressed(KEY_ENTER))
+    {
+        // see what display we are on right now
+        int display = GetCurrentMonitor();
 
+
+        if (IsWindowFullscreen())
+        {
+            // if we are full screen, then go back to the windowed size
+            SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        }
+        else
+        {
+            // if we are not full screen, set the window size to match the monitor we are on
+            SetWindowSize(GetMonitorWidth(display), GetMonitorHeight(display));
+        }
+
+        // toggle the state
+        ToggleFullscreen();
+    }
     ResourceManager& data = ResourceManager::Instance();
     data.UpdateCurrentSong();
 

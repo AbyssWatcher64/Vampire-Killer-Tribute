@@ -256,6 +256,8 @@ private:
 	int startingFrame;
 
 	bool isClimbing;
+	bool isClimbingRight;
+	bool isClimbingLeft;
 
 	bool isClimbingUp;
 	bool isClimbingDown;

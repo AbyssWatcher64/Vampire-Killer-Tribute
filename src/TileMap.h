@@ -147,6 +147,7 @@ public:
 	
 	//Test if box is on ladder and update 'px' with the x-center position of the ladder
 	bool TestOnLadder(const AABB& box, int* px) const;
+	bool TestOnLadderLeft(const AABB& box, int* px) const;
 	
 	//Test if box is on ladder top and update 'px' with the x-center position of the ladder
 	bool TestOnLadderTopRight(const AABB& box, int* px) const;

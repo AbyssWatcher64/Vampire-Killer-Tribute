@@ -437,6 +437,40 @@ bool TileMap::TestOnLadder(const AABB& box, int* px) const
 	}
 	return false;
 }
+bool TileMap::TestOnLadderLeft(const AABB& box, int* px) const
+{
+	int right, left, bottom2, bottom1;
+	int tx1, tx2, ty1, ty2;
+	Tile tile1, tile2;
+
+	// Control points
+	left = box.pos.x - box.width + 8;                 // Use the left side of the box
+	right = box.pos.x;            // A point a bit to the right of the left side
+	bottom2 = box.pos.y + box.height - 8;
+	bottom1 = box.pos.y + box.height;
+
+	// Calculate the tile coordinates
+	tx1 = left / TILE_SIZE;
+	tx2 = right / TILE_SIZE;
+	ty2 = bottom2 / TILE_SIZE;
+	ty1 = bottom1 / TILE_SIZE;
+
+	// To be able to climb up or down, both control points must be on ladder
+
+	tile2 = GetTileIndex(tx2, ty2);
+	tile1 = GetTileIndex(tx1, ty1);
+	if (IsTileLadder(tile2))
+	{
+		*px = GetLadderCenterPos(right, bottom2) - (box.width / 2) + 1;
+		return true;
+	}
+	else if (IsTileLadder(tile1))
+	{
+		*px = GetLadderCenterPos(left, bottom1) - (box.width / 2) + 1;
+		return true;
+	}
+	return false;
+}
 bool TileMap::TestOnLadderTopLeft(const AABB& box, int* px) const
 {
 	int right, left, bottom2, bottom1;
@@ -444,8 +478,8 @@ bool TileMap::TestOnLadderTopLeft(const AABB& box, int* px) const
 	Tile tile1, tile2;
 
 	//Control points
-	left = box.pos.x - box.width - 8;
-	right = box.pos.x - box.width;
+	left = box.pos.x - box.width + 8;                 // Use the left side of the box
+	right = box.pos.x;            // A point a bit to the right of the left side
 	bottom2 = box.pos.y + box.height - 8;
 	bottom1 = box.pos.y + box.height;
 
@@ -525,12 +559,12 @@ bool TileMap::TestOnLadderTopRight(const AABB& box, int* px) const
 	//To be able to climb up or down, both control points must be on ladder
 	tile2 = GetTileIndex(tx2, ty2);
 	tile1 = GetTileIndex(tx1, ty1);
-	if (IsTileLadderTop(tile2))
+	if (IsTileLadderTopRight(tile2))
 	{
 		*px = GetLadderCenterPos(right, bottom2) - (box.width / 2) + 1;
 		return true;
 	}
-	else if (IsTileLadderTop(tile1))
+	else if (IsTileLadderTopRight(tile1))
 	{
 		*px = GetLadderCenterPos(left, bottom1) - (box.width / 2) + 1;
 		return true;
