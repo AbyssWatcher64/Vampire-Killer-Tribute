@@ -42,6 +42,8 @@ AppStatus Game::Initialise(float scale)
     w = WINDOW_WIDTH * scale;
     h = WINDOW_HEIGHT * scale;
 
+
+    int monitor = GetCurrentMonitor();
     //Initialise window
     InitWindow((int)w, (int)h, "Vampire Killer Tribute");
 
@@ -57,7 +59,8 @@ AppStatus Game::Initialise(float scale)
     }
     SetTextureFilter(target.texture, TEXTURE_FILTER_POINT);
     src = { 0, 0, WINDOW_WIDTH, -WINDOW_HEIGHT };
-    dst = { 0, 0, w, h };
+    dst = { 0 , 0, WINDOW_WIDTH*scale, WINDOW_HEIGHT * scale};
+    //dst = { (1920 - (WINDOW_WIDTH * 5)) / 2 /*320*/ /*1920 / 2 - WINDOW_WIDTH * 5*/, 0, WINDOW_WIDTH*5, WINDOW_HEIGHT * 5};
 
     //Load resources
     if (LoadResources() != AppStatus::OK)
@@ -173,23 +176,7 @@ AppStatus Game::Update()
 {
     if (IsKeyPressed(KEY_ENTER))
     {
-        // see what display we are on right now
-        int display = GetCurrentMonitor();
-
-
-        if (IsWindowFullscreen())
-        {
-            // if we are full screen, then go back to the windowed size
-            SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        }
-        else
-        {
-            // if we are not full screen, set the window size to match the monitor we are on
-            SetWindowSize(GetMonitorWidth(display), GetMonitorHeight(display));
-        }
-
-        // toggle the state
-        ToggleFullscreen();
+        ToggleFullScreenWindow(WINDOW_WIDTH * GAME_SCALE_FACTOR, WINDOW_HEIGHT * GAME_SCALE_FACTOR);
     }
     ResourceManager& data = ResourceManager::Instance();
     data.UpdateCurrentSong();
@@ -401,4 +388,20 @@ void Game::UnloadResources()
 
     UnloadRenderTexture(target);
     //UnloadMusicStream(Ost2VampireKiller);
+}
+void Game::ToggleFullScreenWindow(int windowWidth, int windowHeight)
+{
+    if (!IsWindowFullscreen())
+    {
+        int monitor = GetCurrentMonitor();
+        SetWindowSize(GetMonitorWidth(monitor), GetMonitorHeight(monitor));
+        dst = { (1920 - (WINDOW_WIDTH * 5)) / 2 /*320*/ /*1920 / 2 - WINDOW_WIDTH * 5*/, 0, WINDOW_WIDTH * 5, WINDOW_HEIGHT * 5 };
+        ToggleFullscreen();
+    }
+    else
+    {
+        dst = { 0 , 0, WINDOW_WIDTH * GAME_SCALE_FACTOR, WINDOW_HEIGHT * GAME_SCALE_FACTOR };
+        ToggleFullscreen();
+        SetWindowSize(windowWidth, windowHeight);
+    }
 }

@@ -341,7 +341,6 @@ AppStatus Player::Initialise()
 	whipHitSFX = data[19];
 	blockBreakingSFX = data[20];
 	heartSFX = data[21];
-	moneyBagSFX = data[22];
 	shieldSFX = data[23];
 	stopWatchSFX = data[25];
 	invisibilityOnSFX = data[26];
@@ -404,8 +403,8 @@ int Player::GetHP() const
 void Player::SetHearts(int heartDifference)
 {
 	if (heartDifference > 0)
-		PlaySound(heartSFX);
-	hearts += heartDifference;
+		
+		hearts += heartDifference;
 }
 int Player::GetHearts() const
 {
@@ -641,24 +640,27 @@ Equipment Player::SetEquipment(int equipNum)
 	{
 		return EquipMorningStar();
 	}
+	else if (equipNum == 1000)
+	{
+		SetGameEnd(true);
+		LOG("lol")
+		return EquipMorningStar();
+	}
 }
 void Player::GrabObject(int object)
 {
 	// This case breaks the sfx and makes it play continuously
 	switch (object)
 	{
-	case 1:
-		PlaySound(moneyBagSFX);
-		break;
+	//case 1:
+	//	PlaySound(moneyBagSFX);
+	//	break;
 	//case 2:
 	//	
 	//	PlaySound(orbSFX);
 	//	break;
-	case 20:
-		PlaySound(chestPickupSFX);
-		break;
-	default:
-		break;
+	//default:
+	//	break;
 	}
 }
 Equipment Player::EquipWhip()
@@ -1354,13 +1356,13 @@ void Player::MoveY()
 			else if ((IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) && state != State::ATTACKING && hasDied == false)
 			{
 				box = GetHitbox();
-				if (map->TestOnLadder(box, &pos.x) && !(map->TestOnLadderTopRight(box, &pos.x)))
+				if (map->TestOnLadder(box, &pos.x))
 				{
 					isClimbingLeft = false;
 					isClimbingRight = true;
 					StartClimbingUp();
 				}
-				else if (map->TestOnLadderLeft(box, &pos.x) && !(map->TestOnLadderTopLeft(box, &pos.x)))
+				else if (map->TestOnLadderLeft(box, &pos.x))
 				{
 					isClimbingRight = false;
 					isClimbingLeft = true;

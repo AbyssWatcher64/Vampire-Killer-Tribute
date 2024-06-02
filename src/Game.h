@@ -24,6 +24,8 @@ private:
     AppStatus LoadResources();
     void UnloadResources();
 
+    void ToggleFullScreenWindow(int windowWidth, int windowHeight);
+
     GameState state;
     Scene *scene;
     Cutscene* cutscene;
@@ -33,9 +35,6 @@ private:
     const Texture2D *img_desc;
     const Texture2D *img_ending;
     const Texture2D* img_ui;
-
-    Music Ost2VampireKiller;
-    Sound Ost2VampireKillerSound;
     
 
     //To work with original game units and then scale the result

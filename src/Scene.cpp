@@ -247,21 +247,7 @@ AppStatus Scene::LoadLevel(int stage)
 	size = LEVEL_WIDTH * LEVEL_HEIGHT;
 	if(stage == 1)
 	{
-		map = new int[size]
-		{
-				94,		95,		102,	103,	72,		72,		78,		79,		72,		82,		86,		151,	72,		72,		74,		75,
-				96,		97,		104,	105,	93,		93,		93,		93,		72,		72,		72,		86,		151,	72,		72,		72,
-				96,		97,		106,	107,	93,		93,		93,		93,		72,		72,		72,		82,		86,		151,	72,		72,
-				96,		97,		108,	72,		93,		93,		93,		93,		72,		72,		72,		72,		72,		86,		150,	72,
-				96,		97,		109,	72,		93,		93,		93,		93,		72,		72,		72,	70,		69,		70,		69,		70,
-				96,		97,		110,	72,		76,		77,		72,		72,		72,		72,	84,		72, 72, 72,		80,		81,
-				96,		97,		110,	72,		74,		75,		162,	70,		69,		70,		152,		72, 72, 72,		78,		79,
-				96,		97,		111,	72,		72,		161,	84,		72,		72,		72,		72,		151, 72, 72,		76,		77,
-				98,		97,		112,	72,		161,	84,		73,		72,		72,		72,		72,		72,		151,		72,		74,		75,
-				100,	101,	72,		160,	84,		72,		72,		72,		72,		72,		72,		72, 72,		150,		72,		72,
-				69,		70,		69,		70,		69,		70,		69,		70,		69,		70,		69,		70,		69,		70,		69,		70,
-		};
-		/*map = new int[size] 
+		map = new int[size] 
 		{
 			
 				33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,		33,		34,		35,		36,  
@@ -275,21 +261,8 @@ AppStatus Scene::LoadLevel(int stage)
 				2,		2,		62,		63,		64,		2,		2,		2,		2,		2,		2,		2,		64,		2,		2,		2,
 				1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,		1,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
-		};*/
+		};
 		mapInteractables = new int[size]
-		//{
-		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-		//		0,		0,		0,		0, 700,	138,	0,		0,		0,		0,		0,		0, 700,	0,		0,		0,
-		//		0,		200,		0,		703,		0,		405,	404,	300,	301,	400,	401,	0,		210,	0,		0,		0,
-		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-		//		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
-		//};
 		{
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
@@ -298,7 +271,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		700,	0,		0,		0,		0,		0,		0,		0,		700,	0,		0,		0,
 				0,		200,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
@@ -344,8 +317,8 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		700,	0,		701,		0,		0,		0,		0,		0,		700,	0,		0,		0,
-				0,		0,		0,		600,		0, 600,		0,		400,	0,		402,		0,		403,		0,		0,		0,		0,
+				0,		0,		0,		0,		700,	0,		0,		0,		0,		0,		0,		0,		700,	0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
@@ -390,7 +363,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		700, 	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,	0,		0,		0,		0,		401,	0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0, 301,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
@@ -564,11 +537,11 @@ AppStatus Scene::LoadLevel(int stage)
 		{
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0, 0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0, 0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		701,		0,		0,		0,		701,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
@@ -578,11 +551,11 @@ AppStatus Scene::LoadLevel(int stage)
 		{
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0, 0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0, 0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
@@ -653,11 +626,11 @@ AppStatus Scene::LoadLevel(int stage)
 		mapInteractables = new int[size]
 		{
 				0,		0,		0,		701,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		600,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		600,		0,		0,		0, 0, 300,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		701,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		701,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		600,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		600,		0,		0, 400,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		701,	0,		0,		0,		701,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
@@ -777,7 +750,7 @@ AppStatus Scene::LoadLevel(int stage)
 				96,		97,		114,	114,	114,	181,	118,	114,	114,	114,	114,	114,	114,	114,	96,		97,
 				96,		97,		114,	114,	181,	118,	114,	114,	114,	114,	69,		70,		69,		70,		69,		70,
 				96,		97,		114,	180,	118,	114,	114,	114,	114,	115,	69,		70,		69,		70,		69,		70,
-				69,		70,		69,		70,		69,		70,		114,	114,	114,	116,	114,	114,	114,	114,	69,		70,
+				69,		70,		69,		70,		71,		/*70*/114,		114,	114,	114,	116,	114,	114,	114,	114,	69,		70,
 				96,		97,		114,	115,	114,	114,	114,	117,	114,	114,	114,	114,	114,	114,	69,		70,
 				96,		97,		114,	116,	114,	114,	182,	71,		69,		70,		69,		70,		69,		70,		69,		70,
 				96,		97,		114,	114,	114,	181,	118,	114,	69,		70,		69,		70,		69,		70,		69,		70,
@@ -792,11 +765,11 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		701,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		400, 0, 300,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		701,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0, 301,		0, 401,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 		};
 		mapHiddenBlocks = new int[size]
@@ -1153,7 +1126,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		600,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		301,		0,		600,		0,		0,		300,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		701,	0,		0,		0,		0,		0,		0,		0,		0,		403,		0,		0,		0,		0,		0,
@@ -1493,6 +1466,7 @@ AppStatus Scene::LoadLevel(int stage)
 }
 void Scene::Update()
 {
+	GameEnd();
 	enemies->playerHasWhiteKey = player->GetHasWhiteKey();
 	timer++;
 	if (timer == 4294967290)
@@ -1534,7 +1508,7 @@ void Scene::Update()
 			LoadLevel(++currentLevel);
 			player->SetPos(Point(10, tmpYPos));
 		}
-		else if (player->GetXPos() <= 0)
+		else if (player->GetXPos() <= 1)
 		{
 			switch (currentLevel)
 			{
@@ -1610,7 +1584,7 @@ void Scene::Update()
 				break;
 			}
 		}
-		else if (player->GetXPos() >= WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH)
+		else if (player->GetXPos() >= WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH - 1)
 		{
 			switch (currentLevel)
 			{
@@ -1691,14 +1665,23 @@ void Scene::Update()
 		{
 			switch (currentLevel)
 			{
+				case 4:
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					currentLevel = 9;
+					LoadLevel(currentLevel);
+					player->SetPlayerIsClimbing(false);
+					player->SetPos(Point(150, 159));
+
+					break;
 				case 6:
 				{
 					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
 					int tmpXPos = player->GetXPos();
 					currentLevel = 11;
 					LoadLevel(currentLevel);
-					player->SetPos(Point(tmpXPos, 176));
 					player->SetPlayerIsClimbing(false);
+					player->SetPos(Point(tmpXPos-16, 176));
+					
 					break;
 				}
 				case 12:
@@ -1707,7 +1690,7 @@ void Scene::Update()
 					int tmpXPos = player->GetXPos();
 					currentLevel = 13;
 					LoadLevel(currentLevel);
-					player->SetPos(Point(tmpXPos + 48, 144));
+					player->SetPos(Point(tmpXPos + 48, 127));
 					player->SetPlayerIsClimbing(false);
 					break;
 				}
@@ -1717,26 +1700,52 @@ void Scene::Update()
 					int tmpXPos = player->GetXPos();
 					currentLevel = 17;
 					LoadLevel(currentLevel);
-					player->SetPos(Point(tmpXPos, 176));
+					player->SetPos(Point(216, 159));
 					player->SetPlayerIsClimbing(false);
 					break;
 				}
-			
-				default:
+				case 22:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpXPos = player->GetXPos();
+					currentLevel = 18;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(186, 159));
+					player->SetPlayerIsClimbing(false);
 					break;
+				}
 			}
 		}
-		else if (player->GetYPos() > 180 && player->GetPlayerIsClimbing() == true)
+		else if (player->GetYPos() > 175 && player->GetPlayerIsClimbing() == true)
 		{
 			switch (currentLevel)
 			{
+				case 9:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					currentLevel = 4;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(206, 63));
+					player->SetPlayerIsClimbing(false);
+					break;
+				}
 				case 11:
 				{
 					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
-					int tmpXPos = player->GetXPos() - 16;
+					int tmpXPos = player->GetXPos() - 24;
 					currentLevel = 6;
 					LoadLevel(currentLevel);
 					player->SetPos(Point(tmpXPos, 32));
+					player->SetPlayerIsClimbing(false);
+					break;
+				}
+				case 12:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpXPos = player->GetXPos() - 24;
+					currentLevel = 15;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(106, 47));
 					player->SetPlayerIsClimbing(false);
 					break;
 				}
@@ -1758,6 +1767,16 @@ void Scene::Update()
 					player->SetPlayerIsClimbing(false);
 					break;
 				}
+				case 18:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					currentLevel = 22;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(94, 95));
+					player->SetPlayerIsClimbing(false);
+					break;
+				}
+
 			}
 		}
 		else if (player->GetYPos() > 184)
@@ -2203,6 +2222,7 @@ bool Scene::GetIsCurrentlyResetting() const
 }
 void Scene::CheckObjectCollisions()
 {
+	ResourceManager& data = ResourceManager::Instance();
 	AABB player_box, obj_box;
 
 	player_box = player->GetHitbox();
@@ -2215,17 +2235,40 @@ void Scene::CheckObjectCollisions()
 			
 			player->IncrScore((*it)->Points());
 			//player->SetShield((*it)->Points());
-			player->SetEquipment((*it)->Equip());
-			if ((*it)->Equip() == 1000)
+			if ((*it)->ObjectNum() == 100 || (*it)->ObjectNum() == 101)
+			{
+				player->SetEquipment((*it)->Equip());
+			}
+			else if ((*it)->ObjectNum() == 2)
+			{
 				player->SetGameEnd(true);
+			}
+			else if ((*it)->ObjectNum() == 1)
+			{
+				data.PlaySFX(22);
+
+			}
 			else if ((*it)->ObjectNum() == 3)
+			{
+				data.PlaySFX(21);
 				player->SetHearts(1);
+
+			}
 			else if ((*it)->ObjectNum() == 4)
+			{
 				player->SetHearts(5);
+				data.PlaySFX(20);
+			}
 			else if ((*it)->ObjectNum() == 10)
+			{
+				data.PlaySFX(12);
 				player->SetHasYellowKey(true);
+			}
 			else if ((*it)->ObjectNum() == 11)
+			{
 				player->SetHasWhiteKey(true);
+				data.PlaySFX(12);
+			}
 			else if ((*it)->ObjectNum() == 20)
 			{
 				if (player->GetHasYellowKey() == false)
@@ -2238,6 +2281,7 @@ void Scene::CheckObjectCollisions()
 					Object* obj;
 					obj = new Object( (*it)->GetHitbox().pos , ObjectType::HEART);
 					objects.push_back(obj);
+					data.PlaySFX(6);
 				}
 			}
 			player->GrabObject((*it)->ObjectNum());
@@ -2286,20 +2330,21 @@ void Scene::RenderObjectsDebug(const Color& col) const
 	{
 		obj->DrawDebug(col);
 	}
-
-}
-void Scene::RenderGUI() const
-{
 	static int frame;
 	frame++;
 	frame %= 1000;
+	font->Draw(10, 5, TextFormat("%d", frame), RED);
+}
+void Scene::RenderGUI() const
+{
+
 
 	font->Draw(57, 9, TextFormat("%06d", player->GetScore())); // TODO convert numbers into division of screen
 	font->Draw(229, 9, TextFormat("%02d", player->GetLives())); // TODO convert numbers into division of screen
 	font->Draw(193, 9, TextFormat("%02d", player->GetHearts())); // TODO convert numbers into division of screen
 	font->Draw(157, 9, TextFormat("%02d", currentLevel)); // TODO convert numbers into division of screen
-	font->Draw(10, 5, TextFormat("%d", frame), RED);
-	font->Draw(10, 40, TextFormat("%02d", player->GetHP()));
+
+	//font->Draw(10, 40, TextFormat("%02d", player->GetHP()));
 	DrawRectangle(60, 22, ((player->GetHP()*2)), 5, {255, 181, 145, 255}); // HP BAR
 	DrawRectangle(60, 30, 64, 5, RED); // Enemy HP BAR
 	

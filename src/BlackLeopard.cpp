@@ -15,7 +15,7 @@ BlackLeopard::BlackLeopard(const Point& p, int width, int height, int frame_widt
 	damage = 6;
 	setAnimation = false;
 	jumpingFrames = 0;
-	totalJumps = 2;
+	totalJumps = 1;
 }
 BlackLeopard::~BlackLeopard()
 {
