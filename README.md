@@ -37,7 +37,7 @@ Download the release version, uncompress the files, and execute the Vampire-Kill
 - Space (when not in-game) -> Accept / Intro
 
 ## Changelist
-###v1.0 - Alpha build:
+### v1.0 - Alpha build:
 - Added many enemies (Fishman to be improved). Gave them animations and patterns.
 - Added the rest of the levels.
 - Added animations for Simon:
@@ -48,7 +48,7 @@ Download the release version, uncompress the files, and execute the Vampire-Kill
 - Added doors, keys, and chests.
 - Polished many mechanics.
 
-###0v0.1 - Prototype build:
+### v0.1 - Prototype build:
 - Added Simon.
 - Added animations:
   - Attack
