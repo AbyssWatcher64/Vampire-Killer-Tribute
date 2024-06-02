@@ -42,6 +42,8 @@ Player::Player(const Point& p, State s, Look view) :
 	isClimbingDown = false;
 	startedClimbing = false;
 
+	isClimbing = false;
+
 	leftLadder = false;
 	rightLadder = false;
 }
@@ -976,7 +978,14 @@ void Player::ChangeHP(int value)
 	}		
 }
 
-
+void Player::SetPlayerIsClimbing(bool boolean)
+{
+	isClimbing = boolean;
+}
+bool Player::GetPlayerIsClimbing() const
+{
+	return isClimbing;
+}
 
 void Player::InvisFrames()
 {
@@ -1316,6 +1325,7 @@ void Player::MoveY()
 	if (state == State::JUMPING && state != State::ATTACKING)
 	{
 		LogicJumping();
+		isClimbing = false;
 	}
 	else if (state == State::CLIMBING && state != State::ATTACKING)
 	{
@@ -1323,7 +1333,7 @@ void Player::MoveY()
 	}
 	else //idle, walking, falling
 	{
-
+		isClimbing = false;
 		pos.y += PLAYER_SPEED;
 		box = GetHitbox();
 
@@ -1335,6 +1345,8 @@ void Player::MoveY()
 				Attack();*/
 
 			if (state == State::FALLING && state != State::ATTACKING) Stop();
+			else if (((IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) && !map->TestOnLadder(box, &pos.x)))
+				StartJumping();
 			else if ((IsKeyDown(KEY_UP) || IsKeyDown(KEY_W)) && state != State::ATTACKING && hasDied == false)
 			{
 				box = GetHitbox();
@@ -1352,10 +1364,10 @@ void Player::MoveY()
 					}*/
 					StartClimbingUp();
 				}
-				else
-				{
-					StartJumping();
-				}
+				//else if ()
+				//{
+				//	StartJumping();
+				//}
 			}
 			else if ((IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) && state != State::ATTACKING && hasDied == false)
 			{
@@ -1487,6 +1499,7 @@ void Player::LogicJumping()
 }
 void Player::LogicClimbing()
 {
+	isClimbing = true;
 	AABB box;
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	int tmp;

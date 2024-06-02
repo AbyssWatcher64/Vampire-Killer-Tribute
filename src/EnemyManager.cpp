@@ -63,7 +63,7 @@ void EnemyManager::Add(const Point& pos, EnemyType type, const AABB& area, Look 
 	else if (type == EnemyType::BAT)
 	{
 		enemy = new Bat(pos, BAT_PHYSICAL_WIDTH, BAT_PHYSICAL_HEIGHT, BAT_FRAME_SIZE_WIDTH, BAT_FRAME_SIZE_HEIGHT);
-
+		enemy->map = this->map;
 	}
 	else if (type == EnemyType::BLACKLEOPARD)
 	{
@@ -251,6 +251,12 @@ void EnemyManager::Update(const AABB& player_hitbox, const AABB& weapon_hitbox, 
 		}
 
 		if (box.pos.x == WINDOW_WIDTH-ZOMBIE_FRAME_SIZE_WIDTH && enemy->type != EnemyType::DOOR)
+		{
+			enemy->SetAlive(false);
+			totalEnemies--;
+		}
+
+		if (box.pos.y > 200 && enemy->type == EnemyType::FISHMAN)
 		{
 			enemy->SetAlive(false);
 			totalEnemies--;

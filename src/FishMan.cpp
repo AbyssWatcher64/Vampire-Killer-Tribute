@@ -9,7 +9,7 @@ Fishman::Fishman(const Point& p, int width, int height, int frame_width, int fra
 
 	current_step = 0;
 	current_frames = 0;
-	type = EnemyType::ZOMBIE;
+	type = EnemyType::FISHMAN;
 	canWalk = false;
 	hasSpawned = false;
 }
@@ -48,7 +48,7 @@ AppStatus Fishman::Initialise(Look look, const AABB& area)
 	visibility_area = area;
 
 	InitPattern();
-
+	timer = 0;
 	return AppStatus::OK;
 }
 void Fishman::InitPattern()
@@ -71,6 +71,7 @@ void Fishman::InitPattern()
 }
 bool Fishman::Update(const AABB& box)
 {
+	timer++;
 	Sprite* sprite = dynamic_cast<Sprite*>(render);
 	bool shoot = false;
 	int anim_id;
@@ -116,7 +117,7 @@ void Fishman::MoveX()
 }
 void Fishman::MoveY()
 {
-	pos.y += FISHMAN_SPEED * 2;
+	pos.y += FISHMAN_SPEED;
 	AABB box, prev_box;
 
 	box = GetHitbox();
@@ -127,8 +128,15 @@ void Fishman::MoveY()
 	if (map->TestCollisionGround(box, &pos.y))
 	{
 		canWalk = true;
+		
 	}
+	else
+	{
+		canWalk = false;
+	}
+		
 	// TODO: Fix movement.
+	
 }
 void Fishman::FishManInitialFalling()
 {
@@ -145,7 +153,8 @@ void Fishman::FishManInitialFalling()
 	prev_box = GetHitbox();
 
 	pos.y += dir.y;
-	dir.y += GRAVITY_FORCE;
+	if (timer % 3 == 0)
+		dir.y += GRAVITY_FORCE;
 
 	//Is the jump finished?
 	if (dir.y > FISHMAN_JUMP_FORCE)

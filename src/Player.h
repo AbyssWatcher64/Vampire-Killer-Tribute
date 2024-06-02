@@ -162,6 +162,9 @@ public:
 	void InitPattern();
 	bool patternFinished;
 
+	void SetPlayerIsClimbing(bool boolean);
+	bool GetPlayerIsClimbing() const;
+
 private:
 	bool IsLookingRight() const;
 	bool IsLookingLeft() const;
@@ -186,6 +189,8 @@ private:
 	void StartClimbingDown();
 	void ChangeAnimRight();
 	void ChangeAnimLeft();
+
+
 
 	void InvisFrames();
 	void Death();
@@ -249,6 +254,8 @@ private:
 	bool wasCrouching;
 	bool isInvincible;
 	int startingFrame;
+
+	bool isClimbing;
 
 	bool isClimbingUp;
 	bool isClimbingDown;

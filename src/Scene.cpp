@@ -732,13 +732,13 @@ AppStatus Scene::LoadLevel(int stage)
 				96,		97,		104,	105,	80,		81,		93,		93,		72,		72,		72,		72,		76,		77,		113,	113,
 				96,		97,		106,	107,	78,		79,		93,		93,		72,		72,		72,		72,		74,		75,		113,	113,
 				98,		97,		111,	72,		76,		77,		93,		93,		72,		72,		72,		72,		72,		72,		113,	113,
-				99,		97,		112,	72,		74,		75,		93,		93,		72,		72,		162,		71,		69,		70,		69,		70,
-				96,		97,		72,		72,		72,		72,		72,		72,		72,		160,		84,		72,		80,		81,		69,		70,
+				99,		97,		112,	72,		74,		75,		93,		93,		72,		72,		162,	71,		69,		70,		69,		70,
+				96,		97,		72,		72,		72,		72,		72,		72,		72,		160,	84,		72,		80,		81,		69,		70,
 				69,		70,		69,		70,		69,		70,		69,		70,		69,		70,		73,		72,		78,		79,		69,		70,
 				94,		95,		76,		77,		72,		72,		72,		72,		76,		77,		72,		72,		76,		77,		69,		70,
 				96,		97,		74,		75,		72,		72,		72,		72,		74,		75,		72,		72,		74,		75,		69,		70,
 				100,	101,	72,		72,		72,		72,		72,		72,		72,		72,		72,		72,		72,		72,		69,		70,
-				69,		70,		69,		70,		162,		71,		69,		70,		69,		70,		69,		70,		69,		70,		69,		70,
+				69,		70,		69,		70,		162,	71,		69,		70,		69,		70,		69,		70,		69,		70,		69,		70,
 		};
 		mapInteractables = new int[size]
 		{
@@ -949,52 +949,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
 	}
-			else if (stage == 16)
-	{
-		map = new int[size]
-		{
-					113, 127, 113, 127, 113, 127, 113, 127, 96, 97, 113, 127, 113, 127, 69, 70,
-					118, 114, 114, 117, 114, 115, 114, 114, 96, 97, 126, 114, 114, 114, 156, 157,
-					69, 70, 69, 70, 114, 116, 114, 114, 96, 97, 114, 114, 114, 114, 156, 157,
-					69, 70, 69, 70, 114, 114, 114, 114, 96, 97, 114, 115, 114, 114, 158, 159,
-					69, 70, 114, 114, 114, 114, 114, 114, 96, 97, 114, 116, 69, 70, 69, 70,
-					69, 70, 114, 114, 114, 114, 114, 114, 96, 97, 114, 114, 126, 114, 126, 114,
-					69, 70, 69, 70, 69, 70, 69, 70, 69, 70, 71, 192, 114, 114, 114, 114,
-					69, 70, 69, 70, 69, 70, 69, 70, 96, 97, 114, 117, 191, 114, 114, 115,
-					69, 70, 114, 114, 114, 114, 114, 114, 96, 97, 114, 114, 117, 191, 114, 116,
-					69, 70, 114, 114, 114, 114, 114, 114, 100, 101, 118, 114, 114, 117, 190, 114,
-					69, 70, 69, 70, 69, 70, 69, 70, 69, 70, 69, 70, 182, 71, 69, 70
-		};
-		mapInteractables = new int[size]
-		{
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		600,		0,		0,		0,		0,		0,		701,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-		};
-		mapHiddenBlocks = new int[size]
-		{
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		702,		0,		702,		0,		702,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		702,		0,		702,		0,		702,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
-		};
-	}
-		else if (stage == 17)
+		else if (stage == 16)
 	{
 		map = new int[size]
 		{
@@ -1014,10 +969,10 @@ AppStatus Scene::LoadLevel(int stage)
 		{
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		701,		0,		0,		0,		0,		0,		0,		701,		0,		0,		0,
+				0,		0,		0,		0,		0,		701,	0,		0,		0,		0,		0,		0,		701,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,	 403,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
@@ -1039,6 +994,52 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
 		};
 	}
+			else if (stage == 17)
+	{
+		map = new int[size]
+		{
+					113, 127, 113, 127, 113, 127, 113, 127, 96, 97, 113, 127, 113, 127, 69, 70,
+					118, 114, 114, 117, 114, 115, 114, 114, 96, 97, 126, 114, 114, 114, 156, 157,
+					69, 70, 69, 70, 114, 116, 114, 114, 96, 97, 114, 114, 114, 114, 156, 157,
+					69, 70, 69, 70, 114, 114, 114, 114, 96, 97, 114, 115, 114, 114, 158, 159,
+					69, 70, 114, 114, 114, 114, 114, 114, 96, 97, 114, 116, 69, 70, 69, 70,
+					69, 70, 114, 114, 114, 114, 114, 114, 96, 97, 114, 114, 126, 114, 126, 114,
+					69, 70, 69, 70, 69, 70, 69, 70, 69, 70, 71, 192, 114, 114, 114, 114,
+					69, 70, 69, 70, 69, 70, 69, 70, 96, 97, 114, 117, 191, 114, 114, 115,
+					69, 70, 114, 114, 114, 114, 114, 114, 96, 97, 114, 114, 117, 191, 114, 116,
+					69, 70, 114, 114, 114, 114, 114, 114, 100, 101, 118, 114, 114, 117, 190, 114,
+					69, 70, 69, 70, 69, 70, 69, 70, 69, 70, 69, 70, 182, 71, 69, 70
+		};
+		mapInteractables = new int[size]
+		{
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		600,		0,		0,		0,		0,		0,		701,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		703,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+		};
+		mapHiddenBlocks = new int[size]
+		{
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		702,		0,		702,		0,		702,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		702,		0,		702,		0,		702,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0
+		};
+	}
+	
 			else if (stage == 18)
 	{
 		map = new int[size]
@@ -1146,7 +1147,7 @@ AppStatus Scene::LoadLevel(int stage)
 					69, 70, 69, 70, 69, 70, 69, 70, 69, 70, 69, 70, 69, 70, 69, 70
 		};
 		mapInteractables = new int[size]
-		{
+		{ // the chest (600) in this map is causing a crash when picked up with a key. Quite weird.
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
@@ -1155,8 +1156,8 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		600,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		701,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		402,		0,		0,		0,		0,		600,		0,		0,		0,
+				0,		701,	0,		0,		0,		0,		0,		0,		0,		0,		403,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		402,		0,		0,		0,		0,		0/*600*/,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 		};
 		mapHiddenBlocks = new int[size]
@@ -1245,7 +1246,7 @@ AppStatus Scene::LoadLevel(int stage)
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
-				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
+				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0, 703,
 				0,		0,		0,		600,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 				0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0,
 		};
@@ -1552,6 +1553,11 @@ void Scene::Update()
 			case 9:
 			case 10:
 			case 11:
+			case 14:
+			case 16:
+			case 19:
+			case 20:
+			case 21:
 			{
 				fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
 				int tmpYPos = player->GetYPos();
@@ -1568,10 +1574,41 @@ void Scene::Update()
 				player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
 				break;
 			}
+			case 13:
+			{
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpYPos = player->GetYPos();
+					LoadLevel(++currentLevel);
+					player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
+					break;
+				}
+			}
+			case 17:
+			{
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpYPos = player->GetYPos();
+					currentLevel = 12;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
+					break;
+				}
+			}
+			case 18:
+			{
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpYPos = player->GetYPos();
+					currentLevel = 21;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(WINDOW_WIDTH - (PLAYER_PHYSICAL_WIDTH + 10), tmpYPos));
+					break;
+				}
+			}
 			default:
 				break;
 			}
-
 		}
 		else if (player->GetXPos() >= WINDOW_WIDTH - PLAYER_PHYSICAL_WIDTH)
 		{
@@ -1585,6 +1622,13 @@ void Scene::Update()
 			case 8:
 			case 9:
 			case 10:
+			case 13:
+			case 15:
+			case 17:
+			case 18:
+			case 19:
+			case 20:
+			case 22:
 			{
 				fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
 				int tmpYPos = player->GetYPos();
@@ -1610,9 +1654,115 @@ void Scene::Update()
 				player->SetPos(Point(10, tmpYPos));
 				break;
 			}
+			case 12:
+			{
+				fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+				int tmpYPos = player->GetYPos();
+				currentLevel = 17;
+				LoadLevel(currentLevel);
+				player->SetPos(Point(10, tmpYPos));
+				break;
+			}
+			case 14:
+			{
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpYPos = player->GetYPos();
+					LoadLevel(--currentLevel);
+					player->SetPos(Point(10, tmpYPos));
+					break;
+				}
+			}
+			case 21:
+			{
+				fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+				int tmpYPos = player->GetYPos();
+				currentLevel = 18;
+				LoadLevel(currentLevel);
+				player->SetPos(Point(10, tmpYPos));
+				break;
+			}
 			default:
 				break;
 			}
+
+		}
+		else if (player->GetYPos() < 0 && player->GetPlayerIsClimbing() == true)
+		{
+			switch (currentLevel)
+			{
+				case 6:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpXPos = player->GetXPos();
+					currentLevel = 11;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(tmpXPos, 176));
+					player->SetPlayerIsClimbing(false);
+					break;
+				}
+				case 12:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpXPos = player->GetXPos();
+					currentLevel = 13;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(tmpXPos + 48, 144));
+					player->SetPlayerIsClimbing(false);
+					break;
+				}
+				case 16:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpXPos = player->GetXPos();
+					currentLevel = 17;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(tmpXPos, 176));
+					player->SetPlayerIsClimbing(false);
+					break;
+				}
+			
+				default:
+					break;
+			}
+		}
+		else if (player->GetYPos() > 180 && player->GetPlayerIsClimbing() == true)
+		{
+			switch (currentLevel)
+			{
+				case 11:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					int tmpXPos = player->GetXPos() - 16;
+					currentLevel = 6;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(tmpXPos, 32));
+					player->SetPlayerIsClimbing(false);
+					break;
+				}
+				case 13:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					currentLevel = 12;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(28, 63));
+					player->SetPlayerIsClimbing(false);
+					break;
+				}
+				case 17:
+				{
+					fade_transition.SetScene(currentLevel + 1, currentLevel, 10, 10);
+					currentLevel = 16;
+					LoadLevel(currentLevel);
+					player->SetPos(Point(108, 95));
+					player->SetPlayerIsClimbing(false);
+					break;
+				}
+			}
+		}
+		else if (player->GetYPos() > 184)
+		{
+			player->GetHurt(32);
 		}
 		// TODO: Add it for level 4
 
@@ -1643,70 +1793,90 @@ void Scene::Update()
 		else if (IsKeyPressed(KEY_KP_1) || IsKeyPressed(KEY_ONE))
 		{
 			fade_transition.SetScene(1, currentLevel, 10, 10);
-			LoadLevel(1);
-			player->SetPos(Point(20, 150));
 			currentLevel = 1;
+			LoadLevel(currentLevel);
+			player->SetPos(Point(20, 150));
+			
 		}
 		else if (IsKeyPressed(KEY_KP_2) || IsKeyPressed(KEY_TWO))
 		{
 			//fade_transition.SetScene(1);
 			fade_transition.SetScene(currentLevel, 2, 10, 10);
-			currentLevel = 2;
-			LoadLevel(2);
-			player->SetPos(Point(20, 150));
+			currentLevel = 12;
+			LoadLevel(currentLevel);
+			player->SetPos(Point(20, 64));
 		}
 		else if (IsKeyPressed(KEY_KP_3) || IsKeyPressed(KEY_THREE))
 		{
 			fade_transition.SetScene(currentLevel, 3, 10, 10);
-			currentLevel = 3;
-			LoadLevel(3);
-			player->SetPos(Point(20, 150));
+			currentLevel = 18;
+			LoadLevel(currentLevel);
+			player->SetPos(Point(20, 64));
 
-		}
-		else if (IsKeyPressed(KEY_KP_4) || IsKeyPressed(KEY_FOUR))
-		{
-			//Idk if order is relevant
-			LoadLevel(4);
-			currentLevel = 4;
-			player->SetPos(Point(20, 166));
-			fade_transition.SetScene(currentLevel, 4, 10, 10);
-		}
-		else if (IsKeyPressed(KEY_KP_5) || IsKeyPressed(KEY_FIVE))
-		{
-			fade_transition.SetScene(5, currentLevel, 10, 10);
-			LoadLevel(5);
-			player->SetPos(Point(20, 166));
-			currentLevel = 5;
-		}
-		else if (IsKeyPressed(KEY_KP_6) || IsKeyPressed(KEY_SIX))
-		{
-			fade_transition.SetScene(5, currentLevel, 10, 10);
-			LoadLevel(6);
-			player->SetPos(Point(20, 166));
-			currentLevel = 6;
 		}
 		else if (IsKeyPressed(KEY_P))
 		{
-			fade_transition.SetScene(5, currentLevel, 10, 10);
-			LoadLevel(++currentLevel);
-			if (currentLevel == 8)
-				player->SetPos(Point(50, 166));
-			else if (currentLevel > 1 && currentLevel < 4)
-				player->SetPos(Point(20, 150));
-			
-			else
-				player->SetPos(Point(20, 166));
+			if (currentLevel < 23)
+			{
+				fade_transition.SetScene(5, currentLevel, 10, 10);
+				LoadLevel(++currentLevel);
+				if (currentLevel == 22)
+					player->SetPos(Point(82, 95));
+				else if (currentLevel == 17)
+					player->SetPos(Point(180, 162));
+				else if (currentLevel == 15)
+					player->SetPos(Point(108, 47));
+				else if (currentLevel == 16)
+					player->SetPos(Point(20, 79));
+				else if (currentLevel == 14)
+					player->SetPos(Point(20, 127));
+				else if (currentLevel == 13)
+					player->SetPos(Point(20, 127));
+				else if (currentLevel == 12)
+					player->SetPos(Point(20, 63));
+				else if (currentLevel == 8)
+					player->SetPos(Point(50, 166));
+				else if (currentLevel > 1 && currentLevel < 4)
+					player->SetPos(Point(20, 150));
+				else
+					player->SetPos(Point(20, 166));
+			}
+
 		}
 		else if (IsKeyPressed(KEY_O))
 		{
-			fade_transition.SetScene(5, currentLevel, 10, 10);
-			LoadLevel(--currentLevel);
-			player->SetPos(Point(20, 166));
+			if (currentLevel > 1)
+			{
+				fade_transition.SetScene(5, currentLevel, 10, 10);
+				LoadLevel(--currentLevel);
+				if (currentLevel == 22)
+					player->SetPos(Point(82, 95));
+				else if (currentLevel == 17)
+					player->SetPos(Point(180, 162));
+				else if (currentLevel == 15)
+					player->SetPos(Point(108, 47));
+				else if (currentLevel == 16)
+					player->SetPos(Point(20, 79));
+				else if (currentLevel == 14)
+					player->SetPos(Point(20, 127));
+				else if (currentLevel == 13)
+					player->SetPos(Point(20, 127));
+				else if (currentLevel == 12)
+					player->SetPos(Point(20, 63));
+				else if (currentLevel == 8)
+					player->SetPos(Point(50, 166));
+				else if (currentLevel > 1 && currentLevel < 4)
+					player->SetPos(Point(20, 150));
+
+				else
+					player->SetPos(Point(20, 166));
+			}
 		}
 	}
 
 	//TODO Fix this, as it is obviously creating many MEMORY LEAKS
-	if ((currentLevel == 4 || currentLevel == 7 || currentLevel == 9 || currentLevel == 10) && ((timer % 100) == 0))
+	if ((currentLevel == 4 || currentLevel == 7 || currentLevel == 9 || currentLevel == 10 || currentLevel == 13
+		|| currentLevel == 21 ) && ((timer % 100) == 0))
 	{
 		AABB player_box;
 		
@@ -1721,12 +1891,18 @@ void Scene::Update()
 		if (player->GetPlayerIsLookingRight() == true )
 		{
 			pos.x = WINDOW_WIDTH - ZOMBIE_FRAME_SIZE_WIDTH - 1;
-			pos.y = 172;
+			if (currentLevel == 13)
+				pos.y = 127;
+			else
+				pos.y = 172;
 		}
 		else if (player->GetPlayerIsLookingLeft() == true )
 		{
 			pos.x = 1;
-			pos.y = 172;
+			if (currentLevel == 13)
+				pos.y = 127;
+			else
+				pos.y = 172;
 		}
 
 
@@ -1747,7 +1923,7 @@ void Scene::Update()
 			}
 		}
 	}
-	else if ((/*currentLevel == 2 ||*/ currentLevel == 8) && ((timer % 150) == 0))
+	else if ((/*currentLevel == 2 ||*/ currentLevel == 8 || currentLevel == 12 || currentLevel == 14 || currentLevel == 17 || currentLevel == 22) && ((timer % 150) == 0))
 	{
 		AABB player_box;
 
@@ -1759,15 +1935,35 @@ void Scene::Update()
 		Point pos;
 		AABB hitbox, area;
 
-		if (player->GetPlayerIsLookingRight() == true)
+		if (player->GetPlayerIsLookingRight() == true && player->GetYPos() > 95)
 		{
 			pos.x = WINDOW_WIDTH - BAT_FRAME_SIZE_WIDTH - 1;
-			pos.y = 100;
+			pos.y = 120;
 		}
-		else if (player->GetPlayerIsLookingLeft() == true)
+		else if (player->GetPlayerIsLookingLeft() == true && player->GetYPos() > 95)
 		{
-			pos.x = 1;
-			pos.y = 100;
+			pos.x = 10;
+			pos.y = 120;
+		}
+		else if (player->GetPlayerIsLookingRight() == true && player->GetYPos() > 31)
+		{
+			pos.x = WINDOW_WIDTH - BAT_FRAME_SIZE_WIDTH - 1;
+			pos.y = 60;
+		}
+		else if (player->GetPlayerIsLookingLeft() == true && player->GetYPos() > 31)
+		{
+			pos.x = 10;
+			pos.y = 60;
+		}
+		else if (player->GetPlayerIsLookingRight() == true && player->GetYPos() <= 31)
+		{
+			pos.x = WINDOW_WIDTH - BAT_FRAME_SIZE_WIDTH - 1;
+			pos.y = 20;
+		}
+		else if (player->GetPlayerIsLookingLeft() == true && player->GetYPos() <= 31)
+		{
+			pos.x = 10;
+			pos.y = 20;
 		}
 
 
@@ -1788,7 +1984,7 @@ void Scene::Update()
 			}
 		}
 	}
-	if ((currentLevel == 2 /*|| currentLevel == 3*/) && ((timer % 150) == 0))
+	if ((currentLevel == 15 || currentLevel == 16 /*|| currentLevel == 3*/) && ((timer % 150) == 0))
 	{
 		AABB player_box;
 
@@ -1800,15 +1996,15 @@ void Scene::Update()
 		Point pos;
 		AABB hitbox, area;
 
-		if (player->GetPlayerIsLookingRight() == true)
+		if (player->GetPlayerIsLookingRight() == true < SPAWN_RIGHT_LIMIT)
 		{
 			pos.x = WINDOW_WIDTH - FISHMAN_FRAME_SIZE_WIDTH - 1;
-			pos.y = 100;
+			pos.y = 174;
 		}
-		else if (player->GetPlayerIsLookingLeft() == true)
+		else if (player->GetPlayerIsLookingLeft() == true > SPAWN_LEFT_LIMIT)
 		{
-			pos.x = 1;
-			pos.y = 148;
+			pos.x = 100;
+			pos.y = 174;
 		}
 
 
@@ -1901,11 +2097,26 @@ void Scene::Release()
 void Scene::ResetScreen()
 {	
 	if (currentLevel < 12)
-		LoadLevel(1);
+	{
+		fade_transition.SetScene(1, currentLevel, 10, 10);
+		currentLevel = 1;
+		LoadLevel(currentLevel);
+		player->SetPos(Point(20, 150));
+	}
 	else if (currentLevel < 18)
-		LoadLevel(12);
+	{
+		fade_transition.SetScene(currentLevel, 2, 10, 10);
+		currentLevel = 12;
+		LoadLevel(currentLevel);
+		player->SetPos(Point(20, 64));
+	}
 	else if (currentLevel < 24)
-		LoadLevel(18);
+	{
+		fade_transition.SetScene(currentLevel, 3, 10, 10);
+		currentLevel = 18;
+		LoadLevel(currentLevel);
+		player->SetPos(Point(20, 64));
+	}
 	player->SetHasDied(false);
 	player->ChangeHP(100);
 	dyingTimer = false;

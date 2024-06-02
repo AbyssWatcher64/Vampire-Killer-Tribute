@@ -9,7 +9,7 @@
 #define FISHMAN_SHOT_OFFSET_X_RIGHT	 26
 #define FISHMAN_SHOT_OFFSET_Y			-22
 		
-#define FISHMAN_JUMP_FORCE	20
+#define FISHMAN_JUMP_FORCE	10
 
 #define FISHMAN_SHOT_SPEED	4
 #define GRAVITY_FORCE	1
@@ -50,7 +50,7 @@ private:
 	void UpdateLook(int anim_id);
 
 	void FishManInitialFalling();
-
+	int timer;
 	int attack_delay;	//delay between attacks
 	FishmanState state;
 
