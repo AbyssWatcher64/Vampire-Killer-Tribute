@@ -1381,14 +1381,14 @@ void Player::MoveY()
 					if (map->TestOnLadderTopRight(box, &pos.x))
 					{
 						look = Look::LEFT;
-						pos.y += 16;
-						pos.x -= 16;
+						//pos.y += 16;
+						//pos.x -= 16;
 					}
 					else if (map->TestOnLadderTopLeft(box, &pos.x))
 					{
 						look = Look::RIGHT;
-						pos.y += 16;
-						pos.x += 16;
+						//pos.y += 16;
+						//pos.x += 16;
 					}
 					StartClimbingDown();
 				}

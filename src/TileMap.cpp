@@ -594,7 +594,7 @@ bool TileMap::TestOnLadderBotLeft(const AABB& box, int* px) const
 	else
 		return false;
 }
-int TileMap::GetLadderCenterPos(int pixel_x, int pixel_y) const
+int TileMap::GetLadderCenterPos(int pixel_x, int pixel_y) const //dis is gut
 {
 	int tx, ty;
 
@@ -602,12 +602,17 @@ int TileMap::GetLadderCenterPos(int pixel_x, int pixel_y) const
 	ty = pixel_y / TILE_SIZE;
 	Tile tile = GetTileIndex(tx, ty);
 
-	if (tile == Tile::BLOCK_STAIRS_RIGHT_1_BOT || tile == Tile::BLOCK_STAIRS_RIGHT_2_BOT || tile == Tile::BLOCK_STAIRS_LEFT_1_BOT ||
-		tile == Tile::BLOCK_STAIRS_LEFT_2_BOT || tile == Tile::BLOCK_STAIRS_LEFT_3_BOT || tile == Tile::BLOCK_STAIRS_LEFT_1 ||
-		tile == Tile::BLOCK_STAIRS_RIGHT_1 || tile == Tile::BLOCK_STAIRS_LEFT_2 || tile == Tile::BLOCK_STAIRS_RIGHT_2 ||
-		tile == Tile::BLOCK_STAIRS_LEFT_3)		return tx * TILE_SIZE;
-	else if (tile == Tile::BLOCK_STAIRS_LEFT_1_TOP || tile == Tile::BLOCK_STAIRS_LEFT_2_TOP || tile == Tile::BLOCK_STAIRS_LEFT_3_TOP 
-		|| tile == Tile::BLOCK_STAIRS_RIGHT_1_TOP || tile == Tile::BLOCK_STAIRS_RIGHT_2_TOP) return tx * TILE_SIZE + 16;
+	if (tile == Tile::BLOCK_STAIRS_RIGHT_1_BOT || tile == Tile::BLOCK_STAIRS_RIGHT_2_BOT 
+		|| tile == Tile::BLOCK_STAIRS_RIGHT_1  || tile == Tile::BLOCK_STAIRS_RIGHT_2)		
+		return tx * TILE_SIZE;
+	else if (tile == Tile::BLOCK_STAIRS_LEFT_1_BOT || tile == Tile::BLOCK_STAIRS_LEFT_2_BOT 
+		|| tile == Tile::BLOCK_STAIRS_LEFT_3_BOT || tile == Tile::BLOCK_STAIRS_LEFT_1 ||
+		 tile == Tile::BLOCK_STAIRS_LEFT_2 || tile == Tile::BLOCK_STAIRS_LEFT_3)		
+		return tx * TILE_SIZE + TILE_SIZE;
+	else if (tile == Tile::BLOCK_STAIRS_LEFT_1_TOP || tile == Tile::BLOCK_STAIRS_LEFT_2_TOP || tile == Tile::BLOCK_STAIRS_LEFT_3_TOP)
+		return tx * TILE_SIZE;
+	else if (tile == Tile::BLOCK_STAIRS_RIGHT_1_TOP || tile == Tile::BLOCK_STAIRS_RIGHT_2_TOP)
+		return tx * TILE_SIZE + TILE_SIZE;
 	else
 	{
 		LOG("Internal error, tile should be a LADDER, coord: (%d,%d), tile type: %d", pixel_x, pixel_y, (int)tile);
